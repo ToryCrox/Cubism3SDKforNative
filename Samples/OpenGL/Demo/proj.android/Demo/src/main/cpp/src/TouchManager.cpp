@@ -6,6 +6,7 @@
  */
 
 #include "TouchManager.hpp"
+#include "LAppPal.hpp"
 #include <math.h>
 
 TouchManager::TouchManager()
@@ -57,6 +58,7 @@ void TouchManager::TouchesBegan(float deviceX1, float deviceY1, float deviceX2, 
     _lastTouchDistance = distance;
     _flipAvailable = true;
     _touchSingle = true;
+    LAppPal::PrintLog("[APP]TouchesBegan distance:%.2f", distance);
 }
 
 void TouchManager::TouchesMoved(float deviceX1, float deviceY1, float deviceX2, float deviceY2)
@@ -65,6 +67,7 @@ void TouchManager::TouchesMoved(float deviceX1, float deviceY1, float deviceX2, 
     float centerX = (deviceX1 + deviceX2) * 0.5f;
     float centerY = (deviceY1 + deviceY2) * 0.5f;
 
+    LAppPal::PrintLog("[APP]TouchesMoved distance:%.2f", distance);
     if (_lastTouchDistance > 0.0f)
     {
         _scale = powf(distance / _lastTouchDistance, 0.75f);

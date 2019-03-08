@@ -83,6 +83,7 @@ void LAppView::Initialize()
     // 表示範囲の設定
     _viewMatrix->SetMaxScale(ViewMaxScale); // 限界拡大率
     _viewMatrix->SetMinScale(ViewMinScale); // 限界縮小率
+    _viewMatrix->AdjustScale(0.0f, 0.0f, 2.0f);
 
     // 表示できる最大範囲
     _viewMatrix->SetMaxScreenRect(

@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                 if (n == 1) {
                     JniBridgeJava.nativeOnTouchesBegan(pointX, pointY);
                 } else if (n == 2) {
-                    JniBridgeJava.nativeOnTouchesBegan(event.getX(0), event.getY(0),
+                    JniBridgeJava.nativeOnTouchesBeganF(event.getX(0), event.getY(0),
                             event.getX(1), event.getY(1));
                 }
             }
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                     JniBridgeJava.nativeOnTouchesMoved(pointX, pointY);
                 } else if (n == 2) {
                     LogUtils.d("ACTION_MOVE .......");
-                    JniBridgeJava.nativeOnTouchesMoved(event.getX(0), event.getY(0),
+                    JniBridgeJava.nativeOnTouchesMovedF(event.getX(0), event.getY(0),
                             event.getX(1), event.getY(1));
                 }
             }
