@@ -126,6 +126,10 @@ public:
     */
     LAppView* GetView() { return _view; }
 
+    void OnTouchBegan(float d, float d1, float d2, float d3);
+
+    void OnTouchMoved(float d, float d1, float d2, float d3);
+
 private:
     /**
     * @brief   コンストラクタ

@@ -193,6 +193,14 @@ void LAppDelegate::OnTouchMoved(double x, double y)
     }
 }
 
+void LAppDelegate::OnTouchBegan(float x1, float y1, float x2, float y2) {
+    _view->OnTouchesBegan(x1, y1, x2, y2);
+}
+
+void LAppDelegate::OnTouchMoved(float x1, float y1, float x2, float y2) {
+    _view->OnTouchesMoved(x1, y1, x2, y2);
+}
+
 GLuint LAppDelegate::CreateShader()
 {
     //バーテックスシェーダのコンパイル
@@ -233,3 +241,4 @@ GLuint LAppDelegate::CreateShader()
 
     return programId;
 }
+

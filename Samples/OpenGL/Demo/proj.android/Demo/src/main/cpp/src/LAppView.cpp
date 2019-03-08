@@ -229,6 +229,26 @@ void LAppView::OnTouchesMoved(float pointX, float pointY) const
     LAppLive2DManager::GetInstance()->OnDrag(viewX, viewY);
 }
 
+void LAppView::OnTouchesBegan(float x1, float y1, float x2, float y2) {
+    _touchManager->TouchesBegan(x1, y1, x2, y2);
+    float viewX = this->TransformViewX(_touchManager->GetX());
+    float viewY = this->TransformViewY(_touchManager->GetY());
+
+    LAppLive2DManager::GetInstance()->OnDrag(viewX, viewY);
+}
+
+void LAppView::OnTouchesMoved(float x1, float y1, float x2, float y2) {
+    _touchManager->TouchesMoved(x1, y1, x2, y2);
+    float viewX = this->TransformViewX(_touchManager->GetX());
+    float viewY = this->TransformViewY(_touchManager->GetY());
+
+    float scale = _touchManager->GetScale();
+    _viewMatrix->AdjustScale(viewX, viewY, scale);
+    LAppPal::PrintLog("[APP]OnTouchesMoved scale:%.2f", scale);
+
+    LAppLive2DManager::GetInstance()->OnDrag(viewX, viewY);
+}
+
 void LAppView::OnTouchesEnded(float pointX, float pointY)
 {
     // タッチ終了
@@ -365,3 +385,4 @@ float LAppView::GetSpriteAlpha(int assign) const
 
     return alpha;
 }
+

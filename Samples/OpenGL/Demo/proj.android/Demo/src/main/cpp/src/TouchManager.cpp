@@ -44,6 +44,21 @@ void TouchManager::TouchesMoved(float deviceX, float deviceY)
     _touchSingle = true;
 }
 
+void TouchManager::TouchesBegan(float deviceX1, float deviceY1, float deviceX2, float deviceY2)
+{
+    float distance = CalculateDistance(deviceX1, deviceY1, deviceX2, deviceY2);
+    float centerX = (_lastX1 + _lastX2) * 0.5f;
+    float centerY = (-_lastY1 - _lastY2) * 0.5f;
+
+    _lastX = centerX;
+    _lastY = centerY;
+    _startX = centerX;
+    _startY = centerY;
+    _lastTouchDistance = distance;
+    _flipAvailable = true;
+    _touchSingle = true;
+}
+
 void TouchManager::TouchesMoved(float deviceX1, float deviceY1, float deviceX2, float deviceY2)
 {
     float distance = CalculateDistance(deviceX1, deviceY1, deviceX2, deviceY2);
@@ -71,6 +86,11 @@ void TouchManager::TouchesMoved(float deviceX1, float deviceY1, float deviceX2, 
     _lastY2 = deviceY2;
     _lastTouchDistance = distance;
     _touchSingle = false;
+}
+
+float TouchManager::GetScale()
+{
+    return _scale;
 }
 
 float TouchManager::GetFlickDistance() const

@@ -132,5 +132,21 @@ extern "C"
     {
         LAppDelegate::GetInstance()->OnTouchMoved(pointX, pointY);
     }
-}
 
+    JNIEXPORT void JNICALL
+    Java_com_live2d_demo_JniBridgeJava_nativeOnTouchesBegan__FFFF(JNIEnv *env, jclass type,
+                                                              jfloat pointX, jfloat pointY,
+                                                              jfloat pointX2, jfloat pointY2) {
+
+        LAppDelegate::GetInstance()->OnTouchBegan(pointX, pointY, pointX2, pointY2);
+
+    }
+
+    JNIEXPORT void JNICALL
+    Java_com_live2d_demo_JniBridgeJava_nativeOnTouchesMoved__FFFF(JNIEnv *env, jclass type,
+                                                                  jfloat pointX, jfloat pointY,
+                                                                  jfloat pointX2, jfloat pointY2) {
+        LAppPal::PrintLog("[APP]nativeOnTouchesMoved x1:%.2f, y1:%.2f, x2:%.2f, y2:%.2f", pointX, pointY, pointX2, pointY2);
+        LAppDelegate::GetInstance()->OnTouchMoved(pointX, pointY, pointX2, pointY2);
+    }
+}

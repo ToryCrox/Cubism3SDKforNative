@@ -10,11 +10,12 @@ package com.live2d.demo;
 import android.opengl.GLSurfaceView;
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class MainActivity extends Activity  {
+public class MainActivity extends AppCompatActivity {
 
     private GLSurfaceView _glSurfaceView;
     private GLRenderer _glRenderer;
@@ -75,17 +76,35 @@ public class MainActivity extends Activity  {
     public boolean onTouchEvent(MotionEvent event) {
         float pointX = event.getX();
         float pointY = event.getY();
-        switch (event.getAction())
-        {
-            case MotionEvent.ACTION_DOWN:
-                JniBridgeJava.nativeOnTouchesBegan(pointX, pointY);
-                break;
+
+        switch (event.getActionMasked()) {
+            case MotionEvent.ACTION_POINTER_DOWN:
+            case MotionEvent.ACTION_DOWN: {
+                int n = event.getPointerCount();
+                LogUtils.d("ACTION_DOWN n="+n);
+                if (n == 1) {
+                    JniBridgeJava.nativeOnTouchesBegan(pointX, pointY);
+                } else if (n == 2) {
+                    JniBridgeJava.nativeOnTouchesBegan(event.getX(0), event.getY(0),
+                            event.getX(1), event.getY(1));
+                }
+            }
+            break;
             case MotionEvent.ACTION_UP:
                 JniBridgeJava.nativeOnTouchesEnded(pointX, pointY);
                 break;
-            case MotionEvent.ACTION_MOVE:
-                JniBridgeJava.nativeOnTouchesMoved(pointX, pointY);
-                break;
+            case MotionEvent.ACTION_MOVE: {
+                int n = event.getPointerCount();
+                LogUtils.d("ACTION_MOVE n="+n);
+                if (n == 1) {
+                    JniBridgeJava.nativeOnTouchesMoved(pointX, pointY);
+                } else if (n == 2) {
+                    LogUtils.d("ACTION_MOVE .......");
+                    JniBridgeJava.nativeOnTouchesMoved(event.getX(0), event.getY(0),
+                            event.getX(1), event.getY(1));
+                }
+            }
+            break;
         }
         return super.onTouchEvent(event);
     }

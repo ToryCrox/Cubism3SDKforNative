@@ -50,7 +50,9 @@ public:
     * @param[in] deviceY    タッチした画面のxの値
     */
     void TouchesMoved(float deviceX, float deviceY);
-    
+
+
+    void TouchesBegan(float x1, float y1, float x2, float y2);
     /*
     * @brief ドラッグ時のイベント
     * 
@@ -67,6 +69,8 @@ public:
     * @return フリック距離
     */
     float GetFlickDistance() const;
+
+    float GetScale();
 
 private:
     /*
@@ -105,5 +109,4 @@ private:
     float _scale;               // このフレームで掛け合わせる拡大率。拡大操作中以外は1。
     bool _touchSingle;          // シングルタッチ時はtrue
     bool _flipAvailable;        // フリップが有効かどうか
-
 };

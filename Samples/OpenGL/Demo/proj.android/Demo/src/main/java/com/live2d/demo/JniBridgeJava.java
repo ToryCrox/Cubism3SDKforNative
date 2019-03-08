@@ -38,6 +38,9 @@ public class JniBridgeJava {
     public static native void nativeOnTouchesEnded(float pointX, float pointY);
     public static native void nativeOnTouchesMoved(float pointX, float pointY);
 
+    public static native void nativeOnTouchesBegan(float pointX, float pointY, float pointX2, float pointY2);
+    public static native void nativeOnTouchesMoved(float pointX, float pointY, float pointX2, float pointY2);
+
     // Java -----------------------------------------------------------------
 
     public static void SetContext(Context context) {
