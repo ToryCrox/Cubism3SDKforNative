@@ -8,6 +8,7 @@
 #include "LAppDelegate.hpp"
 #include <iostream>
 #include <GLES2/gl2.h>
+#include <CubismFramework.hpp>
 #include "LAppView.hpp"
 #include "LAppPal.hpp"
 #include "LAppDefine.hpp"
@@ -86,7 +87,8 @@ void LAppDelegate::Run()
     LAppPal::UpdateTime();
 
     // 画面の初期化
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    //设置透明
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearDepthf(1.0f);
 
@@ -111,6 +113,7 @@ void LAppDelegate::OnSurfaceCreate()
     //透過設定
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glClearColor(0.0f,0.0f,0.0f,0.0f);
 
     //Initialize cubism
     CubismFramework::Initialize();

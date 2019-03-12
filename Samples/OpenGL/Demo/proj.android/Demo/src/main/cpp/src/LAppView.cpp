@@ -175,9 +175,9 @@ void LAppView::InitializeSprite()
 
 void LAppView::Render()
 {
-    _back->Render();
-    _gear->Render();
-    _power->Render();
+    //_back->Render();
+    //_gear->Render();
+    //_power->Render();
 
     if(_changeModel)
     {

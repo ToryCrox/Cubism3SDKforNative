@@ -43,12 +43,17 @@ public class JniBridgeJava {
 
     // Java -----------------------------------------------------------------
 
-    public static void SetContext(Context context) {
+    public static void setContext(Context context) {
         _context = context;
     }
 
-    public static void SetActivityInstance(Activity activity) { _activityInstance = activity; }
+    public static void setActivityInstance(Activity activity) { _activityInstance = activity; }
 
+    /**
+     * 加载资源，c调用java的方法
+     * @param filePath
+     * @return
+     */
     public static byte[] LoadFile(String filePath) {
         InputStream fileData = null;
         try
@@ -59,8 +64,7 @@ public class JniBridgeJava {
             fileData.read(fileBuffer, 0, fileSize);
             return fileBuffer;
         }
-        catch(IOException e)
-        {
+        catch(IOException e) {
             e.printStackTrace();
             return null;
         }
@@ -80,7 +84,7 @@ public class JniBridgeJava {
         }
     }
 
-    public static void MoveTaskToBack() {
+    public static void moveTaskToBack() {
         _activityInstance.moveTaskToBack(true);
     }
 

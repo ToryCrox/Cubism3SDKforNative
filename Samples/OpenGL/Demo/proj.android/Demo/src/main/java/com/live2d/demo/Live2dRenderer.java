@@ -12,7 +12,7 @@ import javax.microedition.khronos.opengles.GL10;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 
-public class GLRenderer implements GLSurfaceView.Renderer {
+public class Live2dRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
