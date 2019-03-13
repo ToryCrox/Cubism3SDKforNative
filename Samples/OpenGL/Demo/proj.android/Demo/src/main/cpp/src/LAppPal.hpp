@@ -9,6 +9,8 @@
 
 #include <CubismFramework.hpp>
 #include <string>
+#include <jni.h>
+
 
 /**
 * @brief プラットフォーム依存機能を抽象化する Cubism Platform Abstraction Layer.
@@ -74,6 +76,8 @@ public:
     *
     */
     static void PrintMessage(const Csm::csmChar* message);
+
+    static Csm::csmChar* GetArrayString(const float* message);
 
 private:
     /**

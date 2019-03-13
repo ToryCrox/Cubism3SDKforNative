@@ -27,9 +27,8 @@ using namespace LAppDefine;
 
 LAppView::LAppView():
     _programId(0),
-    _back(NULL),
-    _gear(NULL),
-    _power(NULL),
+   // _gear(NULL),
+    //_power(NULL),
     _changeModel(false),
     _renderSprite(NULL),
     _renderTarget(SelectTarget_None)
@@ -50,16 +49,13 @@ LAppView::LAppView():
 }
 
 LAppView::~LAppView()
-{ 
+{
     _renderBuffer.DestroyOffscreenFrame();
     delete _renderSprite;
 
     delete _viewMatrix;
     delete _deviceToScreen;
     delete _touchManager;
-    delete _back;
-    delete _gear;
-    delete _power;
 }
 
 void LAppView::Initialize()
@@ -77,13 +73,12 @@ void LAppView::Initialize()
 
     float screenW = fabsf(left - right);
     _deviceToScreen->LoadIdentity();
-    _deviceToScreen->ScaleRelative(screenW / width, -screenW / width);
+    _deviceToScreen->ScaleRelative(screenW / width, screenW / width);
     _deviceToScreen->TranslateRelative(-width * 0.5f, -height * 0.5f);
 
     // 表示範囲の設定
     _viewMatrix->SetMaxScale(ViewMaxScale); // 限界拡大率
     _viewMatrix->SetMinScale(ViewMinScale); // 限界縮小率
-    _viewMatrix->AdjustScale(0.0f, 0.0f, 2.0f);
 
     // 表示できる最大範囲
     _viewMatrix->SetMaxScreenRect(
@@ -101,83 +96,11 @@ void LAppView::InitializeShader()
 
 void LAppView::InitializeSprite()
 {
-    int width = LAppDelegate::GetInstance()->GetWindowWidth();
-    int height = LAppDelegate::GetInstance()->GetWindowHeight();
 
-    LAppTextureManager* textureManager = LAppDelegate::GetInstance()->GetTextureManager();
-    const string resourcesPath = ResourcesPath;
-
-    string imageName = BackImageName;
-    LAppTextureManager::TextureInfo* backgroundTexture = textureManager->CreateTextureFromPngFile(resourcesPath + imageName);
-
-    float x = width * 0.5f;
-    float y = height * 0.5f;
-    float fWidth = (backgroundTexture->width * 2.0f);
-    float fHeight = (height * 0.95f);
-
-    if(_back == NULL)
-    {
-        _back = new LAppSprite(x, y, fWidth, fHeight, backgroundTexture->id, _programId);
-    }
-    else
-    {
-        _back->ReSize(x, y, fWidth, fHeight);
-    }
-
-
-    imageName = GearImageName;
-    LAppTextureManager::TextureInfo* gearTexture = textureManager->CreateTextureFromPngFile(resourcesPath + imageName);
-
-    x = (width - gearTexture->width * 0.5f - 96.f);
-    y = (height - gearTexture->height * 0.5f);
-    fWidth = static_cast<float>(gearTexture->width);
-    fHeight = static_cast<float>(gearTexture->height);
-
-    if(_gear == NULL)
-    {
-        _gear = new LAppSprite(x, y, fWidth, fHeight, gearTexture->id, _programId);
-    }
-    else
-    {
-        _gear->ReSize(x, y, fWidth, fHeight);
-    }
-
-    imageName = PowerImageName;
-    LAppTextureManager::TextureInfo* powerTexture = textureManager->CreateTextureFromPngFile(resourcesPath + imageName);
-
-    x = (width - powerTexture->width * 0.5f - 96.f);
-    y = (powerTexture->height * 0.5f);
-    fWidth = static_cast<float>(powerTexture->width);
-    fHeight = static_cast<float>(powerTexture->height);
-
-    if(_power == NULL)
-    {
-        _power = new LAppSprite(x, y, fWidth, fHeight, powerTexture->id, _programId);
-    }
-    else
-    {
-        _power->ReSize(x, y, fWidth, fHeight);
-    }
-
-    // 画面全体を覆うサイズ 
-    x = width * 0.5f;
-    y = height * 0.5f;
-
-    if (_renderSprite == NULL)
-    {
-        _renderSprite = new LAppSprite(x, y, width, height, 0, _programId);
-    }
-    else
-    {
-        _renderSprite->ReSize(x, y, width, height);
-    }
 }
 
 void LAppView::Render()
 {
-    //_back->Render();
-    //_gear->Render();
-    //_power->Render();
 
     if(_changeModel)
     {
@@ -266,17 +189,6 @@ void LAppView::OnTouchesEnded(float pointX, float pointY)
         }
         live2DManager->OnTap(x, y);
 
-        // 歯車にタップしたか
-        if (_gear->IsHit(pointX, pointY))
-        {
-            _changeModel = true;
-        }
-
-        // 電源ボタンにタップしたか
-        if (_power->IsHit(pointX, pointY))
-        {
-            LAppDelegate::GetInstance()->DeActivateApp();
-        }
     }
 }
 

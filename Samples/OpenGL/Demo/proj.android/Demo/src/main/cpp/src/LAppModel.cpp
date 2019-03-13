@@ -126,6 +126,10 @@ void LAppModel::SetupModel(ICubismModelSetting* setting)
         buffer = CreateBuffer(path.GetRawString(), &size);
         LoadModel(buffer, size);
         DeleteBuffer(buffer, path.GetRawString());
+        if (_debugMode)
+        {
+            LAppPal::PrintLog("[APP]create w=%f, h=%f", _model->GetCanvasWidth(), _model->GetCanvasHeight());
+        }
     }
 
     //Expression

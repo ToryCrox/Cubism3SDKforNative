@@ -77,3 +77,17 @@ double LAppPal::GetSystemTime()
     clock_gettime(CLOCK_MONOTONIC, &res);
     return (res.tv_sec + res.tv_nsec * 1e-9);
 }
+
+Csm::csmChar* LAppPal::GetArrayString(const float* tr)
+{
+    int n = sizeof(&tr)/ sizeof(tr[0]);
+    string str="[";
+    for (int i = 0; i < 16; ++i) {
+        str += to_string(tr[i]);
+        if (i != n-1){
+            str += ", ";
+        }
+    }
+    str += "]";
+    return const_cast<csmChar *>(str.c_str());
+}

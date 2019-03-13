@@ -131,6 +131,7 @@ void LAppDelegate::OnSurfaceChanged(float width, float height)
     _view->Initialize();
     _view->InitializeSprite();
 
+    LAppLive2DManager::GetInstance()->setUpView(width, height);
     //load model
     if (LAppLive2DManager::GetInstance()->GetSceneIndex() != _SceneIndex)
     {

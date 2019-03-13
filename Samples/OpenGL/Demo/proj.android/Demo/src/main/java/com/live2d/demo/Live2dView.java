@@ -48,6 +48,7 @@ public class Live2dView extends GLSurfaceView {
             }
             break;
             case MotionEvent.ACTION_UP:
+                LogUtils.d("ACTION_UP pointX=" + pointX + ", pointY="+pointY);
                 JniBridgeJava.nativeOnTouchesEnded(pointX, pointY);
                 break;
             case MotionEvent.ACTION_MOVE: {
@@ -63,6 +64,6 @@ public class Live2dView extends GLSurfaceView {
             }
             break;
         }
-        return super.onTouchEvent(event);
+        return true;
     }
 }

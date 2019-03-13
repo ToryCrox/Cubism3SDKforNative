@@ -10,6 +10,7 @@
 #include <CubismFramework.hpp>
 #include <Math/CubismMatrix44.hpp>
 #include <Type/csmVector.hpp>
+#include <Math/CubismViewMatrix.hpp>
 
 class LAppModel;
 
@@ -84,6 +85,7 @@ public:
     */
     void ChangeScene(Csm::csmInt32 index);
 
+
     /**
     * @brief   シーンインデックスの取得
     * @return  シーンインデックスを返す
@@ -96,6 +98,9 @@ public:
      */
     Csm::csmUint32 GetModelNum() const;
 
+    void initialMatrix();
+    void setUpView(int width, int height);
+
 private:
     /**
     * @brief  コンストラクタ
@@ -107,7 +112,8 @@ private:
     */
     virtual ~LAppLive2DManager();
 
-    Csm::CubismMatrix44*        _viewMatrix; ///< モデル描画に用いるView行列
+    Csm::CubismMatrix44* _deviceToScreen;    ///< デバイスからスクリーンへの行列
+    Csm::CubismViewMatrix*        _viewMatrix; ///< モデル描画に用いるView行列
     Csm::csmVector<LAppModel*>  _models; ///< モデルインスタンスのコンテナ
     Csm::csmInt32               _sceneIndex; ///< 表示するシーンのインデックス値
 };
