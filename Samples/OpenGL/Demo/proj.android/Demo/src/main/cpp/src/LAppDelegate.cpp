@@ -92,7 +92,8 @@ void LAppDelegate::Run()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearDepthf(1.0f);
 
-    //描画更新
+    // Cubism更新・描画
+    LAppLive2DManager::GetInstance()->OnUpdate();
     if (_view != NULL)
     {
         _view->Render();

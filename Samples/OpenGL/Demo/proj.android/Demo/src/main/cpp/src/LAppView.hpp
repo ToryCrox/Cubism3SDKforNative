@@ -71,7 +71,7 @@ public:
     * @param[in]       pointX            スクリーンX座標
     * @param[in]       pointY            スクリーンY座標
     */
-    void OnTouchesBegan(float pointX, float pointY) const;
+    void OnTouchesBegan(float pointX, float pointY);
 
     /**
     * @brief タッチしているときにポインタが動いたら呼ばれる。
@@ -79,7 +79,7 @@ public:
     * @param[in]       pointX            スクリーンX座標
     * @param[in]       pointY            スクリーンY座標
     */
-    void OnTouchesMoved(float pointX, float pointY) const;
+    void OnTouchesMoved(float pointX, float pointY);
 
     /**
     * @brief タッチが終了したら呼ばれる。
@@ -94,28 +94,28 @@ public:
     *
     * @param[in]       deviceX            デバイスX座標
     */
-    float TransformViewX(float deviceX) const;
+    float transformViewX(float deviceX);
 
     /**
     * @brief Y座標をView座標に変換する。
     *
     * @param[in]       deviceY            デバイスY座標
     */
-    float TransformViewY(float deviceY) const;
+    float transformViewY(float deviceY);
 
     /**
     * @brief X座標をScreen座標に変換する。
     *
     * @param[in]       deviceX            デバイスX座標
     */
-    float TransformScreenX(float deviceX) const;
+    float transformScreenX(float deviceX);
 
     /**
     * @brief Y座標をScreen座標に変換する。
     *
     * @param[in]       deviceY            デバイスY座標
     */
-    float TransformScreenY(float deviceY) const;
+    float transformScreenY(float deviceY);
 
     /**
      * @brief   モデル1体を描画する直前にコールされる
@@ -165,4 +165,7 @@ private:
     Csm::Rendering::CubismOffscreenFrame_OpenGLES2 _renderBuffer;   ///< モードによってはCubismモデル結果をこっちにレンダリング 
     SelectTarget _renderTarget;     ///< レンダリング先の選択肢 
     float _clearColor[4];           ///< レンダリングターゲットのクリアカラー 
+    Live2D::Cubism::Framework::CubismMatrix44 *getDeviceToScreen();
+
+    Live2D::Cubism::Framework::CubismViewMatrix *getViewMatrix();
 };

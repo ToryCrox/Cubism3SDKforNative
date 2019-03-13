@@ -101,6 +101,14 @@ public:
     void initialMatrix();
     void setUpView(int width, int height);
 
+    Csm::CubismMatrix44* getDeviceToScreen(){
+        return _deviceToScreen;
+    }
+
+    Csm::CubismViewMatrix* getViewMatrix(){
+        return _viewMatrix;
+    }
+
 private:
     /**
     * @brief  コンストラクタ
