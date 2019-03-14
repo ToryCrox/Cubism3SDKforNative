@@ -44,6 +44,8 @@ public class JniBridgeJava {
     public static native void nativeOnTouchesBeganF(float pointX, float pointY, float pointX2, float pointY2);
     public static native void nativeOnTouchesMovedF(float pointX, float pointY, float pointX2, float pointY2);
 
+    public static native void nativeRoadModel(String modelPath);
+
     // Java -----------------------------------------------------------------
 
     public static void setContext(Context context) {

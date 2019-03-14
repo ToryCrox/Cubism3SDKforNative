@@ -11,6 +11,7 @@
 #include <Math/CubismMatrix44.hpp>
 #include <Type/csmVector.hpp>
 #include <Math/CubismViewMatrix.hpp>
+#include <string>
 
 class LAppModel;
 
@@ -71,13 +72,13 @@ public:
     * @brief   画面を更新するときの処理
     *          モデルの更新処理および描画処理を行う
     */
-    void OnUpdate() const;
+    void OnUpdate();
 
     /**
     * @brief   次のシーンに切り替える<br>
     *           サンプルアプリケーションではモデルセットの切り替えを行う。
     */
-    void NextScene();
+    //void NextScene();
 
     /**
     * @brief   シーンを切り替える<br>
@@ -109,6 +110,10 @@ public:
         return _viewMatrix;
     }
 
+    void LoadModel(std::string modePath);
+
+    void RoadModel(std::string modePath);
+
 private:
     /**
     * @brief  コンストラクタ
@@ -124,4 +129,7 @@ private:
     Csm::CubismViewMatrix*        _viewMatrix; ///< モデル描画に用いるView行列
     Csm::csmVector<LAppModel*>  _models; ///< モデルインスタンスのコンテナ
     Csm::csmInt32               _sceneIndex; ///< 表示するシーンのインデックス値
+
+    std::string _modelPath;
+    bool _changeModel;
 };

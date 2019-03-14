@@ -6,6 +6,7 @@
  */
 
 #include <jni.h>
+#include <LAppLive2DManager.hpp>
 #include "JniBridgeC.hpp"
 #include "LAppDelegate.hpp"
 #include "LAppPal.hpp"
@@ -158,4 +159,12 @@ extern "C"
         LAppPal::PrintLog("[APP]nativeOnTouchesMoved x1:%.2f, y1:%.2f, x2:%.2f, y2:%.2f", pointX, pointY, pointX2, pointY2);
         LAppDelegate::GetInstance()->OnTouchMoved(pointX, pointY, pointX2, pointY2);
     }
+
+    JNIEXPORT void JNICALL
+    Java_com_live2d_demo_JniBridgeJava_nativeRoadModel(JNIEnv *env, jclass type, jstring modelPath_) {
+        const char *c_str = env->GetStringUTFChars(modelPath_, 0);
+        LAppLive2DManager::GetInstance()->RoadModel(c_str);
+        env->ReleaseStringUTFChars(modelPath_, c_str);
+    }
 }
+

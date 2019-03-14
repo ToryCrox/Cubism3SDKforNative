@@ -48,8 +48,9 @@ LAppLive2DManager::LAppLive2DManager()
     : _viewMatrix(NULL),
     _sceneIndex(0)
 {
+    _changeModel = false;
     initialMatrix();
-    ChangeScene(_sceneIndex);
+    //ChangeScene(_sceneIndex);
 }
 
 LAppLive2DManager::~LAppLive2DManager()
@@ -85,7 +86,7 @@ void LAppLive2DManager::setUpView(int width, int height) {
     float top = ratio;
 
     _viewMatrix->SetScreenRect(left, right, bottom, top); // デバイスに対応する画面の範囲。 Xの左端, Xの右端, Yの下端, Yの上端
-    _viewMatrix->Scale(1.0f, static_cast<float>(width) / static_cast<float>(height)); // デバイスに対応する画面の範囲。 Xの左端, Xの右端, Yの下端, Yの上端
+    //_viewMatrix->Scale(1.0f, static_cast<float>(width) / static_cast<float>(height)); // デバイスに対応する画面の範囲。 Xの左端, Xの右端, Yの下端, Yの上端
 
     float screenW = fabsf(left - right);
     _deviceToScreen->LoadIdentity();
@@ -156,15 +157,18 @@ void LAppLive2DManager::OnTap(csmFloat32 x, csmFloat32 y)
     }
 }
 
-void LAppLive2DManager::OnUpdate() const
+void LAppLive2DManager::OnUpdate()
 {
-    CubismMatrix44 projection;
+    if (_changeModel && !_modelPath.empty()){
+        _changeModel = false;
+        LoadModel(_modelPath);
+    }
+
     int width = LAppDelegate::GetInstance()->GetWindowWidth();
     int height = LAppDelegate::GetInstance()->GetWindowHeight();
-    //projection.Scale(1.0f, 1.0f * static_cast<float>(width) / static_cast<float>(height));
-
-    if (_viewMatrix != NULL)
-    {
+    CubismMatrix44 projection;
+    projection.Scale(1.0f, static_cast<float>(width) / static_cast<float>(height)); // デバイスに対応する画面の範囲。 Xの左端, Xの右端, Yの下端, Yの上端
+    if (_viewMatrix != NULL) {
         projection.MultiplyByMatrix(_viewMatrix);
     }
 
@@ -186,10 +190,56 @@ void LAppLive2DManager::OnUpdate() const
     }
 }
 
-void LAppLive2DManager::NextScene()
+/*void LAppLive2DManager::NextScene()
 {
     csmInt32 no = (_sceneIndex + 1) % ModelDirSize;
     ChangeScene(no);
+}*/
+
+void LAppLive2DManager::LoadModel(const std::string modePath){
+    unsigned long i = modePath.find_last_of("/");
+    string parentPath = modePath.substr(0, i + 1);
+    string modelName = modePath.substr(i+1, modePath.length());
+
+    _viewMatrix->LoadIdentity();
+    LAppPal::PrintLog("[APP]LoadModel parent: %s, name: %s", parentPath.c_str(), modelName.c_str());
+
+    ReleaseAllModel();
+    LAppPal::PrintLog("[APP]LoadModel after ReleaseAllModel");
+    _models.PushBack(new LAppModel());
+    LAppPal::PrintLog("[APP]LoadModel after PushBack");
+    _models[0]->LoadAssets(parentPath.c_str(), modelName.c_str());
+    LAppPal::PrintLog("[APP]LoadModel after LoadAssets");
+    /*
+     * モデル半透明表示を行うサンプルを提示する。
+     * ここでUSE_RENDER_TARGET、USE_MODEL_RENDER_TARGETが定義されている場合
+     * 別のレンダリングターゲットにモデルを描画し、描画結果をテクスチャとして別のスプライトに張り付ける。
+     */
+    {
+#if defined(USE_RENDER_TARGET)
+        // LAppViewの持つターゲットに描画を行う場合、こちらを選択
+        LAppView::SelectTarget useRenderTarget = LAppView::SelectTarget_ViewFrameBuffer;
+#elif defined(USE_MODEL_RENDER_TARGET)
+        // 各LAppModelの持つターゲットに描画を行う場合、こちらを選択
+        LAppView::SelectTarget useRenderTarget = LAppView::SelectTarget_ModelFrameBuffer;
+#else
+        // デフォルトのメインフレームバッファへレンダリングする(通常)
+        LAppView::SelectTarget useRenderTarget = LAppView::SelectTarget_None;
+#endif
+
+#if defined(USE_RENDER_TARGET) || defined(USE_MODEL_RENDER_TARGET)
+        // モデル個別にαを付けるサンプルとして、もう1体モデルを作成し、少し位置をずらす
+        _models.PushBack(new LAppModel());
+        _models[1]->LoadAssets(modelPath.c_str(), modelJsonName.c_str());
+        _models[1]->GetModelMatrix()->TranslateX(0.2f);
+#endif
+
+        LAppDelegate::GetInstance()->GetView()->SwitchRenderingTarget(useRenderTarget);
+
+        // 別レンダリング先を選択した際の背景クリア色
+        float clearColor[3] = { 1.0f, 1.0f, 1.0f };
+        LAppDelegate::GetInstance()->GetView()->SetRenderTargetClearColor(clearColor[0], clearColor[1], clearColor[2]);
+    }
 }
 
 void LAppLive2DManager::ChangeScene(Csm::csmInt32 index)
@@ -204,47 +254,16 @@ void LAppLive2DManager::ChangeScene(Csm::csmInt32 index)
     // model3.jsonのパスを決定する.
     // ディレクトリ名とmodel3.jsonの名前を一致させておくこと.
     std::string model = ModelDir[index];
-    std::string modelPath = ResourcesPath + model + "/";
-    std::string modelJsonName = ModelDir[index];
-    modelJsonName += ".model3.json";
-
-    ReleaseAllModel();
-    _models.PushBack(new LAppModel());
-    _models[0]->LoadAssets(modelPath.c_str(), modelJsonName.c_str());
-
-    /*
-     * モデル半透明表示を行うサンプルを提示する。
-     * ここでUSE_RENDER_TARGET、USE_MODEL_RENDER_TARGETが定義されている場合
-     * 別のレンダリングターゲットにモデルを描画し、描画結果をテクスチャとして別のスプライトに張り付ける。
-     */
-    {
-#if defined(USE_RENDER_TARGET)
-        // LAppViewの持つターゲットに描画を行う場合、こちらを選択 
-        LAppView::SelectTarget useRenderTarget = LAppView::SelectTarget_ViewFrameBuffer;
-#elif defined(USE_MODEL_RENDER_TARGET)
-        // 各LAppModelの持つターゲットに描画を行う場合、こちらを選択 
-        LAppView::SelectTarget useRenderTarget = LAppView::SelectTarget_ModelFrameBuffer;
-#else
-        // デフォルトのメインフレームバッファへレンダリングする(通常) 
-        LAppView::SelectTarget useRenderTarget = LAppView::SelectTarget_None;
-#endif
-
-#if defined(USE_RENDER_TARGET) || defined(USE_MODEL_RENDER_TARGET)
-        // モデル個別にαを付けるサンプルとして、もう1体モデルを作成し、少し位置をずらす 
-        _models.PushBack(new LAppModel());
-        _models[1]->LoadAssets(modelPath.c_str(), modelJsonName.c_str());
-        _models[1]->GetModelMatrix()->TranslateX(0.2f);
-#endif
-
-        LAppDelegate::GetInstance()->GetView()->SwitchRenderingTarget(useRenderTarget);
-
-        // 別レンダリング先を選択した際の背景クリア色 
-        float clearColor[3] = { 1.0f, 1.0f, 1.0f };
-        LAppDelegate::GetInstance()->GetView()->SetRenderTargetClearColor(clearColor[0], clearColor[1], clearColor[2]);
-    }
+    std::string modelPath = ResourcesPath + model + "/" + model + ".model3.json";
+    LoadModel(modelPath);
 }
 
 csmUint32 LAppLive2DManager::GetModelNum() const
 {
     return _models.GetSize();
+}
+
+void LAppLive2DManager::RoadModel(const string modelPath) {
+    _modelPath = modelPath;
+    _changeModel = true;
 }

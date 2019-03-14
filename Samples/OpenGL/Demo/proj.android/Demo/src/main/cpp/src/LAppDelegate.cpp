@@ -134,10 +134,10 @@ void LAppDelegate::OnSurfaceChanged(float width, float height)
 
     LAppLive2DManager::GetInstance()->setUpView(width, height);
     //load model
-    if (LAppLive2DManager::GetInstance()->GetSceneIndex() != _SceneIndex)
+    /*if (LAppLive2DManager::GetInstance()->GetSceneIndex() != _SceneIndex)
     {
         LAppLive2DManager::GetInstance()->ChangeScene(_SceneIndex);
-    }
+    }*/
 
     _isActive = true;
 }
