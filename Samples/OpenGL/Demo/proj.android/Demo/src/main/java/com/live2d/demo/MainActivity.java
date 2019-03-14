@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
                 .setTitle("切换角色")
                 .setSingleChoiceItems(mDirs.toArray(new String[mDirs.size()]), mIndex, (dialog, which) -> {
                     dialog.dismiss();
-                    mIndex = which;
                     JniBridgeJava.nativeRoadModel(mDirs.get(which));
+                    mIndex = which;
                 }).show();
     }
 }
