@@ -14,6 +14,7 @@
 #include "LAppDelegate.hpp"
 #include "LAppModel.hpp"
 #include "LAppView.hpp"
+#include "../JniBridgeC.hpp"
 
 using namespace Csm;
 using namespace LAppDefine;
@@ -132,12 +133,15 @@ void LAppLive2DManager::OnTap(csmFloat32 x, csmFloat32 y)
 
     for (csmUint32 i = 0; i < _models.GetSize(); i++)
     {
+        //csmChar* hitAreas[] = {const_cast<csmChar *>(HitAreaNameHead),
+        //                       const_cast<csmChar *>(HitAreaNameBody)};
         if (_models[i]->HitTest(HitAreaNameHead, x, y))
         {
             if (DebugLogEnable) 
             {
                 LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameHead);
             }
+            JniBridgeC::hitTest(HitAreaNameHead);
             _models[i]->SetRandomExpression();
         }
         else if (_models[i]->HitTest(HitAreaNameBody, x, y))
@@ -146,6 +150,7 @@ void LAppLive2DManager::OnTap(csmFloat32 x, csmFloat32 y)
             {
                 LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameBody);
             }
+            JniBridgeC::hitTest(HitAreaNameBody);
             _models[i]->StartRandomMotion(MotionGroupTapBody, PriorityNormal);
         }
     }

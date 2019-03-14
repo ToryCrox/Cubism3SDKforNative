@@ -16,6 +16,7 @@ static JavaVM* g_JVM; // JavaVM is valid for all threads, so just save it global
 static jclass  g_JniBridgeJavaClass;
 static jmethodID g_LoadFileMethodId;
 static jmethodID g_MoveTaskToBackMethodId;
+static jmethodID g_hitTest;
 
 JNIEnv* GetEnv()
 {
@@ -39,7 +40,7 @@ jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved)
     g_JniBridgeJavaClass = reinterpret_cast<jclass>(env->NewGlobalRef(clazz));
     g_LoadFileMethodId = env->GetStaticMethodID(g_JniBridgeJavaClass, "LoadFile", "(Ljava/lang/String;)[B");
     g_MoveTaskToBackMethodId = env->GetStaticMethodID(g_JniBridgeJavaClass, "moveTaskToBack", "()V");
-
+    g_hitTest = env->GetStaticMethodID(g_JniBridgeJavaClass, "hitTest", "(Ljava/lang/String;)V");
     return JNI_VERSION_1_6;
 }
 
@@ -69,6 +70,14 @@ void JniBridgeC::MoveTaskToBack()
 
     // アプリ終了
     env->CallStaticVoidMethod(g_JniBridgeJavaClass, g_MoveTaskToBackMethodId, NULL);
+}
+
+void JniBridgeC::hitTest(const char* action)
+{
+    JNIEnv *env = GetEnv();
+
+    // アプリ終了
+    env->CallStaticVoidMethod(g_JniBridgeJavaClass, g_hitTest, env->NewStringUTF(action));
 }
 
 extern "C"

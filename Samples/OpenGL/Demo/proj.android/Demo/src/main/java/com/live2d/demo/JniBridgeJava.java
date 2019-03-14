@@ -9,6 +9,9 @@ package com.live2d.demo;
 
 import android.app.Activity;
 import android.content.Context;
+import android.widget.Toast;
+
+import com.live2d.demo.utils.FileManager;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -55,9 +58,10 @@ public class JniBridgeJava {
      * @return
      */
     public static byte[] LoadFile(String filePath) {
+        //Toast.makeText(_context, "LoadFile:"+filePath, Toast.LENGTH_SHORT).show();
+        LogUtils.d("LoadFile="+filePath);
         InputStream fileData = null;
-        try
-        {
+        try {
             fileData = _context.getAssets().open(filePath);
             int fileSize = fileData.available();
             byte[] fileBuffer = new byte[fileSize];
@@ -67,25 +71,19 @@ public class JniBridgeJava {
         catch(IOException e) {
             e.printStackTrace();
             return null;
-        }
-        finally
-        {
-            try
-            {
-                if (fileData != null)
-                {
-                    fileData.close();
-                }
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
+        } finally {
+            FileManager.closeSilently(fileData);
         }
     }
 
     public static void moveTaskToBack() {
+        Toast.makeText(_context, "moveTaskToBack:", Toast.LENGTH_SHORT).show();
         _activityInstance.moveTaskToBack(true);
+    }
+
+    public static void hitTest(String action){
+        Toast.makeText(_context, "hitTest:"+ action, Toast.LENGTH_SHORT).show();
+        LogUtils.d("hitTest="+action);
     }
 
 }
