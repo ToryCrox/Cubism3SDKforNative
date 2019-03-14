@@ -7,7 +7,6 @@
 
 package com.live2d.demo;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +21,9 @@ public class MainActivity extends AppCompatActivity {
 
     Live2dManager mLive2dManager;
     int mIndex=0;
-    List<String> mDirs = Arrays.asList( "Hiyori/Hiyori.model3.json", "Haru/Haru.model3.json", "Mark/Mark.model3.json");
+    List<String> mDirs = Arrays.asList( "Hiyori/Hiyori.model3.json",
+            "Haru/Haru.model3.json",
+            "Mark/Mark.model3.json");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
