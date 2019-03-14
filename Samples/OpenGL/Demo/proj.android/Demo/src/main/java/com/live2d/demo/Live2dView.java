@@ -35,7 +35,7 @@ public class Live2dView extends GLSurfaceView {
         float pointY = event.getY();
 
         switch (event.getActionMasked()) {
-            case MotionEvent.ACTION_POINTER_DOWN:
+            //case MotionEvent.ACTION_POINTER_DOWN:
             case MotionEvent.ACTION_DOWN: {
                 int n = event.getPointerCount();
                 LogUtils.d("ACTION_DOWN n="+n);

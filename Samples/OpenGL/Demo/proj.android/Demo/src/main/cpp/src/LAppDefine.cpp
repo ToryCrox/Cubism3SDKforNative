@@ -19,10 +19,10 @@ namespace LAppDefine {
     const csmFloat32 ViewLogicalLeft = -1.0f;
     const csmFloat32 ViewLogicalRight = 1.0f;
 
-    const csmFloat32 ViewLogicalMaxLeft = -2.0f;
-    const csmFloat32 ViewLogicalMaxRight = 2.0f;
-    const csmFloat32 ViewLogicalMaxBottom = -2.0f;
-    const csmFloat32 ViewLogicalMaxTop = 2.0f;
+    const csmFloat32 ViewLogicalMaxLeft = -10.0f;
+    const csmFloat32 ViewLogicalMaxRight = 10.0f;
+    const csmFloat32 ViewLogicalMaxBottom = -10.0f;
+    const csmFloat32 ViewLogicalMaxTop = 10.0f;
 
     // 相対パス
     const csmChar* ResourcesPath = "";

@@ -80,7 +80,8 @@ double LAppPal::GetSystemTime()
 
 Csm::csmChar* LAppPal::GetArrayString(const float* tr)
 {
-    int n = sizeof(&tr)/ sizeof(tr[0]);
+    //int n = sizeof(&tr)/ sizeof(tr[0]);
+    int n = 16;
     string str="[";
     for (int i = 0; i < 16; ++i) {
         str += to_string(tr[i]);

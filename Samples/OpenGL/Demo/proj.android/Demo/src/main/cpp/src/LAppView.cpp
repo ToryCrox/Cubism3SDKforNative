@@ -118,10 +118,9 @@ void LAppView::OnTouchesBegan(float pointX, float pointY)
 
 void LAppView::OnTouchesMoved(float pointX, float pointY)
 {
+    _touchManager->TouchesMoved(pointX, pointY);
     float viewX = transformViewX(_touchManager->GetX());
     float viewY = transformViewY(_touchManager->GetY());
-
-    _touchManager->TouchesMoved(pointX, pointY);
 
     LAppLive2DManager::GetInstance()->OnDrag(viewX, viewY);
 }
@@ -143,9 +142,9 @@ void LAppView::OnTouchesMoved(float x1, float y1, float x2, float y2) {
     float cy = transformScreenY(_touchManager->GetY()) * _touchManager->GetScale();
 
     float scale = _touchManager->GetScale();
-    getViewMatrix()->AdjustScale(cx, cy, scale);
-    //getViewMatrix()->AdjustTranslate(dx, dy);
-    LAppPal::PrintLog("[APP]OnTouchesMoved dx:%.2f, %.2f", dx, dy);
+    getViewMatrix()->AdjustTranslate(dx, -dy);
+    getViewMatrix()->AdjustScale(0.0f, 0.0f, scale);
+    LAppPal::PrintLog("[APP]OnTouchesMoved dx:%.6f, %.6f", dx, dy);
 
     float viewX = transformViewX(_touchManager->GetX());
     float viewY = transformViewY(_touchManager->GetY());
@@ -158,12 +157,21 @@ void LAppView::OnTouchesEnded(float pointX, float pointY)
     LAppLive2DManager* live2DManager = LAppLive2DManager::GetInstance();
     live2DManager->OnDrag(0.0f, 0.0f);
     {
+        if (DebugLogEnable) {
+            LAppPal::PrintLog("[APP]touchesEnded x:%.2f y:%.2f", _touchManager->GetX(),
+                    _touchManager->GetY());
+        }
+
         // シングルタップ
-        Csm::CubismMatrix44* deviceToScreen = getDeviceToScreen();
-        float x = deviceToScreen->TransformX(_touchManager->GetX()); // 論理座標変換した座標を取得。
-        float y = deviceToScreen->TransformY(_touchManager->GetY()); // 論理座標変換した座標を取得。
-        if (DebugTouchLogEnable)
-        {
+        if (DebugLogEnable) {
+            LAppPal::PrintLog("[APP]touchesEnded screen:%s ",
+                    LAppPal::GetArrayString(getDeviceToScreen()->GetArray()));
+        }
+        //float x = deviceToScreen->TransformX(_touchManager->GetX()); // 論理座標変換した座標を取得。
+        //float y = deviceToScreen->TransformY(_touchManager->GetY()); // 論理座標変換した座標を取得。
+        float x = transformScreenX(_touchManager->GetX()); // 論理座標変換した座標を取得。
+        float y = transformScreenX(_touchManager->GetY()); // 論理座標変換した座標を取得。
+        if (DebugLogEnable) {
             LAppPal::PrintLog("[APP]touchesEnded x:%.2f y:%.2f", x, y);
         }
         live2DManager->OnTap(x, y);

@@ -84,12 +84,12 @@ void LAppLive2DManager::setUpView(int width, int height) {
     float top = ratio;
 
     _viewMatrix->SetScreenRect(left, right, bottom, top); // デバイスに対応する画面の範囲。 Xの左端, Xの右端, Yの下端, Yの上端
-    //_viewMatrix->Scale(1.0f, static_cast<float>(width) / static_cast<float>(height)); // デバイスに対応する画面の範囲。 Xの左端, Xの右端, Yの下端, Yの上端
+    _viewMatrix->Scale(1.0f, static_cast<float>(width) / static_cast<float>(height)); // デバイスに対応する画面の範囲。 Xの左端, Xの右端, Yの下端, Yの上端
 
     float screenW = fabsf(left - right);
     _deviceToScreen->LoadIdentity();
     _deviceToScreen->ScaleRelative(screenW / width, screenW / width);
-    _deviceToScreen->TranslateRelative(width * 0.5f, -height * 0.5f);
+    _deviceToScreen->TranslateRelative(-width * 0.5f, height * 0.5f);
 }
 
 
@@ -156,7 +156,7 @@ void LAppLive2DManager::OnUpdate() const
     CubismMatrix44 projection;
     int width = LAppDelegate::GetInstance()->GetWindowWidth();
     int height = LAppDelegate::GetInstance()->GetWindowHeight();
-    projection.Scale(3.0f, 3.0f * static_cast<float>(width) / static_cast<float>(height));
+    //projection.Scale(1.0f, 1.0f * static_cast<float>(width) / static_cast<float>(height));
 
     if (_viewMatrix != NULL)
     {

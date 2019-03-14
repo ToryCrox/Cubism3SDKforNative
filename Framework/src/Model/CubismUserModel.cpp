@@ -86,6 +86,7 @@ void CubismUserModel::LoadModel(const csmByte* buffer, csmSizeInt size)
     }
 
     _modelMatrix = CSM_NEW CubismModelMatrix(_model->GetCanvasWidth(), _model->GetCanvasHeight());
+    _modelMatrix->SetWidth(2.0f);
 
 }
 
