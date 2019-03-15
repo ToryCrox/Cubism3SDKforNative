@@ -16,6 +16,7 @@
 #include <GLES2/gl2.h>
 #include <android/log.h>
 #include <Model/CubismMoc.hpp>
+#include <Utils/CubismString.hpp>
 #include "LAppDefine.hpp"
 #include "../JniBridgeC.hpp"
 
@@ -84,7 +85,12 @@ Csm::csmChar* LAppPal::GetArrayString(const float* tr)
     int n = 16;
     string str="[";
     for (int i = 0; i < 16; ++i) {
-        str += to_string(tr[i]);
+        if (tr[i] == 0.0f){
+            str += "0";
+        } else {
+            str += Utils::CubismString::GetFormatedString("%.5f", tr[i]).GetRawString();
+        }
+
         if (i != n-1){
             str += ", ";
         }
