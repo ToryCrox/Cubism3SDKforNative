@@ -136,14 +136,14 @@ void LAppView::OnTouchesBegan(float x1, float y1, float x2, float y2) {
 void LAppView::OnTouchesMoved(float x1, float y1, float x2, float y2) {
     _touchManager->TouchesMoved(x1, y1, x2, y2);
 
-    float dx = _touchManager->GetDeltaX() * getDeviceToScreen()->GetScaleX();
-    float dy = _touchManager->GetDeltaY() * getDeviceToScreen()->GetScaleY();
+    float dx = _touchManager->GetDeltaX() * getDeviceToScreen()->GetScaleX() / getViewMatrix()->GetScaleX();
+    float dy = _touchManager->GetDeltaY() * getDeviceToScreen()->GetScaleY() / getViewMatrix()->GetScaleY();
     float cx = transformScreenX(_touchManager->GetX()) * _touchManager->GetScale();
     float cy = transformScreenY(_touchManager->GetY()) * _touchManager->GetScale();
 
     float scale = _touchManager->GetScale();
-    getViewMatrix()->AdjustTranslate(dx, -dy);
     getViewMatrix()->AdjustScale(0.0f, 0.0f, scale);
+    getViewMatrix()->AdjustTranslate(dx, dy);
     LAppPal::PrintLog("[APP]OnTouchesMoved dx:%.6f, %.6f", dx, dy);
 
     float viewX = transformViewX(_touchManager->GetX());
@@ -163,14 +163,8 @@ void LAppView::OnTouchesEnded(float pointX, float pointY)
         }
 
         // シングルタップ
-        if (DebugLogEnable) {
-            LAppPal::PrintLog("[APP]touchesEnded screen:%s ",
-                    LAppPal::GetArrayString(getDeviceToScreen()->GetArray()));
-        }
-        //float x = deviceToScreen->TransformX(_touchManager->GetX()); // 論理座標変換した座標を取得。
-        //float y = deviceToScreen->TransformY(_touchManager->GetY()); // 論理座標変換した座標を取得。
-        float x = transformScreenX(_touchManager->GetX()); // 論理座標変換した座標を取得。
-        float y = transformScreenX(_touchManager->GetY()); // 論理座標変換した座標を取得。
+        float x = transformViewX(_touchManager->GetX()); // 論理座標変換した座標を取得。
+        float y = transformViewY(_touchManager->GetY()); // 論理座標変換した座標を取得。
         if (DebugLogEnable) {
             LAppPal::PrintLog("[APP]touchesEnded x:%.2f y:%.2f", x, y);
         }

@@ -90,8 +90,8 @@ void LAppLive2DManager::setUpView(int width, int height) {
 
     float screenW = fabsf(left - right);
     _deviceToScreen->LoadIdentity();
-    _deviceToScreen->ScaleRelative(screenW / width, screenW / width);
-    _deviceToScreen->TranslateRelative(-width * 0.5f, height * 0.5f);
+    _deviceToScreen->ScaleRelative(screenW / width, -screenW / width);
+    _deviceToScreen->TranslateRelative(-width * 0.5f, -height * 0.5f);
 }
 
 
