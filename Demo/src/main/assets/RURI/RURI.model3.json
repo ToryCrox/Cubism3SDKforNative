@@ -1,77 +1,118 @@
 {
-	"Version": 3,
-	"FileReferences": {
-		"Moc": "RURI.moc3",
-		"Textures": [
-			"RURI.2048/texture_00.png",
-			"RURI.2048/texture_01.png",
-			"RURI.2048/texture_02.png",
-			"RURI.2048/texture_03.png"
-		],
-		"Physics": "RURI.physics3.json",
-		"Motions": {
-			"Idle": [
-				{
-					"File": "motions/LL21605KJ.motion3.json",
-					"FadeInTime": 1.0,
-					"FadeOutTime": 1.0
-				},
-				{
-					"File": "motions/LL21606KJ.motion3.json",
-					"FadeInTime": 1.0,
-					"FadeOutTime": 1.0
-				},
-				{
-					"File": "motions/LL21701CJ.motion3.json",
-					"FadeInTime": 1.0,
-					"FadeOutTime": 1.0
-				},
-				{
-					"File": "motions/LL21702CJ.motion3.json",
-					"FadeInTime": 1.0,
-					"FadeOutTime": 1.0
-				},
-				{
-					"File": "motions/LL21703CJ.motion3.json",
-					"FadeInTime": 1.0,
-					"FadeOutTime": 1.0
-				},
-				{
-					"File": "motions/LL21704CJ.motion3.json",
-					"FadeInTime": 1.0,
-					"FadeOutTime": 1.0
-				},
-				{
-					"File": "motions/LL21705KJ.motion3.json",
-					"FadeInTime": 1.0,
-					"FadeOutTime": 1.0
-				},
-				{
-					"File": "motions/LL21706KJ.motion3.json",
-					"FadeInTime": 1.0,
-					"FadeOutTime": 1.0
-				},
-				{
-					"File": "motions/LL21707KJ.motion3.json",
-					"FadeInTime": 1.0,
-					"FadeOutTime": 1.0
-				}
-
-			]
-		}
-	},
-	"Groups": [
-		{
-			"Target": "Parameter",
-			"Name": "LipSync",
-			"Ids": [
-				"PARAM_MOUTH_OPEN_Y"
-			]
-		},
-		{
-			"Target": "Parameter",
-			"Name": "EyeBlink",
-			"Ids": []
-		}
-	]
+  "Version": 3,
+  "FileReferences": {
+    "Moc": "RURI.moc3",
+    "Textures": [
+      "RURI.2048/texture_00.png",
+      "RURI.2048/texture_01.png",
+      "RURI.2048/texture_02.png",
+      "RURI.2048/texture_03.png"
+    ],
+    "Physics": "RURI.physics3.json",
+    "Motions": {
+      "Idle": [
+        {
+          "File": "motions/LL21605KJ.motion3.json",
+          "FadeInTime": 1.0,
+          "FadeOutTime": 1.0
+        },
+        {
+          "File": "motions/LL21606KJ.motion3.json",
+          "FadeInTime": 1.0,
+          "FadeOutTime": 1.0
+        },
+        {
+          "File": "motions/LL21701CJ.motion3.json",
+          "FadeInTime": 1.0,
+          "FadeOutTime": 1.0
+        },
+        {
+          "File": "motions/LL21702CJ.motion3.json",
+          "FadeInTime": 1.0,
+          "FadeOutTime": 1.0
+        },
+        {
+          "File": "motions/LL21703CJ.motion3.json",
+          "FadeInTime": 1.0,
+          "FadeOutTime": 1.0
+        },
+        {
+          "File": "motions/LL21704CJ.motion3.json",
+          "FadeInTime": 1.0,
+          "FadeOutTime": 1.0
+        },
+        {
+          "File": "motions/LL21705KJ.motion3.json",
+          "FadeInTime": 1.0,
+          "FadeOutTime": 1.0
+        },
+        {
+          "File": "motions/LL21706KJ.motion3.json",
+          "FadeInTime": 1.0,
+          "FadeOutTime": 1.0
+        },
+        {
+          "File": "motions/LL21707KJ.motion3.json",
+          "FadeInTime": 1.0,
+          "FadeOutTime": 1.0
+        }
+      ]
+    }
+  },
+  "Groups": [
+    {
+      "Target": "Parameter",
+      "Name": "LipSync",
+      "Ids": [
+        "PARAM_MOUTH_OPEN_Y"
+      ]
+    },
+    {
+      "Target": "Parameter",
+      "Name": "EyeBlink",
+      "Ids": []
+    }
+  ],
+  "HitAreas": [
+    {
+      "action": 1,
+      "Name": "tap_face",
+      "Id": "D_REF.FACE"
+    },
+    {
+      "action": 1,
+      "Name": "tap_x",
+      "Id": "D_REF.XXX"
+    },
+    {
+      "action": 1,
+      "Name": "tap_hand",
+      "Id": "D_REF.ARML"
+    },
+    {
+      "action": 1,
+      "Name": "tap_hand",
+      "Id": "D_REF.ARMR"
+    },
+    {
+      "action": 1,
+      "Name": "tap_waist",
+      "Id": "D_REF.WAIST"
+    },
+    {
+      "action": 1,
+      "Name": "tap_chest",
+      "Id": "D_REF.CHEST"
+    },
+    {
+      "action": 1,
+      "Name": "tap_head",
+      "Id": "D_REF.HAIR"
+    },
+    {
+      "action": 1,
+      "Name": "tap_leg",
+      "Id": "D_REF.LEG"
+    }
+  ]
 }

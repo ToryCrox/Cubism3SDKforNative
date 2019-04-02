@@ -9,6 +9,8 @@
 
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
+#include <Type/csmString.hpp>
+#include <string>
 #include "LAppAllocator.hpp"
 
 class LAppView;
@@ -130,6 +132,9 @@ public:
 
     void OnTouchMoved(float d, float d1, float d2, float d3);
 
+    void LoadModel(
+            const std::string modelPath);
+
 private:
     /**
     * @brief   コンストラクタ
@@ -157,4 +162,5 @@ private:
     bool _isActive;                              ///< アプリがアクティブ状態なのか
     float _mouseY;                               ///< マウスY座標
     float _mouseX;                               ///< マウスX座標
+    std::string _modelPath;
 };

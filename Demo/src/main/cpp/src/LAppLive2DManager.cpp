@@ -94,6 +94,10 @@ void LAppLive2DManager::setUpView(int width, int height) {
     _deviceToScreen->TranslateRelative(-width * 0.5f, -height * 0.5f);
 }
 
+float* LAppLive2DManager::getViewMatrixArray() {
+    return _viewMatrix->GetArray();
+}
+
 
 void LAppLive2DManager::ReleaseAllModel()
 {
@@ -136,6 +140,8 @@ void LAppLive2DManager::OnTap(csmFloat32 x, csmFloat32 y)
     {
         //csmChar* hitAreas[] = {const_cast<csmChar *>(HitAreaNameHead),
         //                       const_cast<csmChar *>(HitAreaNameBody)};
+        const csmChar* htArea = _models[i]->GetHitArea(x, y);
+        JniBridgeC::hitTest(htArea);
         if (_models[i]->HitTest(HitAreaNameHead, x, y))
         {
             if (DebugLogEnable) 
@@ -157,9 +163,19 @@ void LAppLive2DManager::OnTap(csmFloat32 x, csmFloat32 y)
     }
 }
 
+void LAppLive2DManager::startMotion(const csmChar* filePath,
+                                    csmFloat32 fadeInSeconds, csmFloat32 fadeOutSeconds){
+    csmUint32 modelCount = _models.GetSize();
+    for (csmUint32 i = 0; i < modelCount; ++i)
+    {
+        _models[i]->StartMotion(filePath, fadeInSeconds, fadeOutSeconds);
+    }
+}
+
 void LAppLive2DManager::OnUpdate()
 {
-    if (_changeModel && !_modelPath.empty()){
+    if (!_modelPath.empty() && (_changeModel
+        || _models.GetSize() <= 0)){
         _changeModel = false;
         LoadModel(_modelPath);
     }
@@ -263,7 +279,7 @@ csmUint32 LAppLive2DManager::GetModelNum() const
     return _models.GetSize();
 }
 
-void LAppLive2DManager::RoadModel(const string modelPath) {
+void LAppLive2DManager::ReLoadModel(const std::string modelPath) {
     _modelPath = modelPath;
-    _changeModel = true;
+    _changeModel = !modelPath.empty();
 }

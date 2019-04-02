@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_change)
                 .setOnClickListener(v -> showChangeDialog());
 
-        JniBridgeJava.nativeRoadModel(mDirs.get(mIndex));
+        mLive2dManager.loadModel(mDirs.get(mIndex));
     }
 
     private void showChangeDialog() {
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 .setTitle("切换角色")
                 .setSingleChoiceItems(mDirs.toArray(new String[mDirs.size()]), mIndex, (dialog, which) -> {
                     dialog.dismiss();
-                    JniBridgeJava.nativeRoadModel(mDirs.get(which));
+                    mLive2dManager.loadModel(mDirs.get(which));
                     mIndex = which;
                 }).show();
     }

@@ -14,11 +14,17 @@ import android.view.View;
 public class Live2dManager implements LifecycleObserver {
 
     private Live2dView mView;
+    private String mModelPath;
 
     public Live2dManager(Activity context) {
         JniBridgeJava.setActivityInstance(context);
         JniBridgeJava.setContext(context);
         mView = createView(context);
+    }
+
+    public void loadModel(String path) {
+        mModelPath = path;
+        JniBridgeJava.nativeRoadModel(mModelPath);
     }
 
     private Live2dView createView(Activity context) {

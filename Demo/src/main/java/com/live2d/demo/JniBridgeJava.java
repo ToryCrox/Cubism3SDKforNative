@@ -16,6 +16,7 @@ import com.live2d.demo.utils.FileManager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.FileInputStream;
+import java.util.Random;
 
 public class JniBridgeJava {
 
@@ -45,6 +46,10 @@ public class JniBridgeJava {
     public static native void nativeOnTouchesMovedF(float pointX, float pointY, float pointX2, float pointY2);
 
     public static native void nativeRoadModel(String modelPath);
+    public static native void nativeStartMotion(String modelPath, float pointX, float pointY);
+
+    public static native float[] nativeGetMatrixArray();
+
 
     // Java -----------------------------------------------------------------
 
@@ -69,8 +74,7 @@ public class JniBridgeJava {
             byte[] fileBuffer = new byte[fileSize];
             fileData.read(fileBuffer, 0, fileSize);
             return fileBuffer;
-        }
-        catch(IOException e) {
+        } catch(IOException e) {
             e.printStackTrace();
             LogUtils.e("LoadFile="+filePath, e);
             return null;
@@ -87,6 +91,19 @@ public class JniBridgeJava {
     public static void hitTest(String action){
         Toast.makeText(_context, "hitTest:"+ action, Toast.LENGTH_SHORT).show();
         LogUtils.d("hitTest="+action);
+        String[] actions = new String[]{
+                "motions/LL21605KJ.motion3.json",
+                "motions/LL21606KJ.motion3.json",
+                "motions/LL21701CJ.motion3.json",
+                "motions/LL21702CJ.motion3.json",
+                "motions/LL21703CJ.motion3.json",
+                "motions/LL21704CJ.motion3.json",
+                "motions/LL21705KJ.motion3.json",
+                "motions/LL21706KJ.motion3.json",
+        };
+        int i = new Random().nextInt(actions.length);
+        String motionPath = "RURI/" + actions[i];
+        nativeStartMotion(motionPath, 1.0f, 1.0f);
     }
 
 }

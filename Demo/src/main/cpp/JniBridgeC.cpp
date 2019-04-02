@@ -163,8 +163,28 @@ extern "C"
     JNIEXPORT void JNICALL
     Java_com_live2d_demo_JniBridgeJava_nativeRoadModel(JNIEnv *env, jclass type, jstring modelPath_) {
         const char *c_str = env->GetStringUTFChars(modelPath_, 0);
-        LAppLive2DManager::GetInstance()->RoadModel(c_str);
+        LAppDelegate::GetInstance()->LoadModel(c_str);
         env->ReleaseStringUTFChars(modelPath_, c_str);
     }
-}
 
+    JNIEXPORT void JNICALL
+    Java_com_live2d_demo_JniBridgeJava_nativeStartMotion(JNIEnv *env, jclass type, jstring modelPath_,
+                                                         jfloat fadeInSeconds, jfloat fadeOutSeconds) {
+        const char *motionPath = env->GetStringUTFChars(modelPath_, 0);
+        LAppLive2DManager::GetInstance()->startMotion(motionPath, fadeInSeconds, fadeOutSeconds);
+        env->ReleaseStringUTFChars(modelPath_, motionPath);
+    }
+
+    JNIEXPORT jfloatArray JNICALL
+    Java_com_live2d_demo_JniBridgeJava_nativeGetMatrixArray(JNIEnv *env, jclass type) {
+
+        float* array = LAppLive2DManager::GetInstance()->getViewMatrixArray();
+        if (array == NULL){
+            return NULL;
+        }
+        int size = 16;
+        jfloatArray result = env->NewFloatArray(size);
+        env->SetFloatArrayRegion(result, 0, size, array);
+        return result;
+    }
+}

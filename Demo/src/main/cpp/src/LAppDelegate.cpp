@@ -120,6 +120,7 @@ void LAppDelegate::OnSurfaceCreate()
     CubismFramework::Initialize();
 
     _view->InitializeShader();
+    LAppLive2DManager::GetInstance()->ReLoadModel(_modelPath);
 }
 
 void LAppDelegate::OnSurfaceChanged(float width, float height)
@@ -247,3 +248,8 @@ GLuint LAppDelegate::CreateShader()
     return programId;
 }
 
+
+void LAppDelegate::LoadModel(const std::string modelPath) {
+    _modelPath = modelPath;
+    LAppLive2DManager::GetInstance()->ReLoadModel(_modelPath);
+}

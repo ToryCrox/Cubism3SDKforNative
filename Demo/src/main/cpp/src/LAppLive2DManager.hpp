@@ -112,7 +112,13 @@ public:
 
     void LoadModel(std::string modePath);
 
-    void RoadModel(std::string modePath);
+    void ReLoadModel(const std::string modePath);
+
+    void startMotion(const Csm::csmChar *filePath,
+                     Csm::csmFloat32 fadeInSeconds,
+                     Csm::csmFloat32 fadeOutSeconds);
+
+    float *getViewMatrixArray();
 
 private:
     /**

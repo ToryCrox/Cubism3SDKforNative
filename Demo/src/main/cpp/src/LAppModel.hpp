@@ -110,6 +110,27 @@ public:
      */
     Csm::Rendering::CubismOffscreenFrame_OpenGLES2& GetRenderBuffer();
 
+
+    /**
+     * 获取点击区域
+     * add by tory
+     * @param x
+     * @param y
+     * @return
+     */
+    const Csm::csmChar *
+    GetHitArea(Csm::csmFloat32 x, Csm::csmFloat32 y);
+
+    /**
+     * 执行动作
+     * @param path
+     * @param priority
+     * @return
+     */
+    Csm::CubismMotionQueueEntryHandle
+    StartMotion(const Csm::csmChar *path,
+                Csm::csmFloat32 fadeInSeconds, Csm::csmFloat32 fadeOutSeconds);
+
 protected:
     /**
      *  @brief  モデルを描画する処理。モデルを描画する空間のView-Projection行列を渡す。
@@ -179,7 +200,7 @@ private:
     const Csm::CubismId* _idParamEyeBallX; ///< パラメータID: ParamEyeBallX
     const Csm::CubismId* _idParamEyeBallY; ///< パラメータID: ParamEyeBallXY
 
-    Csm::Rendering::CubismOffscreenFrame_OpenGLES2  _renderBuffer;   ///< フレームバッファ以外の描画先 
+    Csm::Rendering::CubismOffscreenFrame_OpenGLES2  _renderBuffer;   ///< フレームバッファ以外の描画先
 };
 
 

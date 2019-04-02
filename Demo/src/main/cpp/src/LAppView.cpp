@@ -156,7 +156,7 @@ void LAppView::OnTouchesEnded(float pointX, float pointY)
     // タッチ終了
     LAppLive2DManager* live2DManager = LAppLive2DManager::GetInstance();
     live2DManager->OnDrag(0.0f, 0.0f);
-    {
+    if (_touchManager->IsSingleTouch()){
         if (DebugLogEnable) {
             LAppPal::PrintLog("[APP]touchesEnded x:%.2f y:%.2f", _touchManager->GetX(),
                     _touchManager->GetY());

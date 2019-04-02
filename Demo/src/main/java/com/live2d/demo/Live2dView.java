@@ -5,6 +5,8 @@ import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 
+import java.util.Arrays;
+
 /**
  * @author tory
  * @date 2019/3/12
@@ -63,6 +65,9 @@ public class Live2dView extends GLSurfaceView {
                 }
             }
             break;
+            case MotionEvent.ACTION_POINTER_UP:
+                LogUtils.d("ACTION_POINTER_UP .......array=" + Arrays.toString(JniBridgeJava.nativeGetMatrixArray()));
+                break;
         }
         return true;
     }

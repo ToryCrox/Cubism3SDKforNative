@@ -13,7 +13,7 @@ namespace LAppDefine {
     using namespace Csm;
 
     // 画面
-    const csmFloat32 ViewMaxScale = 3.0f;
+    const csmFloat32 ViewMaxScale = 8.0f;
     const csmFloat32 ViewMinScale = 0.4f;
 
     const csmFloat32 ViewLogicalLeft = -1.0f;

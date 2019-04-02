@@ -226,6 +226,13 @@ void LAppModel::SetupModel(ICubismModelSetting* setting)
             _lipSyncIds.PushBack(_modelSetting->GetLipSyncParameterId(i));
         }
     }
+    const csmInt32 count = _modelSetting->GetHitAreasCount();
+    for (csmInt32 i = 0; i < count; i++)
+    {
+        const csmChar* hitAreaName = _modelSetting->GetHitAreaName(i);
+        const CubismIdHandle idHandle = _modelSetting->GetHitAreaId(i);
+        LAppPal::PrintLog("hitAreaName=%s, idHandle=%s" , hitAreaName, idHandle->GetString().GetRawString());
+    }
 
     //Layout
     csmMap<csmString, csmFloat32> layout;
@@ -421,6 +428,36 @@ void LAppModel::Update()
 
 }
 
+CubismMotionQueueEntryHandle LAppModel::StartMotion(const csmChar* filePath,
+        csmFloat32 fadeInSeconds, csmFloat32 fadeOutSeconds){
+    csmString path = filePath;
+
+    csmByte* buffer;
+    csmSizeInt size;
+    buffer = CreateBuffer(path.GetRawString(), &size);
+    CubismMotion* motion = static_cast<CubismMotion*>(LoadMotion(buffer, size, NULL));
+    if (motion == NULL){
+        return NULL;
+    }
+    if (fadeInSeconds >= 0.0f)
+    {
+        motion->SetFadeInTime(fadeInSeconds);
+    }
+    if (fadeOutSeconds >= 0.0f)
+    {
+        motion->SetFadeOutTime(fadeOutSeconds);
+    }
+    motion->SetEffectIds(_eyeBlinkIds, _lipSyncIds);
+
+    DeleteBuffer(buffer, path.GetRawString());
+
+    if (_debugMode) {
+        LAppPal::PrintLog("[APP]start motion: [filePath=%s, fadeInSeconds=%f"
+                          "fadeOutSeconds=%fadeOutSeconds]", filePath, fadeInSeconds, fadeOutSeconds);
+    }
+    return  _motionManager->StartMotionPriority(motion, false, PriorityNormal);
+}
+
 CubismMotionQueueEntryHandle LAppModel::StartMotion(const csmChar* group, csmInt32 no, csmInt32 priority)
 {
     if (priority == PriorityForce)
@@ -537,6 +574,24 @@ csmBool LAppModel::HitTest(const csmChar* hitAreaName, csmFloat32 x, csmFloat32 
         }
     }
     return false; // 存在しない場合はfalse
+}
+
+const csmChar * LAppModel::GetHitArea(csmFloat32 x, csmFloat32 y){
+    if (_opacity < 1)
+    {
+        return NULL;
+    }
+    const csmInt32 count = _modelSetting->GetHitAreasCount();
+    for (csmInt32 i = 0; i < count; i++)
+    {
+        const CubismIdHandle drawID = _modelSetting->GetHitAreaId(i);
+        if (drawID != NULL && IsHit(drawID, x, y))
+        {
+            const csmChar* hitAreaName = _modelSetting->GetHitAreaName(i);
+            return hitAreaName;
+        }
+    }
+    return NULL;
 }
 
 void LAppModel::SetExpression(const csmChar* expressionID)
