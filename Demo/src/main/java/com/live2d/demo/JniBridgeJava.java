@@ -67,19 +67,25 @@ public class JniBridgeJava {
     public static byte[] LoadFile(String filePath) {
         //Toast.makeText(_context, "LoadFile:"+filePath, Toast.LENGTH_SHORT).show();
         LogUtils.d("LoadFile="+filePath);
-        InputStream fileData = null;
+        if (filePath == null){
+            return null;
+        }
+        InputStream is = null;
         try {
-            fileData = _context.getAssets().open(filePath);
-            int fileSize = fileData.available();
+            if (filePath.startsWith("/")){
+                is = new FileInputStream(filePath);
+            } else {
+                is = _context.getAssets().open(filePath);
+            }
+            int fileSize = is.available();
             byte[] fileBuffer = new byte[fileSize];
-            fileData.read(fileBuffer, 0, fileSize);
+            is.read(fileBuffer, 0, fileSize);
             return fileBuffer;
         } catch(IOException e) {
-            e.printStackTrace();
             LogUtils.e("LoadFile="+filePath, e);
             return null;
         } finally {
-            FileManager.closeSilently(fileData);
+            FileManager.closeSilently(is);
         }
     }
 

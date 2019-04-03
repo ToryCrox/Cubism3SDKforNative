@@ -57,6 +57,9 @@ char* JniBridgeC::LoadFileAsBytesFromJava(const char* filePath, unsigned int* ou
 
     // ファイルロード
     jbyteArray obj = (jbyteArray)env->CallStaticObjectMethod(g_JniBridgeJavaClass, g_LoadFileMethodId, env->NewStringUTF(filePath));
+    if (obj == NULL){
+        return NULL;
+    }
     *outSize = static_cast<unsigned int>(env->GetArrayLength(obj));
 
     char* buffer = new char[*outSize];

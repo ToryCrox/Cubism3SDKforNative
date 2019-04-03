@@ -29,7 +29,12 @@ public class Live2dManager implements LifecycleObserver {
         mModelPath = path;
         float[] array = Utils.getViewMatrix(mView.getContext());
         LogUtils.d( "loadModel: path="+path + ", array="+ Arrays.toString(array));
-        JniBridgeJava.nativeLoadModel(mModelPath, array);
+        try {
+            JniBridgeJava.nativeLoadModel(mModelPath, array);
+        } catch (Exception e){
+            LogUtils.e("loadModel: ", e);
+        }
+
     }
 
     private Live2dView createView(Activity context) {

@@ -80,7 +80,7 @@ public:
     * @param[in] x x座標
     * @param[in] y x座標
     */
-    void OnTouchBegan(double x, double y);
+    void OnTouchBegan(float x, float y);
 
     /**
     * @brief Touch終了。
@@ -88,7 +88,7 @@ public:
     * @param[in] x x座標
     * @param[in] y x座標
     */
-    void OnTouchEnded(double x, double y);
+    void OnTouchEnded(float x, float y);
 
     /**
     * @brief Touch移動。
@@ -96,7 +96,7 @@ public:
     * @param[in] x x座標
     * @param[in] y x座標
     */
-    void OnTouchMoved(double x, double y);
+    void OnTouchMoved(float x, float y);
 
     /**
     * @brief　シェーダーを登録する。
@@ -160,7 +160,7 @@ private:
     //int _SceneIndex;                             ///< モデルシーンインデックス
     bool _captured;                              ///< クリックしているか
     bool _isActive;                              ///< アプリがアクティブ状態なのか
-    float _mouseY;                               ///< マウスY座標
-    float _mouseX;                               ///< マウスX座標
+    //float _mouseY;                               ///< マウスY座標
+    //float _mouseX;                               ///< マウスX座標
     std::string _modelPath;
 };

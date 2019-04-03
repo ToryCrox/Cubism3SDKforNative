@@ -47,8 +47,8 @@ void LAppDelegate::ReleaseInstance()
 LAppDelegate::LAppDelegate():
         _cubismOption(),
         _captured(false),
-        _mouseX(0.0f),
-        _mouseY(0.0f),
+        //_mouseX(0.0f),
+        //_mouseY(0.0f),
         _isActive(true),
         _textureManager(NULL),
         _view(NULL)
@@ -158,47 +158,43 @@ void LAppDelegate::OnSurfaceChanged(float width, float height)
 }
 
 
-void LAppDelegate::OnTouchBegan(double x, double y)
+void LAppDelegate::OnTouchBegan(float x, float y)
 {
-    _mouseX = static_cast<float>(x);
-    _mouseY = static_cast<float>(y);
 
-    if (_view != NULL)
-    {
+    if (_view != NULL) {
         _captured = true;
-        _view->OnTouchesBegan(_mouseX, _mouseY);
+        _view->OnTouchesBegan(x, y);
     }
 }
 
-void LAppDelegate::OnTouchEnded(double x, double y)
+void LAppDelegate::OnTouchEnded(float x, float y)
 {
-    _mouseX = static_cast<float>(x);
-    _mouseY = static_cast<float>(y);
 
-    if (_view != NULL)
-    {
+    if (_view != NULL) {
         _captured = false;
-        _view->OnTouchesEnded(_mouseX, _mouseY);
+        _view->OnTouchesEnded(x, y);
     }
 }
 
-void LAppDelegate::OnTouchMoved(double x, double y)
+void LAppDelegate::OnTouchMoved(float x, float y)
 {
-    _mouseX = static_cast<float>(x);
-    _mouseY = static_cast<float>(y);
 
-    if (_captured && _view != NULL)
-    {
-        _view->OnTouchesMoved(_mouseX, _mouseY);
+    if (_captured && _view != NULL) {
+        _view->OnTouchesMoved(x, y);
     }
 }
 
 void LAppDelegate::OnTouchBegan(float x1, float y1, float x2, float y2) {
-    _view->OnTouchesBegan(x1, y1, x2, y2);
+    if (_view != NULL){
+        _captured = true;
+        _view->OnTouchesBegan(x1, y1, x2, y2);
+    }
 }
 
 void LAppDelegate::OnTouchMoved(float x1, float y1, float x2, float y2) {
-    _view->OnTouchesMoved(x1, y1, x2, y2);
+    if (_captured && _view != NULL){
+        _view->OnTouchesMoved(x1, y1, x2, y2);
+    }
 }
 
 GLuint LAppDelegate::CreateShader()
