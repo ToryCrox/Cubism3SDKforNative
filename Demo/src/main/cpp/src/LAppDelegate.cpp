@@ -99,10 +99,10 @@ void LAppDelegate::Run()
         _view->Render();
     }
 
-    if(_isActive == false)
-    {
-        JniBridgeC::MoveTaskToBack();
-    }
+//    if(_isActive == false)
+//    {
+//        JniBridgeC::MoveTaskToBack();
+//    }
 }
 
 void LAppDelegate::OnSurfaceCreate()
@@ -120,7 +120,7 @@ void LAppDelegate::OnSurfaceCreate()
     CubismFramework::Initialize();
 
     _view->InitializeShader();
-    LAppLive2DManager::GetInstance()->ReLoadModel(_modelPath);
+    //LAppLive2DManager::GetInstance()->ReLoadModel(_modelPath);
 }
 
 void LAppDelegate::OnSurfaceChanged(float width, float height)
@@ -134,11 +134,6 @@ void LAppDelegate::OnSurfaceChanged(float width, float height)
     _view->InitializeSprite();
 
     LAppLive2DManager::GetInstance()->setUpView(width, height);
-    //load model
-    /*if (LAppLive2DManager::GetInstance()->GetSceneIndex() != _SceneIndex)
-    {
-        LAppLive2DManager::GetInstance()->ChangeScene(_SceneIndex);
-    }*/
 
     _isActive = true;
 }
@@ -249,7 +244,7 @@ GLuint LAppDelegate::CreateShader()
 }
 
 
-void LAppDelegate::LoadModel(const std::string modelPath) {
+void LAppDelegate::LoadModel(const std::string modelPath, csmFloat32* matrixArr) {
     _modelPath = modelPath;
-    LAppLive2DManager::GetInstance()->ReLoadModel(_modelPath);
+    LAppLive2DManager::GetInstance()->ReLoadModel(_modelPath, matrixArr);
 }

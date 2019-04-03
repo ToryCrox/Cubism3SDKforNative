@@ -45,7 +45,7 @@ public class JniBridgeJava {
     public static native void nativeOnTouchesBeganF(float pointX, float pointY, float pointX2, float pointY2);
     public static native void nativeOnTouchesMovedF(float pointX, float pointY, float pointX2, float pointY2);
 
-    public static native void nativeRoadModel(String modelPath);
+    public static native void nativeLoadModel(String modelPath, float[] matrixArr);
     public static native void nativeStartMotion(String modelPath, float pointX, float pointY);
 
     public static native float[] nativeGetMatrixArray();
@@ -84,7 +84,7 @@ public class JniBridgeJava {
     }
 
     public static void moveTaskToBack() {
-        Toast.makeText(_context, "moveTaskToBack:", Toast.LENGTH_SHORT).show();
+        LogUtils.d("moveTaskToBack...");
         _activityInstance.moveTaskToBack(true);
     }
 

@@ -42,7 +42,7 @@ void TouchManager::TouchesMoved(float deviceX, float deviceY)
     _lastX = deviceX;
     _lastY = deviceY;
     _lastTouchDistance = -1.0f;
-    _touchSingle = true;
+    //_touchSingle = true;
 }
 
 void TouchManager::TouchesBegan(float deviceX1, float deviceY1, float deviceX2, float deviceY2)
@@ -57,7 +57,7 @@ void TouchManager::TouchesBegan(float deviceX1, float deviceY1, float deviceX2, 
     _startY = centerY;
     _lastTouchDistance = distance;
     _flipAvailable = true;
-    _touchSingle = true;
+    _touchSingle = false;
     LAppPal::PrintLog("[APP]TouchesBegan distance:%.2f", distance);
 }
 

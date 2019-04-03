@@ -6,12 +6,15 @@ import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.view.View;
 
+import java.util.Arrays;
+
 /**
  * @author tory
  * @date 2019/3/12
  * @des:
  */
 public class Live2dManager implements LifecycleObserver {
+    private static final String TAG = "Live2dManager";
 
     private Live2dView mView;
     private String mModelPath;
@@ -24,7 +27,9 @@ public class Live2dManager implements LifecycleObserver {
 
     public void loadModel(String path) {
         mModelPath = path;
-        JniBridgeJava.nativeRoadModel(mModelPath);
+        float[] array = Utils.getViewMatrix(mView.getContext());
+        LogUtils.d( "loadModel: path="+path + ", array="+ Arrays.toString(array));
+        JniBridgeJava.nativeLoadModel(mModelPath, array);
     }
 
     private Live2dView createView(Activity context) {
@@ -37,6 +42,7 @@ public class Live2dManager implements LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     public void onStart() {
+        LogUtils.d( "onStart: " + hashCode());
         JniBridgeJava.nativeOnStart();
     }
 

@@ -112,7 +112,7 @@ public:
 
     void LoadModel(std::string modePath);
 
-    void ReLoadModel(const std::string modePath);
+    void ReLoadModel(const std::string modePath, Csm::csmFloat32 *matrixArr);
 
     void startMotion(const Csm::csmChar *filePath,
                      Csm::csmFloat32 fadeInSeconds,

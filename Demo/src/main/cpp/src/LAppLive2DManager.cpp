@@ -64,6 +64,7 @@ void LAppLive2DManager::initialMatrix() {
 
     // 画面の表示の拡大縮小や移動の変換を行う行列
     _viewMatrix = new CubismViewMatrix();
+    _viewMatrix->LoadIdentity();
 
     // 表示範囲の設定
     _viewMatrix->SetMaxScale(ViewMaxScale); // 限界拡大率
@@ -217,7 +218,6 @@ void LAppLive2DManager::LoadModel(const std::string modePath){
     string parentPath = modePath.substr(0, i + 1);
     string modelName = modePath.substr(i+1, modePath.length());
 
-    _viewMatrix->LoadIdentity();
     LAppPal::PrintLog("[APP]LoadModel parent: %s, name: %s", parentPath.c_str(), modelName.c_str());
 
     ReleaseAllModel();
@@ -279,7 +279,10 @@ csmUint32 LAppLive2DManager::GetModelNum() const
     return _models.GetSize();
 }
 
-void LAppLive2DManager::ReLoadModel(const std::string modelPath) {
+void LAppLive2DManager::ReLoadModel(const std::string modelPath, csmFloat32* matrixArr) {
     _modelPath = modelPath;
     _changeModel = !modelPath.empty();
+    if (matrixArr != NULL){
+        _viewMatrix->SetMatrix(matrixArr);
+    }
 }

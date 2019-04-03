@@ -161,9 +161,19 @@ extern "C"
     }
 
     JNIEXPORT void JNICALL
-    Java_com_live2d_demo_JniBridgeJava_nativeRoadModel(JNIEnv *env, jclass type, jstring modelPath_) {
+    Java_com_live2d_demo_JniBridgeJava_nativeLoadModel(JNIEnv *env, jclass type, jstring modelPath_,
+            jfloatArray matrixArr_) {
         const char *c_str = env->GetStringUTFChars(modelPath_, 0);
-        LAppDelegate::GetInstance()->LoadModel(c_str);
+        float* arr = NULL;
+        if (matrixArr_ != NULL){
+            arr = env->GetFloatArrayElements(matrixArr_, NULL);
+            jsize size = env->GetArrayLength(matrixArr_);
+            env->ReleaseFloatArrayElements(matrixArr_, arr, 0);
+            for (int i = 0; i < size; ++i) {
+                LAppPal::PrintLog("matrixArr_ i=%d, value=%.4f", i, arr[i]);
+            }
+        }
+        LAppDelegate::GetInstance()->LoadModel(c_str, arr);
         env->ReleaseStringUTFChars(modelPath_, c_str);
     }
 

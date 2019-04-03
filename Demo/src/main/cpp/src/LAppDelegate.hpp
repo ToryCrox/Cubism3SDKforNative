@@ -133,7 +133,7 @@ public:
     void OnTouchMoved(float d, float d1, float d2, float d3);
 
     void LoadModel(
-            const std::string modelPath);
+            const std::string modelPath, Csm::csmFloat32* matrixArr);
 
 private:
     /**

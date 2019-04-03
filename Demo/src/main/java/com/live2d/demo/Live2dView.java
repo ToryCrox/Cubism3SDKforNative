@@ -66,9 +66,15 @@ public class Live2dView extends GLSurfaceView {
             }
             break;
             case MotionEvent.ACTION_POINTER_UP:
-                LogUtils.d("ACTION_POINTER_UP .......array=" + Arrays.toString(JniBridgeJava.nativeGetMatrixArray()));
+                float[] viewMatrix = JniBridgeJava.nativeGetMatrixArray();
+                LogUtils.d("ACTION_POINTER_UP .......array=" + Arrays.toString(viewMatrix));
+                saveViewMatrix(viewMatrix);
                 break;
         }
         return true;
+    }
+
+    private void saveViewMatrix(float[] viewMatrix) {
+        Utils.saveViewMatrix(getContext(), viewMatrix);
     }
 }
