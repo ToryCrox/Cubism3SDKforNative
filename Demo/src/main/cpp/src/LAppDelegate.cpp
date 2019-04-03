@@ -44,6 +44,32 @@ void LAppDelegate::ReleaseInstance()
     s_instance = NULL;
 }
 
+LAppDelegate::LAppDelegate():
+        _cubismOption(),
+        _captured(false),
+        _mouseX(0.0f),
+        _mouseY(0.0f),
+        _isActive(true),
+        _textureManager(NULL),
+        _view(NULL)
+{
+    // Setup Cubism
+    _cubismOption.LogFunction = LAppPal::PrintMessage;
+    _cubismOption.LoggingLevel = LAppDefine::CubismLoggingLevel;
+    CubismFramework::CleanUp();
+    CubismFramework::StartUp(&_cubismAllocator, &_cubismOption);
+
+    //Initialize cubism
+    CubismFramework::Initialize();
+}
+
+LAppDelegate::~LAppDelegate()
+{
+    LAppPal::PrintMessage("LAppDelegate 释放内存");
+    // リソースを解放
+    LAppLive2DManager::ReleaseInstance();
+    CubismFramework::Dispose();
+}
 
 void LAppDelegate::OnStart()
 {
@@ -54,7 +80,7 @@ void LAppDelegate::OnStart()
 
 void LAppDelegate::OnPause()
 {
-    _SceneIndex = LAppLive2DManager::GetInstance()->GetSceneIndex();
+
 }
 
 void LAppDelegate::OnStop()
@@ -70,10 +96,6 @@ void LAppDelegate::OnStop()
         _textureManager = NULL;
     }
 
-    // リソースを解放
-    LAppLive2DManager::ReleaseInstance();
-
-    CubismFramework::Dispose();
 }
 
 void LAppDelegate::OnDestroy()
@@ -116,9 +138,6 @@ void LAppDelegate::OnSurfaceCreate()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glClearColor(0.0f,0.0f,0.0f,0.0f);
 
-    //Initialize cubism
-    CubismFramework::Initialize();
-
     _view->InitializeShader();
     //LAppLive2DManager::GetInstance()->ReLoadModel(_modelPath);
 }
@@ -138,26 +157,6 @@ void LAppDelegate::OnSurfaceChanged(float width, float height)
     _isActive = true;
 }
 
-LAppDelegate::LAppDelegate():
-    _cubismOption(),
-    _captured(false),
-    _SceneIndex(0),
-    _mouseX(0.0f),
-    _mouseY(0.0f),
-    _isActive(true),
-    _textureManager(NULL),
-    _view(NULL)
-{
-    // Setup Cubism
-    _cubismOption.LogFunction = LAppPal::PrintMessage;
-    _cubismOption.LoggingLevel = LAppDefine::CubismLoggingLevel;
-    CubismFramework::CleanUp();
-    CubismFramework::StartUp(&_cubismAllocator, &_cubismOption);
-}
-
-LAppDelegate::~LAppDelegate()
-{
-}
 
 void LAppDelegate::OnTouchBegan(double x, double y)
 {

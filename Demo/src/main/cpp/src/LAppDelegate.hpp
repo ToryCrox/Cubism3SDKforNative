@@ -157,7 +157,7 @@ private:
     LAppView* _view;                             ///< View情報
     int _width;                                  ///< Windowの幅
     int _height;                                 ///< windowの高さ
-    int _SceneIndex;                             ///< モデルシーンインデックス
+    //int _SceneIndex;                             ///< モデルシーンインデックス
     bool _captured;                              ///< クリックしているか
     bool _isActive;                              ///< アプリがアクティブ状態なのか
     float _mouseY;                               ///< マウスY座標

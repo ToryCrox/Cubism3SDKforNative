@@ -139,27 +139,14 @@ void LAppLive2DManager::OnTap(csmFloat32 x, csmFloat32 y)
 
     for (csmUint32 i = 0; i < _models.GetSize(); i++)
     {
-        //csmChar* hitAreas[] = {const_cast<csmChar *>(HitAreaNameHead),
-        //                       const_cast<csmChar *>(HitAreaNameBody)};
-        const csmChar* htArea = _models[i]->GetHitArea(x, y);
-        JniBridgeC::hitTest(htArea);
-        if (_models[i]->HitTest(HitAreaNameHead, x, y))
-        {
-            if (DebugLogEnable) 
-            {
-                LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameHead);
+        const csmChar* hitArea = _models[i]->GetHitArea(x, y);
+        JniBridgeC::hitTest(hitArea);
+        if (hitArea != NULL){
+            if (strcmp(hitArea, HitAreaNameHead)){
+                _models[i]->SetRandomExpression();
+            } if (strcmp(hitArea, HitAreaNameBody)){
+                _models[i]->StartRandomMotion(MotionGroupTapBody, PriorityNormal);
             }
-            JniBridgeC::hitTest(HitAreaNameHead);
-            _models[i]->SetRandomExpression();
-        }
-        else if (_models[i]->HitTest(HitAreaNameBody, x, y))
-        {
-            if (DebugLogEnable)
-            {
-                LAppPal::PrintLog("[APP]hit area: [%s]", HitAreaNameBody);
-            }
-            JniBridgeC::hitTest(HitAreaNameBody);
-            _models[i]->StartRandomMotion(MotionGroupTapBody, PriorityNormal);
         }
     }
 }
@@ -180,6 +167,7 @@ void LAppLive2DManager::OnUpdate()
         _changeModel = false;
         LoadModel(_modelPath);
     }
+
 
     int width = LAppDelegate::GetInstance()->GetWindowWidth();
     int height = LAppDelegate::GetInstance()->GetWindowHeight();
@@ -206,12 +194,6 @@ void LAppLive2DManager::OnUpdate()
         LAppDelegate::GetInstance()->GetView()->PostModelDraw(*model);
     }
 }
-
-/*void LAppLive2DManager::NextScene()
-{
-    csmInt32 no = (_sceneIndex + 1) % ModelDirSize;
-    ChangeScene(no);
-}*/
 
 void LAppLive2DManager::LoadModel(const std::string modePath){
     unsigned long i = modePath.find_last_of("/");
@@ -256,22 +238,6 @@ void LAppLive2DManager::LoadModel(const std::string modePath){
         float clearColor[3] = { 1.0f, 1.0f, 1.0f };
         LAppDelegate::GetInstance()->GetView()->SetRenderTargetClearColor(clearColor[0], clearColor[1], clearColor[2]);
     }
-}
-
-void LAppLive2DManager::ChangeScene(Csm::csmInt32 index)
-{
-    _sceneIndex = index;
-    if (DebugLogEnable)
-    {
-        LAppPal::PrintLog("[APP]model index: %d", _sceneIndex);
-    }
-
-    // ModelDir[]に保持したディレクトリ名から
-    // model3.jsonのパスを決定する.
-    // ディレクトリ名とmodel3.jsonの名前を一致させておくこと.
-    std::string model = ModelDir[index];
-    std::string modelPath = ResourcesPath + model + "/" + model + ".model3.json";
-    LoadModel(modelPath);
 }
 
 csmUint32 LAppLive2DManager::GetModelNum() const

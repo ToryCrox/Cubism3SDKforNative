@@ -29,7 +29,7 @@ LAppView::LAppView():
     _programId(0),
    // _gear(NULL),
     //_power(NULL),
-    _changeModel(false),
+   // _changeModel(false),
     _renderSprite(NULL),
     _renderTarget(SelectTarget_None)
 {
@@ -48,8 +48,8 @@ LAppView::~LAppView()
     _renderBuffer.DestroyOffscreenFrame();
     delete _renderSprite;
 
-    delete _viewMatrix;
-    delete _deviceToScreen;
+    //delete _viewMatrix;
+    //delete _deviceToScreen;
     delete _touchManager;
 }
 

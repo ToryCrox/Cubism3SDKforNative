@@ -14,6 +14,8 @@ import android.util.Log;
 
 public class Live2dRenderer implements GLSurfaceView.Renderer {
 
+    private AccelHelper mAccelHelper;
+
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         LogUtils.d("onSurfaceCreated");
@@ -29,6 +31,16 @@ public class Live2dRenderer implements GLSurfaceView.Renderer {
     @Override
     public void onDrawFrame(GL10 gl) {
         JniBridgeJava.nativeOnDrawFrame();
+        if (mAccelHelper != null){
+            mAccelHelper.update();
+            if (mAccelHelper.getShake() > 2.0f){
+                LogUtils.d("TODO: handle shake");
+                mAccelHelper.resetShake();
+            }
+        }
     }
 
+    public void setAccelHelper(AccelHelper accelHelper) {
+        this.mAccelHelper = accelHelper;
+    }
 }

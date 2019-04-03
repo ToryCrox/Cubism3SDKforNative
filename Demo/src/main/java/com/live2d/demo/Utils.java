@@ -21,7 +21,7 @@ public class Utils {
 
     public static void saveViewMatrix(Context context, float[] arr) {
         String value = null;
-        if (arr != null){
+        if (arr != null && checkMatrixArray(arr) != null){
             String[] vals = new String[arr.length];
             for (int i = 0; i < arr.length; i++) {
                 vals[i] = String.valueOf(arr[i]);
@@ -43,6 +43,18 @@ public class Utils {
         for (int i = 0; i < ps.length; i++) {
             fs[i] = Float.valueOf(ps[i]);
         }
-        return fs;
+        return checkMatrixArray(fs);
+    }
+
+    public static float[] checkMatrixArray(float[] arr){
+        if (arr == null || arr.length != 16){
+            return null;
+        }
+        for (float v : arr) {
+            if (((Float)v).isNaN()){
+                return null;
+            }
+        }
+        return arr;
     }
 }

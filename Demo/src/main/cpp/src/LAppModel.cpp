@@ -61,6 +61,8 @@ LAppModel::LAppModel()
     _idParamBodyAngleX = CubismFramework::GetIdManager()->GetId(ParamBodyAngleX);
     _idParamEyeBallX = CubismFramework::GetIdManager()->GetId(ParamEyeBallX);
     _idParamEyeBallY = CubismFramework::GetIdManager()->GetId(ParamEyeBallY);
+
+    _textureManager = new LAppTextureManager();
 }
 
 LAppModel::~LAppModel()
@@ -76,6 +78,12 @@ LAppModel::~LAppModel()
         ReleaseMotionGroup(group);
     }
     delete _modelSetting;
+
+    if (_textureManager)
+    {
+        delete _textureManager;
+        _textureManager = NULL;
+    }
 }
 
 void LAppModel::LoadAssets(const csmChar* dir, const csmChar* fileName)
@@ -657,7 +665,8 @@ void LAppModel::SetupTextures()
         csmString texturePath = _modelSetting->GetTextureFileName(modelTextureNumber);
         texturePath = _modelHomeDir + texturePath;
 
-        LAppTextureManager::TextureInfo* texture = LAppDelegate::GetInstance()->GetTextureManager()->CreateTextureFromPngFile(texturePath.GetRawString());
+        LAppTextureManager::TextureInfo* texture = _textureManager
+                ->CreateTextureFromPngFile(texturePath.GetRawString());
         const csmInt32 glTextueNumber = texture->id;
 
         //OpenGL

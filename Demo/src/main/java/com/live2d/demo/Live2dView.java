@@ -3,6 +3,8 @@ package com.live2d.demo;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.MotionEvent;
 
 import java.util.Arrays;
@@ -14,7 +16,9 @@ import java.util.Arrays;
  */
 public class Live2dView extends GLSurfaceView {
 
-    Live2dRenderer mRender;
+    private Live2dRenderer mRender;
+    private Handler mHandler;
+    private AccelHelper mAccelHelper;
 
     public Live2dView(Context context) {
         super(context);
@@ -28,8 +32,46 @@ public class Live2dView extends GLSurfaceView {
         mRender = new Live2dRenderer();
         setRenderer(mRender);
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+        mHandler = new Handler(Looper.myLooper());
+        mAccelHelper = new AccelHelper(context);
+        mRender.setAccelHelper(mAccelHelper);
     }
 
+    private Runnable resumeRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (mAccelHelper != null){
+                mAccelHelper.start();
+            }
+        }
+    };
+
+    private Runnable pauseRunnable = new Runnable() {
+        @Override
+        public void run() {
+            setVisibility(INVISIBLE);
+            if (mAccelHelper != null){
+                mAccelHelper.stop();
+            }
+        }
+    };
+
+    @Override
+    public void onResume() {
+        //super.onResume();
+        setVisibility(VISIBLE);
+        mHandler.removeCallbacks(resumeRunnable);
+        mHandler.removeCallbacks(pauseRunnable);
+        mHandler.postDelayed(resumeRunnable, 200);
+    }
+
+    @Override
+    public void onPause() {
+        //super.onPause();
+        mHandler.removeCallbacks(resumeRunnable);
+        mHandler.removeCallbacks(pauseRunnable);
+        mHandler.postDelayed(pauseRunnable, 200);
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
