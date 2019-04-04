@@ -99,6 +99,11 @@ csmBool CubismModelSettingJson::IsExistPhysicsFile() const
     Utils::Value& node = (*_jsonValue[FrequentNode_Physics]);
     return !node.IsNull() && !node.IsError();
 }
+csmBool CubismModelSettingJson::IsExistHitAreasFile() const
+{
+    Utils::Value& node = (*_jsonValue[FrequentNode_HitAreasFileName]);
+    return !node.IsNull() && !node.IsError();
+}
 csmBool CubismModelSettingJson::IsExistPoseFile() const
 {
     Utils::Value& node = (*_jsonValue[FrequentNode_Pose]);
@@ -186,6 +191,7 @@ CubismModelSettingJson::CubismModelSettingJson(const csmByte* buffer, csmSizeInt
         _jsonValue.PushBack(&(_json->GetRoot()[FileReferences][Expressions]));
         _jsonValue.PushBack(&(_json->GetRoot()[FileReferences][Textures]));
         _jsonValue.PushBack(&(_json->GetRoot()[FileReferences][Physics]));
+        _jsonValue.PushBack(&(_json->GetRoot()[FileReferences][HitAreas]));
         _jsonValue.PushBack(&(_json->GetRoot()[FileReferences][Pose]));
         _jsonValue.PushBack(&(_json->GetRoot()[HitAreas]));
     }
@@ -246,6 +252,12 @@ const csmChar* CubismModelSettingJson::GetPhysicsFileName()
 {
     if (!IsExistPhysicsFile())return "";
     return (*_jsonValue[FrequentNode_Physics]).GetRawString();
+}
+
+const csmChar* CubismModelSettingJson::GetHitAreaFileName()
+{
+    if (!IsExistHitAreasFile())return "";
+    return (*_jsonValue[FrequentNode_HitAreasFileName]).GetRawString();
 }
 
 const csmChar* CubismModelSettingJson::GetPoseFileName()

@@ -99,6 +99,10 @@ public:
 
     CubismIdHandle GetLipSyncParameterId(csmInt32 index);
 
+    csmBool IsExistHitAreasFile() const;
+
+    const csmChar *GetHitAreaFileName();
+
 private:
 
     enum FrequentNode
@@ -109,7 +113,8 @@ private:
         FrequentNode_Expressions,   ///< GetRoot()[FileReferences][Expressions] 
         FrequentNode_Textures,      ///< GetRoot()[FileReferences][Textures] 
         FrequentNode_Physics,       ///< GetRoot()[FileReferences][Physics] 
-        FrequentNode_Pose,          ///< GetRoot()[FileReferences][Pose] 
+        FrequentNode_HitAreasFileName,///< GetRoot()[FileReferences][HitAreas]
+        FrequentNode_Pose,          ///< GetRoot()[FileReferences][Pose]
         FrequentNode_HitAreas,      ///< GetRoot()[HitAreas] 
     };
 
@@ -233,6 +238,6 @@ private:
     csmBool IsExistLipSyncParameters() const;
 
     Utils::CubismJson*          _json;       ///< モデルデータjson 
-    csmVector<Utils::Value*>    _jsonValue;  ///< 上jsonの頻出ノード 
+    csmVector<Utils::Value*>    _jsonValue;  ///< 上jsonの頻出ノード
 };
 }}}

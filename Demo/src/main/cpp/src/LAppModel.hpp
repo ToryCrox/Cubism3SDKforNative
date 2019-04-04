@@ -14,6 +14,17 @@
 #include <Rendering/OpenGL/CubismOffscreenSurface_OpenGLES2.hpp>
 #include "LAppTextureManager.hpp"
 
+struct LAppHitArea{
+    Csm::csmChar* _name;
+    Csm::CubismIdHandle _id;
+
+public:
+    LAppHitArea(const Csm::csmChar* name, const Csm::CubismIdHandle id){
+        _name = const_cast<Csm::csmChar *>(name);
+        _id = id;
+    }
+};
+
 /**
  * @brief ユーザーが実際に使用するモデルの実装クラス<br>
  *         モデル生成、機能コンポーネント生成、更新処理とレンダリングの呼び出しを行う。
@@ -138,7 +149,7 @@ public:
      * @param y
      * @return
      */
-    const Live2D::Cubism::Framework::csmChar *
+    const Csm::csmChar *
     GetHitAreaId(Csm::csmFloat32 x, Csm::csmFloat32 y);
 
 protected:
@@ -194,6 +205,10 @@ private:
     */
     void ReleaseExpressions();
 
+    //add by tory
+    Csm::csmString JoinModelPath(const Csm::csmChar* path);
+    void LoadHitAreas(Csm::csmString path);
+
     Csm::ICubismModelSetting* _modelSetting; ///< モデルセッティング情報
     Csm::csmString _modelHomeDir; ///< モデルセッティングが置かれたディレクトリ
     Csm::csmFloat32 _userTimeSeconds; ///< デルタ時間の積算値[秒]
@@ -213,7 +228,6 @@ private:
     Csm::Rendering::CubismOffscreenFrame_OpenGLES2  _renderBuffer;   ///< フレームバッファ以外の描画先
 
     LAppTextureManager* _textureManager;
+    Csm::csmVector<LAppHitArea*> _hitAreas;  ///< 上jsonの頻出ノード
 };
-
-
 

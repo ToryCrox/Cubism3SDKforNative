@@ -90,6 +90,12 @@ public:
     virtual const csmChar* GetPhysicsFileName() = 0;
 
     /**
+     * 获取hitArea的文件名
+     * @return
+     */
+    virtual const csmChar* GetHitAreaFileName() = 0;
+
+    /**
      * @brief        パーツ切り替え設定ファイルの名前を取得する
      *
      * @return       パーツ切り替え設定ファイルの名前

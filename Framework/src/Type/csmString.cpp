@@ -35,9 +35,9 @@ csmString::csmString()
 
 csmString::csmString(const csmChar* c)
 {
-    const csmInt32 count = static_cast<csmInt32>(strlen(c));
+    csmInt32 count = 0;
 
-    if (count)
+    if (c != NULL && (count = static_cast<csmInt32>(strlen(c))) > 0)
     {
         Copy(c, count);
         this->_hashcode = CalcHashcode(WritePointer(), _length);
@@ -138,8 +138,10 @@ csmString& csmString::operator=(const csmChar* c)
 {
     Clear(); //現在のポインタを開放してから処理する
 
-    Copy(c, static_cast<csmInt32>(strlen(c)));
-    this->_hashcode = CalcHashcode(this->GetRawString(), this->_length);
+    if (c != NULL){
+        Copy(c, static_cast<csmInt32>(strlen(c)));
+        this->_hashcode = CalcHashcode(this->GetRawString(), this->_length);
+    }
     return *this;
 }
 

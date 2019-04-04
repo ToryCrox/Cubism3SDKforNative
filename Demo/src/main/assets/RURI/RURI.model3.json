@@ -72,47 +72,5 @@
       "Name": "EyeBlink",
       "Ids": []
     }
-  ],
-  "HitAreas": [
-    {
-      "action": 1,
-      "Name": "tap_face",
-      "Id": "D_REF.FACE"
-    },
-    {
-      "action": 1,
-      "Name": "tap_x",
-      "Id": "D_REF.XXX"
-    },
-    {
-      "action": 1,
-      "Name": "tap_hand",
-      "Id": "D_REF.ARML"
-    },
-    {
-      "action": 1,
-      "Name": "tap_hand",
-      "Id": "D_REF.ARMR"
-    },
-    {
-      "action": 1,
-      "Name": "tap_waist",
-      "Id": "D_REF.WAIST"
-    },
-    {
-      "action": 1,
-      "Name": "tap_chest",
-      "Id": "D_REF.CHEST"
-    },
-    {
-      "action": 1,
-      "Name": "tap_head",
-      "Id": "D_REF.HAIR"
-    },
-    {
-      "action": 1,
-      "Name": "tap_leg",
-      "Id": "D_REF.LEG"
-    }
   ]
 }

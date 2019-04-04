@@ -20,6 +20,7 @@
 #include "LAppPal.hpp"
 #include "LAppTextureManager.hpp"
 #include "LAppDelegate.hpp"
+#include "../JniBridgeC.hpp"
 
 using namespace Live2D::Cubism::Framework;
 using namespace Live2D::Cubism::Framework::DefaultParameterId;
@@ -164,16 +165,25 @@ void LAppModel::SetupModel(ICubismModelSetting* setting)
         }
     }
 
-    //Physics
-    if (strcmp(_modelSetting->GetPhysicsFileName(), "") != 0)
-    {
-        csmString path = _modelSetting->GetPhysicsFileName();
-        path = _modelHomeDir + path;
-
-        buffer = CreateBuffer(path.GetRawString(), &size);
-        LoadPhysics(buffer, size);
-        DeleteBuffer(buffer, path.GetRawString());
+    csmString physicsPath = JoinModelPath(_modelSetting->GetPhysicsFileName());
+    if (physicsPath.IsEmpty()){
+        physicsPath = JniBridgeC::getDefaultModelFile("Physics");
+        LAppPal::PrintLog("SetupModel getDefaultModelFile=%s", physicsPath.GetRawString());
     }
+    //Physics
+    if (!physicsPath.IsEmpty()) {
+        buffer = CreateBuffer(physicsPath.GetRawString(), &size);
+        if (buffer != NULL){
+            LoadPhysics(buffer, size);
+            DeleteBuffer(buffer, physicsPath.GetRawString());
+        }
+    }
+
+    //HitArea
+    _hitAreas.Clear();
+    csmString hitAreasPath = JoinModelPath(_modelSetting->GetHitAreaFileName());
+    LoadHitAreas(hitAreasPath);
+
 
     //Pose
     if (strcmp(_modelSetting->GetPoseFileName(), "") != 0)
@@ -234,13 +244,6 @@ void LAppModel::SetupModel(ICubismModelSetting* setting)
             _lipSyncIds.PushBack(_modelSetting->GetLipSyncParameterId(i));
         }
     }
-    const csmInt32 count = _modelSetting->GetHitAreasCount();
-    for (csmInt32 i = 0; i < count; i++)
-    {
-        const csmChar* hitAreaName = _modelSetting->GetHitAreaName(i);
-        const CubismIdHandle idHandle = _modelSetting->GetHitAreaId(i);
-        LAppPal::PrintLog("hitAreaName=%s, idHandle=%s" , hitAreaName, idHandle->GetString().GetRawString());
-    }
 
     //Layout
     csmMap<csmString, csmFloat32> layout;
@@ -249,16 +252,62 @@ void LAppModel::SetupModel(ICubismModelSetting* setting)
 
     _model->SaveParameters();
 
-    for (csmInt32 i = 0; i < _modelSetting->GetMotionGroupCount(); i++)
-    {
-        const csmChar* group = _modelSetting->GetMotionGroupName(i);
-        PreloadMotionGroup(group);
+    if (ENABLE_PRELOAD_MOTIONS) {
+        for (csmInt32 i = 0; i < _modelSetting->GetMotionGroupCount(); i++) {
+            const csmChar* group = _modelSetting->GetMotionGroupName(i);
+            PreloadMotionGroup(group);
+        }
     }
 
     _motionManager->StopAllMotions();
 
     _updating = false;
     _initialized = true;
+}
+
+csmString LAppModel::JoinModelPath(const csmChar* path){
+    if (path == NULL || strcmp(path, "") == 0){
+        return "";
+    }
+    return _modelHomeDir + path;
+}
+
+void LAppModel::LoadHitAreas(csmString hitAreasPath){
+    csmByte* buffer;
+    csmSizeInt size;
+    if (hitAreasPath.IsEmpty()){
+        char* p = JniBridgeC::getDefaultModelFile("HitAreas");
+        hitAreasPath = p;
+        LAppPal::PrintLog("LoadHitAreas getDefaultModelFile=%s", hitAreasPath.GetRawString());
+    }
+    if (!hitAreasPath.IsEmpty() && (buffer = CreateBuffer(hitAreasPath.GetRawString(), &size)) != NULL){
+        LAppPal::PrintLog("LoadHitAreas filePath=%s", hitAreasPath.GetRawString());
+        Utils::CubismJson*  json = Utils::CubismJson::Create(buffer, size);
+        Utils::Value& root = json->GetRoot();
+        Utils::Value& hitAreasJson = root["HitAreas"];
+        if (!hitAreasJson.IsNull() && !hitAreasJson.IsError()){
+            int size = hitAreasJson.GetSize();
+            for (int i = 0; i < size; ++i) {
+                Utils::Value& node = hitAreasJson[i];
+                _hitAreas.PushBack(CSM_NEW LAppHitArea(node["Name"].GetRawString(),
+                     CubismFramework::GetIdManager()->GetId(node["Id"].GetRawString())));
+            }
+        }
+        DeleteBuffer(buffer, hitAreasPath.GetRawString());
+    } else {
+        const csmInt32 count = _modelSetting->GetHitAreasCount();
+        for (csmInt32 i = 0; i < count; i++) {
+            const csmChar* hitAreaName = _modelSetting->GetHitAreaName(i);
+            const CubismIdHandle idHandle = _modelSetting->GetHitAreaId(i);
+            _hitAreas.PushBack(CSM_NEW LAppHitArea(hitAreaName, idHandle));
+        }
+    }
+    csmUint32 len = _hitAreas.GetSize();
+    for (int i = 0; i < len; ++i) {
+        LAppHitArea* hitArea = _hitAreas[i];
+        LAppPal::PrintLog("LoadHitAreas name=%s, id=%s", hitArea->_name,
+                hitArea->_id->GetString().GetRawString());
+    }
 }
 
 void LAppModel::PreloadMotionGroup(const csmChar* group)
@@ -447,12 +496,10 @@ CubismMotionQueueEntryHandle LAppModel::StartMotion(const csmChar* filePath,
     if (motion == NULL){
         return NULL;
     }
-    if (fadeInSeconds >= 0.0f)
-    {
+    if (fadeInSeconds >= 0.0f) {
         motion->SetFadeInTime(fadeInSeconds);
     }
-    if (fadeOutSeconds >= 0.0f)
-    {
+    if (fadeOutSeconds >= 0.0f) {
         motion->SetFadeOutTime(fadeOutSeconds);
     }
     motion->SetEffectIds(_eyeBlinkIds, _lipSyncIds);
@@ -585,17 +632,16 @@ csmBool LAppModel::HitTest(const csmChar* hitAreaName, csmFloat32 x, csmFloat32 
 }
 
 const csmChar * LAppModel::GetHitArea(csmFloat32 x, csmFloat32 y){
-    if (_opacity < 1)
-    {
+    if (_opacity < 1) {
         return NULL;
     }
-    const csmInt32 count = _modelSetting->GetHitAreasCount();
+    const csmInt32 count = _hitAreas.GetSize();
     for (csmInt32 i = 0; i < count; i++)
     {
-        const CubismIdHandle drawID = _modelSetting->GetHitAreaId(i);
-        if (drawID != NULL && IsHit(drawID, x, y))
-        {
-            const csmChar* hitAreaName = _modelSetting->GetHitAreaName(i);
+        LAppHitArea* hitArea = _hitAreas[i];
+        const CubismIdHandle drawID = hitArea->_id;
+        if (drawID != NULL && IsHit(drawID, x, y)) {
+            const csmChar* hitAreaName = hitArea->_name;
             return hitAreaName;
         }
     }
@@ -603,16 +649,13 @@ const csmChar * LAppModel::GetHitArea(csmFloat32 x, csmFloat32 y){
 }
 
 const csmChar* LAppModel::GetHitAreaId(csmFloat32 x, csmFloat32 y){
-    if (_opacity < 1)
-    {
+    if (_opacity < 1) {
         return NULL;
     }
     const csmInt32 count = _model->GetDrawableCount();
-    for (csmInt32 i = 0; i < count; i++)
-    {
+    for (csmInt32 i = 0; i < count; i++) {
         const CubismIdHandle drawID = _model->GetDrawableId(i);
-        if (drawID != NULL && IsHit(drawID, x, y))
-        {
+        if (drawID != NULL && IsHit(drawID, x, y)) {
             return drawID->GetString().GetRawString();
         }
     }

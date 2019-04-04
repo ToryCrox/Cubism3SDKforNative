@@ -168,6 +168,16 @@ public:
      */
     csmInt32 GetHashcode();
 
+    /**
+     * @brief 文字列が空かどうか？
+     *
+     * 文字列が空かどうか確認する。
+     *
+     * @retval  true    空の文字列
+     * @retval  false   値が設定されている
+     */
+    csmBool IsEmpty() const;
+
 
 protected:
 
@@ -197,6 +207,7 @@ protected:
      */
     csmInt32 CalcHashcode(const csmChar* c, csmInt32 length);
 
+
 private:
     static const csmInt32 SmallLength = 64; ///< この長さ-1未満の文字列は内部バッファを使用 
     static const csmInt32 DefaultSize = 10; ///< デフォルトの文字数
@@ -208,15 +219,6 @@ private:
 
     csmChar _small[SmallLength];            ///< 文字列の長さがSmallLength-1未満の場合はこちらを使用 
 
-    /**
-     * @brief 文字列が空かどうか？
-     * 
-     * 文字列が空かどうか確認する。
-     * 
-     * @retval  true    空の文字列
-     * @retval  false   値が設定されている
-     */
-    csmBool IsEmpty() const;
 
     /**
      * @brief 文字列を空に設定

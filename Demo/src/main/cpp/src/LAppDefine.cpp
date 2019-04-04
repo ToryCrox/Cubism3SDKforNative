@@ -58,6 +58,8 @@ namespace LAppDefine {
     const csmBool DebugLogEnable = true;
     const csmBool DebugTouchLogEnable = false;
 
+    const csmBool ENABLE_PRELOAD_MOTIONS = false;
+
     // Frameworkから出力するログのレベル設定
     const CubismFramework::Option::LogLevel CubismLoggingLevel = CubismFramework::Option::LogLevel_Verbose;
 }

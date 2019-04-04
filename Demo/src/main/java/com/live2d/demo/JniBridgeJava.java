@@ -112,4 +112,11 @@ public class JniBridgeJava {
         nativeStartMotion(motionPath, 1.0f, 1.0f);
     }
 
+
+    public static String getDefaultModelFile(String key){
+        LogUtils.d( "getDefaultModelFile: " + key);
+        return "RURI/RURI.hitareas3.json";
+        //return null;
+    }
+
 }

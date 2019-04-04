@@ -18,6 +18,7 @@ static jclass  g_JniBridgeJavaClass;
 static jmethodID g_LoadFileMethodId;
 static jmethodID g_MoveTaskToBackMethodId;
 static jmethodID g_hitTest;
+static jmethodID g_getDefaultModelFile;
 
 JNIEnv* GetEnv()
 {
@@ -42,6 +43,8 @@ jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved)
     g_LoadFileMethodId = env->GetStaticMethodID(g_JniBridgeJavaClass, "LoadFile", "(Ljava/lang/String;)[B");
     g_MoveTaskToBackMethodId = env->GetStaticMethodID(g_JniBridgeJavaClass, "moveTaskToBack", "()V");
     g_hitTest = env->GetStaticMethodID(g_JniBridgeJavaClass, "hitTest", "(Ljava/lang/String;)V");
+    g_getDefaultModelFile = env->GetStaticMethodID(g_JniBridgeJavaClass, "getDefaultModelFile",
+            "(Ljava/lang/String;)Ljava/lang/String;");
     return JNI_VERSION_1_6;
 }
 
@@ -82,6 +85,22 @@ void JniBridgeC::hitTest(const char* action)
 
     // アプリ終了
     env->CallStaticVoidMethod(g_JniBridgeJavaClass, g_hitTest, env->NewStringUTF(action));
+}
+
+char* JniBridgeC::getDefaultModelFile(const char* key)
+{
+    JNIEnv *env = GetEnv();
+
+    jstring p = env->NewStringUTF(key);
+    // アプリ終了
+    jstring  result = static_cast<jstring>(env->CallStaticObjectMethod(g_JniBridgeJavaClass,
+            g_getDefaultModelFile, p));
+    if (result != NULL){
+        char* cstr = const_cast<char *>(env->GetStringUTFChars(result, 0));
+        return cstr;
+    }else {
+        return NULL;
+    }
 }
 
 extern "C"
