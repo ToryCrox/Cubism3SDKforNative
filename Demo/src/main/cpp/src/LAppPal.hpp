@@ -77,13 +77,14 @@ public:
     */
     static void PrintMessage(const Csm::csmChar* message);
 
-    static Csm::csmChar* GetArrayString(const float* message);
-
-private:
     /**
     * @brief システムタイムの取得
     */
     static double GetSystemTime();
+
+    static Csm::csmChar* GetArrayString(const float* message);
+
+private:
 
     static double s_currentFrame;
     static double s_lastFrame;

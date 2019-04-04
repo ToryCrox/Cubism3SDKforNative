@@ -132,6 +132,15 @@ public:
     StartMotion(const Csm::csmChar *path,
                 Csm::csmFloat32 fadeInSeconds, Csm::csmFloat32 fadeOutSeconds);
 
+    /**
+     * 获取点击区域的id，仅测试用
+     * @param x
+     * @param y
+     * @return
+     */
+    const Live2D::Cubism::Framework::csmChar *
+    GetHitAreaId(Csm::csmFloat32 x, Csm::csmFloat32 y);
+
 protected:
     /**
      *  @brief  モデルを描画する処理。モデルを描画する空間のView-Projection行列を渡す。

@@ -140,13 +140,16 @@ void LAppLive2DManager::OnTap(csmFloat32 x, csmFloat32 y)
     for (csmUint32 i = 0; i < _models.GetSize(); i++)
     {
         const csmChar* hitArea = _models[i]->GetHitArea(x, y);
-        JniBridgeC::hitTest(hitArea);
         if (hitArea != NULL){
-            if (strcmp(hitArea, HitAreaNameHead)){
+            if (strcmp(hitArea, HitAreaNameHead) == 0){
                 _models[i]->SetRandomExpression();
-            } if (strcmp(hitArea, HitAreaNameBody)){
+            } else if (strcmp(hitArea, HitAreaNameBody) == 0){
                 _models[i]->StartRandomMotion(MotionGroupTapBody, PriorityNormal);
             }
+            JniBridgeC::hitTest(hitArea);
+        } else {
+            const csmChar* hitAreaId = _models[i]->GetHitAreaId(x, y);
+            JniBridgeC::hitTest(hitAreaId);
         }
     }
 }
@@ -196,6 +199,7 @@ void LAppLive2DManager::OnUpdate()
 }
 
 void LAppLive2DManager::LoadModel(const std::string modePath){
+    double startTime = LAppPal::GetSystemTime();
     unsigned long i = modePath.find_last_of("/");
     string parentPath = modePath.substr(0, i + 1);
     string modelName = modePath.substr(i+1, modePath.length());
@@ -238,6 +242,7 @@ void LAppLive2DManager::LoadModel(const std::string modePath){
         float clearColor[3] = { 1.0f, 1.0f, 1.0f };
         LAppDelegate::GetInstance()->GetView()->SetRenderTargetClearColor(clearColor[0], clearColor[1], clearColor[2]);
     }
+    LAppPal::PrintLog("LoadModel has spent %f", (LAppPal::GetSystemTime() - startTime));
 }
 
 csmUint32 LAppLive2DManager::GetModelNum() const

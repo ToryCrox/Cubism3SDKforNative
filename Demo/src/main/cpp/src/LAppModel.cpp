@@ -602,6 +602,23 @@ const csmChar * LAppModel::GetHitArea(csmFloat32 x, csmFloat32 y){
     return NULL;
 }
 
+const csmChar* LAppModel::GetHitAreaId(csmFloat32 x, csmFloat32 y){
+    if (_opacity < 1)
+    {
+        return NULL;
+    }
+    const csmInt32 count = _model->GetDrawableCount();
+    for (csmInt32 i = 0; i < count; i++)
+    {
+        const CubismIdHandle drawID = _model->GetDrawableId(i);
+        if (drawID != NULL && IsHit(drawID, x, y))
+        {
+            return drawID->GetString().GetRawString();
+        }
+    }
+    return NULL;
+}
+
 void LAppModel::SetExpression(const csmChar* expressionID)
 {
     ACubismMotion* motion = _expressions[expressionID];
