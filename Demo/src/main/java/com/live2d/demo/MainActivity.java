@@ -13,13 +13,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
 
 import com.live2d.demo.utils.SystemBarUtils;
+import com.mimikko.live2d3.Live2d3Manager;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    Live2d3Manager mLive2dManager;
+    Live2dDemoManager mLive2dManager;
     int mIndex=0;
     List<String> mDirs = Arrays.asList( "RURI/RURI.model3.json",
             "Hiyori/Hiyori.model3.json",
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         ViewGroup container = findViewById(R.id.container);
-        mLive2dManager = new Live2d3Manager(this);
+        mLive2dManager = new Live2dDemoManager(this);
         container.addView(mLive2dManager.getLive2dView());
 
         

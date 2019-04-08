@@ -8,10 +8,10 @@ cmake_minimum_required(VERSION 3.4.1)
 #---------------------------------------
 # Variable
 #---------------------------------------
-set(SRC_DIR                     ${CMAKE_CURRENT_SOURCE_DIR}/src/main/cpp/src)
-set(THIRD_PARTY_INCLUDE_DIR     ${CMAKE_CURRENT_SOURCE_DIR}/../thirdParty/stb/include)
-set(CUBISM3_CORE_DIR            ${CMAKE_CURRENT_SOURCE_DIR}/../Core)
-set(FRAMEWORK_DIR               ${CMAKE_CURRENT_SOURCE_DIR}/../Framework/src)
+set(SRC_DIR                   ${CMAKE_CURRENT_SOURCE_DIR}/src/main/cpp/src)
+set(THIRD_PARTY_INCLUDE_DIR   ${CMAKE_CURRENT_SOURCE_DIR}/../thirdParty/stb/include)
+set(CUBISM3_CORE_DIR          ${CMAKE_CURRENT_SOURCE_DIR}/../Core)
+set(FRAMEWORK_DIR             ${CMAKE_CURRENT_SOURCE_DIR}/../Framework/src)
 
 
 #---------------------------------------

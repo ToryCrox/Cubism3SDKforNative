@@ -5,22 +5,21 @@
  * that can be found at http://live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
 
-package com.live2d.demo;
+package com.mimikko.live2d3;
 
 import android.content.Context;
 import android.widget.Toast;
 
-import com.live2d.demo.utils.FileManager;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.FileInputStream;
-import java.util.Random;
+import java.lang.ref.WeakReference;
 
 public class JniBridgeJava {
 
     private static final String LIBRARY_NAME = "JniBridge";
     private static Context sContext;
+    private static WeakReference<Live2d3Manager> sManager;
 
     static {
         System.loadLibrary(LIBRARY_NAME);
@@ -55,6 +54,10 @@ public class JniBridgeJava {
         sContext = context.getApplicationContext();
     }
 
+    public static void setManager(Live2d3Manager manager) {
+        sManager = new WeakReference<>(manager);
+    }
+
     /**
      * 加载资源，c调用java的方法
      * @param filePath
@@ -62,7 +65,6 @@ public class JniBridgeJava {
      */
     public static byte[] LoadFile(String filePath) {
         //Toast.makeText(sContext, "LoadFile:"+filePath, Toast.LENGTH_SHORT).show();
-        LogUtils.d("LoadFile="+filePath);
         if (filePath == null){
             return null;
         }
@@ -81,21 +83,28 @@ public class JniBridgeJava {
                 return null;
             }
         } catch(IOException e) {
-            LogUtils.e("LoadFile="+filePath, e);
             return null;
         } finally {
-            FileManager.closeSilently(is);
+            if (is != null){
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
     public static void hitTest(String action){
         Toast.makeText(sContext, "hitTest:"+ action, Toast.LENGTH_SHORT).show();
-        LogUtils.d("hitTest="+action);
+        Live2d3Manager manager = sManager.get();
+        if (manager != null){
+            manager.hitTest(action);
+        }
     }
 
 
     public static String getDefaultModelFile(String key){
-        LogUtils.d( "getDefaultModelFile: " + key);
         return "RURI/RURI.hitareas3.json";
         //return null;
     }

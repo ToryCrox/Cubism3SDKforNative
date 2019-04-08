@@ -5,12 +5,11 @@
  * that can be found at http://live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
 
-package com.live2d.demo;
+package com.mimikko.live2d3;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import android.opengl.GLSurfaceView;
-import android.util.Log;
 
 public class Live2d3Renderer implements GLSurfaceView.Renderer {
 
@@ -19,13 +18,11 @@ public class Live2d3Renderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        LogUtils.d("onSurfaceCreated");
         JniBridgeJava.nativeOnSurfaceCreated();
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-        LogUtils.d("onSurfaceChanged W=" + width + ", height="+height);
         JniBridgeJava.nativeOnSurfaceChanged(width, height);
     }
 
@@ -35,7 +32,6 @@ public class Live2d3Renderer implements GLSurfaceView.Renderer {
         if (mAccelHelper != null){
             mAccelHelper.update();
             if (mAccelHelper.getShake() > 2.0f){
-                LogUtils.d("TODO: handle shake");
                 mAccelHelper.resetShake();
             }
         }

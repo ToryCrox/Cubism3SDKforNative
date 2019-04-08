@@ -1,14 +1,9 @@
-package com.live2d.demo;
+package com.mimikko.live2d3;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
-import android.os.Handler;
-import android.os.Looper;
-import android.support.annotation.NonNull;
 import android.view.MotionEvent;
-
-import java.util.Arrays;
 
 /**
  * @author tory
@@ -32,7 +27,7 @@ public class Live2d3View extends GLSurfaceView {
 
     }
 
-    public void setDelegate(@NonNull Live2d3ViewDelegate delegate){
+    public void setDelegate( Live2d3ViewDelegate delegate){
         mDelegate = delegate;
         setRenderer(delegate.getRender());
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);

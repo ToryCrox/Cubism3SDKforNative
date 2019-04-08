@@ -1,9 +1,8 @@
-package com.live2d.demo;
+package com.mimikko.live2d3;
 
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -28,7 +27,6 @@ public class Live2d3ViewDelegate {
         mRender.setAccelHelper(mAccelHelper);
     }
 
-    @NonNull
     public Live2d3Renderer getRender() {
         return mRender;
     }
@@ -84,7 +82,6 @@ public class Live2d3ViewDelegate {
             //case MotionEvent.ACTION_POINTER_DOWN:
             case MotionEvent.ACTION_DOWN: {
                 int n = event.getPointerCount();
-                LogUtils.d("ACTION_DOWN n="+n);
                 if (n == 1) {
                     JniBridgeJava.nativeOnTouchesBegan(pointX, pointY);
                 } else if (n == 2) {
@@ -102,7 +99,6 @@ public class Live2d3ViewDelegate {
                 if (n == 1) {
                     JniBridgeJava.nativeOnTouchesMoved(pointX, pointY);
                 } else if (n == 2) {
-                    LogUtils.d("ACTION_MOVE .......");
                     JniBridgeJava.nativeOnTouchesMovedF(event.getX(0),
                             event.getY(0), event.getX(1),
                             event.getY(1));

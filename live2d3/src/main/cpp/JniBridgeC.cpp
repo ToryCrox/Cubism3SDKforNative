@@ -38,7 +38,7 @@ jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved)
         return JNI_ERR;
     }
 
-    jclass clazz = env->FindClass("com/live2d/demo/JniBridgeJava");
+    jclass clazz = env->FindClass("com/mimikko/live2d3/JniBridgeJava");
     g_JniBridgeJavaClass = reinterpret_cast<jclass>(env->NewGlobalRef(clazz));
     g_LoadFileMethodId = env->GetStaticMethodID(g_JniBridgeJavaClass, "LoadFile", "(Ljava/lang/String;)[B");
     //g_MoveTaskToBackMethodId = env->GetStaticMethodID(g_JniBridgeJavaClass, "moveTaskToBack", "()V");
@@ -106,67 +106,67 @@ char* JniBridgeC::getDefaultModelFile(const char* key)
 extern "C"
 {
     JNIEXPORT void JNICALL
-    Java_com_live2d_demo_JniBridgeJava_nativeOnStart(JNIEnv *env, jclass type)
+    Java_com_mimikko_live2d3_JniBridgeJava_nativeOnStart(JNIEnv *env, jclass type)
     {
         LAppDelegate::GetInstance()->OnStart();
     }
 
     JNIEXPORT void JNICALL
-    Java_com_live2d_demo_JniBridgeJava_nativeOnPause(JNIEnv *env, jclass type)
+    Java_com_mimikko_live2d3_JniBridgeJava_nativeOnPause(JNIEnv *env, jclass type)
     {
         LAppDelegate::GetInstance()->OnPause();
     }
 
     JNIEXPORT void JNICALL
-    Java_com_live2d_demo_JniBridgeJava_nativeOnStop(JNIEnv *env, jclass type)
+    Java_com_mimikko_live2d3_JniBridgeJava_nativeOnStop(JNIEnv *env, jclass type)
     {
         LAppDelegate::GetInstance()->OnStop();
     }
 
     JNIEXPORT void JNICALL
-    Java_com_live2d_demo_JniBridgeJava_nativeOnDestroy(JNIEnv *env, jclass type)
+    Java_com_mimikko_live2d3_JniBridgeJava_nativeOnDestroy(JNIEnv *env, jclass type)
     {
         LAppDelegate::GetInstance()->OnDestroy();
     }
 
     JNIEXPORT void JNICALL
-    Java_com_live2d_demo_JniBridgeJava_nativeOnSurfaceCreated(JNIEnv *env, jclass type)
+    Java_com_mimikko_live2d3_JniBridgeJava_nativeOnSurfaceCreated(JNIEnv *env, jclass type)
     {
         LAppDelegate::GetInstance()->OnSurfaceCreate();
     }
 
     JNIEXPORT void JNICALL
-    Java_com_live2d_demo_JniBridgeJava_nativeOnSurfaceChanged(JNIEnv *env, jclass type, jint width, jint height)
+    Java_com_mimikko_live2d3_JniBridgeJava_nativeOnSurfaceChanged(JNIEnv *env, jclass type, jint width, jint height)
     {
         LAppDelegate::GetInstance()->OnSurfaceChanged(width, height);
     }
 
     JNIEXPORT void JNICALL
-    Java_com_live2d_demo_JniBridgeJava_nativeOnDrawFrame(JNIEnv *env, jclass type)
+    Java_com_mimikko_live2d3_JniBridgeJava_nativeOnDrawFrame(JNIEnv *env, jclass type)
     {
         LAppDelegate::GetInstance()->Run();
     }
 
     JNIEXPORT void JNICALL
-    Java_com_live2d_demo_JniBridgeJava_nativeOnTouchesBegan(JNIEnv *env, jclass type, jfloat pointX, jfloat pointY)
+    Java_com_mimikko_live2d3_JniBridgeJava_nativeOnTouchesBegan(JNIEnv *env, jclass type, jfloat pointX, jfloat pointY)
     {
         LAppDelegate::GetInstance()->OnTouchBegan(pointX, pointY);
     }
 
     JNIEXPORT void JNICALL
-    Java_com_live2d_demo_JniBridgeJava_nativeOnTouchesEnded(JNIEnv *env, jclass type, jfloat pointX, jfloat pointY)
+    Java_com_mimikko_live2d3_JniBridgeJava_nativeOnTouchesEnded(JNIEnv *env, jclass type, jfloat pointX, jfloat pointY)
     {
         LAppDelegate::GetInstance()->OnTouchEnded(pointX, pointY);
     }
 
     JNIEXPORT void JNICALL
-    Java_com_live2d_demo_JniBridgeJava_nativeOnTouchesMoved(JNIEnv *env, jclass type, jfloat pointX, jfloat pointY)
+    Java_com_mimikko_live2d3_JniBridgeJava_nativeOnTouchesMoved(JNIEnv *env, jclass type, jfloat pointX, jfloat pointY)
     {
         LAppDelegate::GetInstance()->OnTouchMoved(pointX, pointY);
     }
 
     JNIEXPORT void JNICALL
-    Java_com_live2d_demo_JniBridgeJava_nativeOnTouchesBeganF(JNIEnv *env, jclass type,
+    Java_com_mimikko_live2d3_JniBridgeJava_nativeOnTouchesBeganF(JNIEnv *env, jclass type,
                                                               jfloat pointX, jfloat pointY,
                                                               jfloat pointX2, jfloat pointY2) {
 
@@ -175,7 +175,7 @@ extern "C"
     }
 
     JNIEXPORT void JNICALL
-    Java_com_live2d_demo_JniBridgeJava_nativeOnTouchesMovedF(JNIEnv *env, jclass type,
+    Java_com_mimikko_live2d3_JniBridgeJava_nativeOnTouchesMovedF(JNIEnv *env, jclass type,
                                                                   jfloat pointX, jfloat pointY,
                                                                   jfloat pointX2, jfloat pointY2) {
         LAppPal::PrintLog("[APP]nativeOnTouchesMoved x1:%.2f, y1:%.2f, x2:%.2f, y2:%.2f", pointX, pointY, pointX2, pointY2);
@@ -183,7 +183,7 @@ extern "C"
     }
 
     JNIEXPORT void JNICALL
-    Java_com_live2d_demo_JniBridgeJava_nativeLoadModel(JNIEnv *env, jclass type, jstring modelPath_,
+    Java_com_mimikko_live2d3_JniBridgeJava_nativeLoadModel(JNIEnv *env, jclass type, jstring modelPath_,
             jfloatArray matrixArr_) {
         const char *c_str = env->GetStringUTFChars(modelPath_, 0);
         float* arr = NULL;
@@ -197,7 +197,7 @@ extern "C"
     }
 
     JNIEXPORT void JNICALL
-    Java_com_live2d_demo_JniBridgeJava_nativeStartMotion(JNIEnv *env, jclass type, jstring modelPath_,
+    Java_com_mimikko_live2d3_JniBridgeJava_nativeStartMotion(JNIEnv *env, jclass type, jstring modelPath_,
                                                          jfloat fadeInSeconds, jfloat fadeOutSeconds) {
         const char *motionPath = env->GetStringUTFChars(modelPath_, 0);
         LAppLive2DManager::GetInstance()->startMotion(motionPath, fadeInSeconds, fadeOutSeconds);
@@ -205,7 +205,7 @@ extern "C"
     }
 
     JNIEXPORT jfloatArray JNICALL
-    Java_com_live2d_demo_JniBridgeJava_nativeGetMatrixArray(JNIEnv *env, jclass type) {
+    Java_com_mimikko_live2d3_JniBridgeJava_nativeGetMatrixArray(JNIEnv *env, jclass type) {
 
         float* array = LAppLive2DManager::GetInstance()->getViewMatrixArray();
         if (array == NULL){
