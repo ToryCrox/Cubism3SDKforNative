@@ -21,7 +21,7 @@ public:
     /**
     * @brief アプリをバックグラウンドに移動
     */
-    static void MoveTaskToBack();
+    //static void MoveTaskToBack();
 
     static void hitTest(const char *action);
 

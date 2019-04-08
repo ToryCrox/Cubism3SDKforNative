@@ -19,7 +19,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    Live2dManager mLive2dManager;
+    Live2d3Manager mLive2dManager;
     int mIndex=0;
     List<String> mDirs = Arrays.asList( "RURI/RURI.model3.json",
             "Hiyori/Hiyori.model3.json",
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         ViewGroup container = findViewById(R.id.container);
-        mLive2dManager = new Live2dManager(this);
+        mLive2dManager = new Live2d3Manager(this);
         container.addView(mLive2dManager.getLive2dView());
 
         

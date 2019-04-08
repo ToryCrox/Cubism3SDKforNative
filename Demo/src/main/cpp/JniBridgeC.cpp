@@ -16,7 +16,7 @@ using namespace Csm;
 static JavaVM* g_JVM; // JavaVM is valid for all threads, so just save it globally
 static jclass  g_JniBridgeJavaClass;
 static jmethodID g_LoadFileMethodId;
-static jmethodID g_MoveTaskToBackMethodId;
+//static jmethodID g_MoveTaskToBackMethodId;
 static jmethodID g_hitTest;
 static jmethodID g_getDefaultModelFile;
 
@@ -41,7 +41,7 @@ jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved)
     jclass clazz = env->FindClass("com/live2d/demo/JniBridgeJava");
     g_JniBridgeJavaClass = reinterpret_cast<jclass>(env->NewGlobalRef(clazz));
     g_LoadFileMethodId = env->GetStaticMethodID(g_JniBridgeJavaClass, "LoadFile", "(Ljava/lang/String;)[B");
-    g_MoveTaskToBackMethodId = env->GetStaticMethodID(g_JniBridgeJavaClass, "moveTaskToBack", "()V");
+    //g_MoveTaskToBackMethodId = env->GetStaticMethodID(g_JniBridgeJavaClass, "moveTaskToBack", "()V");
     g_hitTest = env->GetStaticMethodID(g_JniBridgeJavaClass, "hitTest", "(Ljava/lang/String;)V");
     g_getDefaultModelFile = env->GetStaticMethodID(g_JniBridgeJavaClass, "getDefaultModelFile",
             "(Ljava/lang/String;)Ljava/lang/String;");
@@ -71,13 +71,13 @@ char* JniBridgeC::LoadFileAsBytesFromJava(const char* filePath, unsigned int* ou
     return buffer;
 }
 
-void JniBridgeC::MoveTaskToBack()
+/*void JniBridgeC::MoveTaskToBack()
 {
     JNIEnv *env = GetEnv();
 
     // アプリ終了
     env->CallStaticVoidMethod(g_JniBridgeJavaClass, g_MoveTaskToBackMethodId, NULL);
-}
+}*/
 
 void JniBridgeC::hitTest(const char* action)
 {

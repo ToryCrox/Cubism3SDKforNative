@@ -7,7 +7,6 @@
 
 package com.live2d.demo;
 
-import android.app.Activity;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -21,8 +20,7 @@ import java.util.Random;
 public class JniBridgeJava {
 
     private static final String LIBRARY_NAME = "JniBridge";
-    private static Activity _activityInstance;
-    private static Context _context;
+    private static Context sContext;
 
     static {
         System.loadLibrary(LIBRARY_NAME);
@@ -46,7 +44,7 @@ public class JniBridgeJava {
     public static native void nativeOnTouchesMovedF(float pointX, float pointY, float pointX2, float pointY2);
 
     public static native void nativeLoadModel(String modelPath, float[] matrixArr);
-    public static native void nativeStartMotion(String modelPath, float pointX, float pointY);
+    public static native void nativeStartMotion(String modelPath, float fadeInSeconds, float fadeOutSeconds);
 
     public static native float[] nativeGetMatrixArray();
 
@@ -54,10 +52,8 @@ public class JniBridgeJava {
     // Java -----------------------------------------------------------------
 
     public static void setContext(Context context) {
-        _context = context;
+        sContext = context.getApplicationContext();
     }
-
-    public static void setActivityInstance(Activity activity) { _activityInstance = activity; }
 
     /**
      * 加载资源，c调用java的方法
@@ -65,7 +61,7 @@ public class JniBridgeJava {
      * @return
      */
     public static byte[] LoadFile(String filePath) {
-        //Toast.makeText(_context, "LoadFile:"+filePath, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(sContext, "LoadFile:"+filePath, Toast.LENGTH_SHORT).show();
         LogUtils.d("LoadFile="+filePath);
         if (filePath == null){
             return null;
@@ -75,12 +71,15 @@ public class JniBridgeJava {
             if (filePath.startsWith("/")){
                 is = new FileInputStream(filePath);
             } else {
-                is = _context.getAssets().open(filePath);
+                is = sContext.getAssets().open(filePath);
             }
             int fileSize = is.available();
             byte[] fileBuffer = new byte[fileSize];
-            is.read(fileBuffer, 0, fileSize);
-            return fileBuffer;
+            if (is.read(fileBuffer, 0, fileSize) != -1){
+                return fileBuffer;
+            } else {
+                return null;
+            }
         } catch(IOException e) {
             LogUtils.e("LoadFile="+filePath, e);
             return null;
@@ -89,27 +88,9 @@ public class JniBridgeJava {
         }
     }
 
-    public static void moveTaskToBack() {
-        LogUtils.d("moveTaskToBack...");
-        _activityInstance.moveTaskToBack(true);
-    }
-
     public static void hitTest(String action){
-        Toast.makeText(_context, "hitTest:"+ action, Toast.LENGTH_SHORT).show();
+        Toast.makeText(sContext, "hitTest:"+ action, Toast.LENGTH_SHORT).show();
         LogUtils.d("hitTest="+action);
-        String[] actions = new String[]{
-                "motions/LL21605KJ.motion3.json",
-                "motions/LL21606KJ.motion3.json",
-                "motions/LL21701CJ.motion3.json",
-                "motions/LL21702CJ.motion3.json",
-                "motions/LL21703CJ.motion3.json",
-                "motions/LL21704CJ.motion3.json",
-                "motions/LL21705KJ.motion3.json",
-                "motions/LL21706KJ.motion3.json",
-        };
-        int i = new Random().nextInt(actions.length);
-        String motionPath = "RURI/" + actions[i];
-        nativeStartMotion(motionPath, 1.0f, 1.0f);
     }
 
 

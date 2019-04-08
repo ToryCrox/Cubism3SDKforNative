@@ -12,9 +12,10 @@ import javax.microedition.khronos.opengles.GL10;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 
-public class Live2dRenderer implements GLSurfaceView.Renderer {
+public class Live2d3Renderer implements GLSurfaceView.Renderer {
 
     private AccelHelper mAccelHelper;
+    private Live2d3Manager mManger;
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -38,9 +39,16 @@ public class Live2dRenderer implements GLSurfaceView.Renderer {
                 mAccelHelper.resetShake();
             }
         }
+        if (mManger != null){
+            mManger.update();
+        }
     }
 
     public void setAccelHelper(AccelHelper accelHelper) {
         this.mAccelHelper = accelHelper;
+    }
+
+    public void setManger(Live2d3Manager manger) {
+        this.mManger = manger;
     }
 }
