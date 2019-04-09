@@ -188,13 +188,13 @@ void LAppLive2DManager::OnUpdate()
         projection = saveProjection;
 
         // モデル1体描画前コール 
-        LAppDelegate::GetInstance()->GetView()->PreModelDraw(*model);
+        //LAppDelegate::GetInstance()->GetView()->PreModelDraw(*model);
 
         model->Update();
         model->Draw(projection);///< 参照渡しなのでprojectionは変質する
 
         // モデル1体描画後コール 
-        LAppDelegate::GetInstance()->GetView()->PostModelDraw(*model);
+        //LAppDelegate::GetInstance()->GetView()->PostModelDraw(*model);
     }
 }
 
@@ -236,11 +236,11 @@ void LAppLive2DManager::LoadModel(const std::string modePath){
         _models[1]->GetModelMatrix()->TranslateX(0.2f);
 #endif
 
-        LAppDelegate::GetInstance()->GetView()->SwitchRenderingTarget(useRenderTarget);
+        //LAppDelegate::GetInstance()->GetView()->SwitchRenderingTarget(useRenderTarget);
 
         // 別レンダリング先を選択した際の背景クリア色
-        float clearColor[3] = { 1.0f, 1.0f, 1.0f };
-        LAppDelegate::GetInstance()->GetView()->SetRenderTargetClearColor(clearColor[0], clearColor[1], clearColor[2]);
+        //float clearColor[3] = { 1.0f, 1.0f, 1.0f };
+        //LAppDelegate::GetInstance()->GetView()->SetRenderTargetClearColor(clearColor[0], clearColor[1], clearColor[2]);
     }
     LAppPal::PrintLog("LoadModel has spent %f", (LAppPal::GetSystemTime() - startTime));
 }

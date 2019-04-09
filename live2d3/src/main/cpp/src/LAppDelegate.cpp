@@ -50,7 +50,7 @@ LAppDelegate::LAppDelegate():
         //_mouseX(0.0f),
         //_mouseY(0.0f),
         _isActive(true),
-        _textureManager(NULL),
+        //_textureManager(NULL),
         _view(NULL)
 {
     // Setup Cubism
@@ -73,7 +73,6 @@ LAppDelegate::~LAppDelegate()
 
 void LAppDelegate::OnStart()
 {
-    _textureManager = new LAppTextureManager();
     _view = new LAppView();
     LAppPal::UpdateTime();
 }
@@ -85,17 +84,10 @@ void LAppDelegate::OnPause()
 
 void LAppDelegate::OnStop()
 {
-    if (_view)
-    {
+    if (_view) {
         delete _view;
         _view = NULL;
     }
-    if (_textureManager)
-    {
-        delete _textureManager;
-        _textureManager = NULL;
-    }
-
 }
 
 void LAppDelegate::OnDestroy()
@@ -116,10 +108,10 @@ void LAppDelegate::Run()
 
     // Cubism更新・描画
     LAppLive2DManager::GetInstance()->OnUpdate();
-    if (_view != NULL)
+    /*if (_view != NULL)
     {
         _view->Render();
-    }
+    }*/
 
 //    if(_isActive == false)
 //    {
@@ -149,8 +141,8 @@ void LAppDelegate::OnSurfaceChanged(float width, float height)
     _height = height;
 
     //AppViewの初期化
-    _view->Initialize();
-    _view->InitializeSprite();
+    //_view->Initialize();
+    //_view->InitializeSprite();
 
     LAppLive2DManager::GetInstance()->setUpView(width, height);
 

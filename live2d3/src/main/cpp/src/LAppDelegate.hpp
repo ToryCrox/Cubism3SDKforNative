@@ -106,7 +106,7 @@ public:
     /**
     * @brief テクスチャマネージャーの取得
     */
-    LAppTextureManager* GetTextureManager() { return _textureManager; }
+    //LAppTextureManager* GetTextureManager() { return _textureManager; }
 
     /**
     * @brief ウインドウ幅の設定
@@ -153,7 +153,7 @@ private:
 
     LAppAllocator _cubismAllocator;              ///< Cubism3 Allocator
     Csm::CubismFramework::Option _cubismOption;  ///< Cubism3 Option
-    LAppTextureManager* _textureManager;         ///< テクスチャマネージャー
+    //LAppTextureManager* _textureManager;         ///< テクスチャマネージャー
     LAppView* _view;                             ///< View情報
     int _width;                                  ///< Windowの幅
     int _height;                                 ///< windowの高さ

@@ -237,7 +237,7 @@ void LAppView::PostModelDraw(LAppModel &refModel)
     if (_renderTarget != SelectTarget_None)
     {// 別のレンダリングターゲットへ向けて描画する場合 
 
-        // 使用するターゲット 
+        // 使用するターゲット
         useTarget = (_renderTarget == SelectTarget_ViewFrameBuffer) ? &_renderBuffer : &refModel.GetRenderBuffer();
 
         // レンダリング終了 
