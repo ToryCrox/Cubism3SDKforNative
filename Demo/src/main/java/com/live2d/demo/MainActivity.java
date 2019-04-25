@@ -10,10 +10,10 @@ package com.live2d.demo;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.live2d.demo.utils.SystemBarUtils;
-import com.mimikko.live2d3.Live2d3Manager;
 
 import java.util.Arrays;
 import java.util.List;
@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showChangeDialog() {
+        ViewGroup container = findViewById(R.id.container);
+        container.setVisibility(View.GONE);
         new AlertDialog.Builder(this)
                 .setTitle("切换角色")
                 .setSingleChoiceItems(mDirs.toArray(new String[mDirs.size()]), mIndex, (dialog, which) -> {

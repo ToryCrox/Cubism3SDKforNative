@@ -1,6 +1,7 @@
 package com.mimikko.live2d3;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 
 /**
@@ -15,7 +16,7 @@ public class Live2d3Manager {
     private String mModelPath;
     private Live2d3ViewDelegate mViewDelegate;
 
-    public Live2d3Manager(Activity context) {
+    public Live2d3Manager(Context context) {
         JniBridgeJava.setContext(context);
         JniBridgeJava.setManager(this);
         mViewDelegate = new Live2d3ViewDelegate(this, context);
@@ -35,7 +36,7 @@ public class Live2d3Manager {
         loadModel(mModelPath);
     }
 
-    private Live2d3View createView(Activity context) {
+    private Live2d3View createView(Context context) {
         Live2d3View view = new Live2d3View(context);
         view.setDelegate(mViewDelegate);
         return view;

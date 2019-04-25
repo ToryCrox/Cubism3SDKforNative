@@ -1,6 +1,5 @@
 package com.live2d.demo;
 
-import android.app.Activity;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
@@ -17,7 +16,7 @@ public class Live2dDemoManager extends Live2d3Manager implements LifecycleObserv
 
     Context mContext;
 
-    public Live2dDemoManager(Activity context) {
+    public Live2dDemoManager(Context context) {
         super(context);
         mContext = context;
     }
