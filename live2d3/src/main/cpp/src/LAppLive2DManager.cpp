@@ -165,12 +165,7 @@ void LAppLive2DManager::startMotion(const csmChar* filePath,
 
 void LAppLive2DManager::OnUpdate()
 {
-    if (!_modelPath.empty() && (_changeModel
-        || _models.GetSize() <= 0)){
-        _changeModel = false;
-        LoadModel(_modelPath);
-    }
-
+    tryLoadModel();
 
     int width = LAppDelegate::GetInstance()->GetWindowWidth();
     int height = LAppDelegate::GetInstance()->GetWindowHeight();
@@ -195,6 +190,14 @@ void LAppLive2DManager::OnUpdate()
 
         // モデル1体描画後コール 
         //LAppDelegate::GetInstance()->GetView()->PostModelDraw(*model);
+    }
+}
+
+void LAppLive2DManager::tryLoadModel(){
+    if (!_modelPath.empty() && (_changeModel
+                                || _models.GetSize() <= 0)){
+        _changeModel = false;
+        LoadModel(_modelPath);
     }
 }
 

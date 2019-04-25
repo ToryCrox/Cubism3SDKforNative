@@ -22,6 +22,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:label="ServantWallpaper" android:name=".Live2dWallpaperService"
+            android:permission="android.permission.BIND_WALLPAPER"
+            android:process=":core">
+            <intent-filter>
+                <action android:name="android.service.wallpaper.WallpaperService" />
+            </intent-filter>
+            <meta-data android:name="android.service.wallpaper"
+                android:resource="@xml/live2d_wallpaper" />
+        </service>
     </application>
 
 </manifest>

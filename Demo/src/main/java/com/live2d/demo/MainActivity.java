@@ -7,10 +7,12 @@
 
 package com.live2d.demo;
 
+import android.app.WallpaperManager;
+import android.content.ComponentName;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.live2d.demo.utils.SystemBarUtils;
@@ -36,19 +38,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ViewGroup container = findViewById(R.id.container);
         mLive2dManager = new Live2dDemoManager(this);
-        container.addView(mLive2dManager.getLive2dView());
+        container.addView(mLive2dManager.createView(this));
 
-        
         getLifecycle().addObserver(mLive2dManager);
-        
-        findViewById(R.id.btn_change)
-                .setOnClickListener(v -> showChangeDialog());
 
         mLive2dManager.loadModel(mDirs.get(mIndex));
+        mLive2dManager.setBackgroundImage(ContextCompat.getDrawable(this, R.drawable.bg_pic_test2));
+        findViewById(R.id.btn_change)
+                .setOnClickListener(v -> showChangeDialog());
     }
 
     private void showChangeDialog() {
-        ViewGroup container = findViewById(R.id.container);
+        Intent intent = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
+        intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
+                new ComponentName(this, Live2dWallpaperService.class));
+        startActivity(intent);
+        /*ViewGroup container = findViewById(R.id.container);
         container.setVisibility(View.GONE);
         new AlertDialog.Builder(this)
                 .setTitle("切换角色")
@@ -56,6 +61,6 @@ public class MainActivity extends AppCompatActivity {
                     dialog.dismiss();
                     mLive2dManager.loadModel(mDirs.get(which));
                     mIndex = which;
-                }).show();
+                }).show();*/
     }
 }

@@ -15,6 +15,9 @@ public class LogUtils {
         Log.d(TAG, msg);
     }
 
+    public static void d(String tag, String msg){
+        Log.d(TAG, tag + " " +msg);
+    }
 
     public static void e(String msg, Throwable e){
         Log.e(TAG, msg, e);

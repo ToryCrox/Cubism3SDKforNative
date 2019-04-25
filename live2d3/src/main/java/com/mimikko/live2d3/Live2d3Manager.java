@@ -1,8 +1,7 @@
 package com.mimikko.live2d3;
 
-import android.app.Activity;
 import android.content.Context;
-import android.view.View;
+import android.graphics.drawable.Drawable;
 
 /**
  * @author tory
@@ -20,7 +19,10 @@ public class Live2d3Manager {
         JniBridgeJava.setContext(context);
         JniBridgeJava.setManager(this);
         mViewDelegate = new Live2d3ViewDelegate(this, context);
-        mView = createView(context);
+    }
+
+    public Live2d3ViewDelegate getViewDelegate() {
+        return mViewDelegate;
     }
 
     public void loadModel(String path) {
@@ -36,14 +38,17 @@ public class Live2d3Manager {
         loadModel(mModelPath);
     }
 
-    private Live2d3View createView(Context context) {
+    public Live2d3View createView(Context context) {
         Live2d3View view = new Live2d3View(context);
         view.setDelegate(mViewDelegate);
+        mView = view;
         return view;
     }
 
-    public View getLive2dView(){
-        return mView;
+    public void setBackgroundImage(Drawable drawable){
+        if (mViewDelegate.getImageHandler() != null){
+            mViewDelegate.getImageHandler().setImage(drawable);
+        }
     }
 
     public float[] getViewMatrix() {
@@ -58,24 +63,29 @@ public class Live2d3Manager {
     }
 
     public void onStart() {
-        JniBridgeJava.nativeOnStart();
+        mViewDelegate.onStart();
     }
 
     public void onResume() {
-        mView.onResume();
+        if (mView != null){
+            mView.onResume();
+        }
+        mViewDelegate.onResume();
     }
 
     public void onPause() {
-        mView.onPause();
-        JniBridgeJava.nativeOnPause();
+        if (mView != null){
+            mView.onPause();
+        }
+        mViewDelegate.onPause();
     }
 
     public void onStop() {
-        JniBridgeJava.nativeOnStop();
+        mViewDelegate.onStop();
     }
 
     public void onDestroy() {
-        JniBridgeJava.nativeOnDestroy();
+        mViewDelegate.onDestroy();
     }
 
     public void hitTest(String action) {

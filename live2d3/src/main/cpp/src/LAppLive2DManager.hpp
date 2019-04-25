@@ -120,6 +120,8 @@ public:
 
     float *getViewMatrixArray();
 
+    void tryLoadModel();
+
 private:
     /**
     * @brief  コンストラクタ

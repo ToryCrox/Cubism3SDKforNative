@@ -35,7 +35,7 @@ public:
     * @brief   クラスのインスタンス（シングルトン）を解放する。
     *
     */
-    static void ReleaseInstance();
+    void ReleaseInstance();
 
     /**
     * @brief JavaのActivityのOnStart()のコールバック関数。
@@ -67,7 +67,7 @@ public:
      * @param width
      * @param height
      */
-    void OnSurfaceChanged(float width, float height);
+    void OnSurfaceChanged(int width, int height);
 
     /**
     * @brief   実行処理。
@@ -163,4 +163,5 @@ private:
     //float _mouseY;                               ///< マウスY座標
     //float _mouseX;                               ///< マウスX座標
     std::string _modelPath;
+    int _current_id;
 };

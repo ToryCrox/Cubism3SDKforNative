@@ -22,6 +22,7 @@ using namespace LAppDefine;
 
 namespace {
     LAppDelegate* s_instance = NULL;
+    int MAX_ID = 0;
 }
 
 LAppDelegate* LAppDelegate::GetInstance()
@@ -36,6 +37,7 @@ LAppDelegate* LAppDelegate::GetInstance()
 
 void LAppDelegate::ReleaseInstance()
 {
+    LAppPal::PrintLog("ReleaseInstance id=%d", _current_id);
     if (s_instance != NULL)
     {
         delete s_instance;
@@ -61,6 +63,8 @@ LAppDelegate::LAppDelegate():
 
     //Initialize cubism
     CubismFramework::Initialize();
+    _current_id = MAX_ID;
+    MAX_ID ++;
 }
 
 LAppDelegate::~LAppDelegate()
@@ -102,21 +106,12 @@ void LAppDelegate::Run()
 
     // 画面の初期化
     //设置透明
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    //glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClearDepthf(1.0f);
 
     // Cubism更新・描画
     LAppLive2DManager::GetInstance()->OnUpdate();
-    /*if (_view != NULL)
-    {
-        _view->Render();
-    }*/
-
-//    if(_isActive == false)
-//    {
-//        JniBridgeC::MoveTaskToBack();
-//    }
 }
 
 void LAppDelegate::OnSurfaceCreate()
@@ -134,7 +129,7 @@ void LAppDelegate::OnSurfaceCreate()
     //LAppLive2DManager::GetInstance()->ReLoadModel(_modelPath);
 }
 
-void LAppDelegate::OnSurfaceChanged(float width, float height)
+void LAppDelegate::OnSurfaceChanged(int width, int height)
 {
     glViewport(0, 0, width, height);
     _width = width;
@@ -143,8 +138,10 @@ void LAppDelegate::OnSurfaceChanged(float width, float height)
     //AppViewの初期化
     //_view->Initialize();
     //_view->InitializeSprite();
+    LAppPal::PrintLog("LApp.OnSurfaceChanged LApp.id=%d", _current_id);
 
     LAppLive2DManager::GetInstance()->setUpView(width, height);
+    LAppLive2DManager::GetInstance()->tryLoadModel();
 
     _isActive = true;
 }

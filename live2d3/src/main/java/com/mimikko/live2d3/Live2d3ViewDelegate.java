@@ -6,6 +6,9 @@ import android.os.Looper;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.mimikko.live2d3.image.GL20ImageHandler;
+import com.mimikko.live2d3.image.GLImageHandler;
+
 /**
  * @author tory
  * @date 2019/4/8
@@ -18,6 +21,7 @@ public class Live2d3ViewDelegate {
     private AccelHelper mAccelHelper;
     private VisibleCallback mCallback;
     private Live2d3Manager mManager;
+    private GLImageHandler mImageHandler;
 
     public Live2d3ViewDelegate(Live2d3Manager manager, Context context){
         mManager = manager;
@@ -25,6 +29,12 @@ public class Live2d3ViewDelegate {
         mHandler = new Handler(Looper.getMainLooper());
         mAccelHelper = new AccelHelper(context);
         mRender.setAccelHelper(mAccelHelper);
+        mImageHandler = new GL20ImageHandler();
+        mRender.setImageHandler(mImageHandler);
+    }
+
+    public GLImageHandler getImageHandler() {
+        return mImageHandler;
     }
 
     public Live2d3Renderer getRender() {
@@ -68,9 +78,14 @@ public class Live2d3ViewDelegate {
 
 
     public void onPause() {
+        JniBridgeJava.nativeOnPause();
         mHandler.removeCallbacks(mResumeRunnable);
         mHandler.removeCallbacks(mPauseRunnable);
         mHandler.postDelayed(mPauseRunnable, 200);
+    }
+
+    public void onStop() {
+        JniBridgeJava.nativeOnStop();
     }
 
 
@@ -115,6 +130,14 @@ public class Live2d3ViewDelegate {
 
     public void setReload() {
         mManager.setReload();
+    }
+
+    public void onDestroy() {
+        JniBridgeJava.nativeOnDestroy();
+    }
+
+    public void onStart() {
+        JniBridgeJava.nativeOnStart();
     }
 
     public interface VisibleCallback{

@@ -23,8 +23,6 @@ public class Live2d3View extends GLSurfaceView {
         //设置透明
         setEGLConfigChooser(8, 8, 8, 8, 16, 0);
         getHolder().setFormat(PixelFormat.TRANSLUCENT);//为GLSurfaceView指定Alpha通道
-
-
     }
 
     public void setDelegate( Live2d3ViewDelegate delegate){
@@ -36,12 +34,12 @@ public class Live2d3View extends GLSurfaceView {
 
     @Override
     public void onResume() {
-        mDelegate.onResume();
+
     }
 
     @Override
     public void onPause() {
-        mDelegate.onPause();
+
     }
 
     @Override
