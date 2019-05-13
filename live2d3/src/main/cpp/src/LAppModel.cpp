@@ -636,10 +636,11 @@ const csmChar * LAppModel::GetHitArea(csmFloat32 x, csmFloat32 y){
         return NULL;
     }
     const csmInt32 count = _hitAreas.GetSize();
-    for (csmInt32 i = 0; i < count; i++)
+    for (csmInt32 i = count - 1; i >= 0; i--)
     {
         LAppHitArea* hitArea = _hitAreas[i];
         const CubismIdHandle drawID = hitArea->_id;
+        //LAppPal::PrintLog("[APP]areaId drawID: %s" , *(hitArea->_id->GetString()));
         if (drawID != NULL && IsHit(drawID, x, y)) {
             const csmChar* hitAreaName = hitArea->_name;
             return hitAreaName;
@@ -656,7 +657,9 @@ const csmChar* LAppModel::GetHitAreaId(csmFloat32 x, csmFloat32 y){
     for (csmInt32 i = 0; i < count; i++) {
         const CubismIdHandle drawID = _model->GetDrawableId(i);
         if (drawID != NULL && IsHit(drawID, x, y)) {
-            return drawID->GetString().GetRawString();
+            const csmChar* areaId = drawID->GetString().GetRawString();
+            LAppPal::PrintLog("[APP]areaId: [%s]", areaId);
+            return areaId;
         }
     }
     return NULL;

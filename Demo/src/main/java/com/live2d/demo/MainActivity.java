@@ -7,11 +7,8 @@
 
 package com.live2d.demo;
 
-import android.app.WallpaperManager;
-import android.content.ComponentName;
-import android.content.Intent;
+import android.app.AlertDialog;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
 
@@ -24,7 +21,9 @@ public class MainActivity extends AppCompatActivity {
 
     Live2dDemoManager mLive2dManager;
     int mIndex=0;
-    List<String> mDirs = Arrays.asList( "RURI/RURI.model3.json",
+    List<String> mDirs = Arrays.asList(
+            "RURI_NEW/琉璃6_新增表情.model3.json",
+            "RURI/RURI.model3.json",
             "Hiyori/Hiyori.model3.json",
             "Haru/Haru.model3.json",
             "Mark/Mark.model3.json");
@@ -43,24 +42,23 @@ public class MainActivity extends AppCompatActivity {
         getLifecycle().addObserver(mLive2dManager);
 
         mLive2dManager.loadModel(mDirs.get(mIndex));
-        mLive2dManager.setBackgroundImage(ContextCompat.getDrawable(this, R.drawable.bg_pic_test2));
+        //mLive2dManager.setBackgroundImage(ContextCompat.getDrawable(this, R.drawable.bg_pic_test2));
         findViewById(R.id.btn_change)
                 .setOnClickListener(v -> showChangeDialog());
     }
 
     private void showChangeDialog() {
-        Intent intent = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
+        /*Intent intent = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
         intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
                 new ComponentName(this, Live2dWallpaperService.class));
-        startActivity(intent);
-        /*ViewGroup container = findViewById(R.id.container);
-        container.setVisibility(View.GONE);
+        startActivity(intent);*/
+        ViewGroup container = findViewById(R.id.container);
         new AlertDialog.Builder(this)
                 .setTitle("切换角色")
                 .setSingleChoiceItems(mDirs.toArray(new String[mDirs.size()]), mIndex, (dialog, which) -> {
                     dialog.dismiss();
                     mLive2dManager.loadModel(mDirs.get(which));
                     mIndex = which;
-                }).show();*/
+                }).show();
     }
 }
