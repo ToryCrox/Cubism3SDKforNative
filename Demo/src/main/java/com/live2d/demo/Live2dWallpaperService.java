@@ -5,7 +5,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
-import com.live2d.demo.glwpservice.GLWallpaperService;
+import com.aleaf.android.glwallpaperservice.GLWallpaperService;
 import com.mimikko.live2d3.Live2d3ViewDelegate;
 
 /**

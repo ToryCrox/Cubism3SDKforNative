@@ -26,6 +26,7 @@ allprojects {
             }
             url POM_URL
         }
+        maven { url 'https://jitpack.io' }
     }
 }
 

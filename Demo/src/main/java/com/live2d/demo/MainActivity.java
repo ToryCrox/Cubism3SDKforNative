@@ -7,7 +7,9 @@
 
 package com.live2d.demo;
 
-import android.app.AlertDialog;
+import android.app.WallpaperManager;
+import android.content.ComponentName;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
@@ -48,17 +50,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showChangeDialog() {
-        /*Intent intent = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
+        Intent intent = new Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
         intent.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT,
                 new ComponentName(this, Live2dWallpaperService.class));
-        startActivity(intent);*/
-        ViewGroup container = findViewById(R.id.container);
+        startActivity(intent);
+/*        ViewGroup container = findViewById(R.id.container);
         new AlertDialog.Builder(this)
                 .setTitle("切换角色")
                 .setSingleChoiceItems(mDirs.toArray(new String[mDirs.size()]), mIndex, (dialog, which) -> {
                     dialog.dismiss();
                     mLive2dManager.loadModel(mDirs.get(which));
                     mIndex = which;
-                }).show();
+                }).show();*/
     }
 }
