@@ -8,14 +8,16 @@
 package com.mimikko.live2d3;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.FileInputStream;
 import java.lang.ref.WeakReference;
 
 public class JniBridgeJava {
+    private static final String TAG = "JniBridgeJava";
 
     private static final String LIBRARY_NAME = "JniBridge";
     private static Context sContext;
@@ -83,6 +85,7 @@ public class JniBridgeJava {
                 return null;
             }
         } catch(IOException e) {
+            Log.e(TAG, "LoadFile: ", e);
             return null;
         } finally {
             if (is != null){
@@ -105,8 +108,8 @@ public class JniBridgeJava {
 
 
     public static String getDefaultModelFile(String key){
-        return "RURI/RURI.hitareas3.json";
-        //return null;
+        //return "RURI/RURI.hitareas3.json";
+        return null;
     }
 
 }

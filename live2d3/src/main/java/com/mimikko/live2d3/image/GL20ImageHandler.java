@@ -5,8 +5,6 @@ import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.util.Log;
 
-import com.mimikko.mimikkoui.toolkit.log.LogUtils;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -80,7 +78,7 @@ public class GL20ImageHandler extends BaseGLImageHandler {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         super.onSurfaceCreated(gl, config);
-        LogUtils.d(TAG, "onSurfaceCreated: ");
+        Log.d(TAG, "onSurfaceCreated: ");
         // 顶点数组缓冲器
         mGLCubeBuffer = ByteBuffer.allocateDirect(CUBE.length * 4)
                 .order(ByteOrder.nativeOrder())
@@ -101,7 +99,7 @@ public class GL20ImageHandler extends BaseGLImageHandler {
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-        LogUtils.d(TAG, "onSurfaceChanged: ");
+        Log.d(TAG, "onSurfaceChanged: ");
         super.onSurfaceChanged(gl, width, height);
     }
 
@@ -109,7 +107,7 @@ public class GL20ImageHandler extends BaseGLImageHandler {
     public void onDrawFrame(GL10 gl) {
         super.onDrawFrame(gl);
         if (mGLTextureId != NO_TEXTURE){
-            LogUtils.d(TAG, "onDrawFrame: ");
+            Log.d(TAG, "onDrawFrame: ");
             onDraw(mGLTextureId, mGLCubeBuffer, mGLTextureBuffer);
         }
     }
@@ -117,7 +115,7 @@ public class GL20ImageHandler extends BaseGLImageHandler {
     @Override
     protected void adjustImageScaling(int imageWidth, int imageHeight) {
         super.adjustImageScaling(imageWidth, imageHeight);
-        LogUtils.d(TAG, "adjustImageScaling: width="+mOutputWidth + ", height="+mOutputHeight
+        Log.d(TAG, "adjustImageScaling: width="+mOutputWidth + ", height="+mOutputHeight
                 + ", imageWidth="+imageWidth + ", imageHeight="+imageHeight);
        /* float outputWidth = mOutputWidth;
         float outputHeight = mOutputHeight;
@@ -191,7 +189,7 @@ public class GL20ImageHandler extends BaseGLImageHandler {
         if (recycle) {
             img.recycle();
         }
-        LogUtils.d(TAG, "loadTexture: " + textures[0]);
+        Log.d(TAG, "loadTexture: " + textures[0]);
         return textures[0];
     }
 

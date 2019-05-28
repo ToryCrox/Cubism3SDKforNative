@@ -2,6 +2,7 @@ package com.mimikko.live2d3;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 /**
  * @author tory
@@ -30,7 +31,7 @@ public class Live2d3Manager {
         try {
             JniBridgeJava.nativeLoadModel(path, getViewMatrix());
         } catch (Exception e){
-            e.printStackTrace();
+            Log.e(TAG, "loadModel: ", e);
         }
     }
 

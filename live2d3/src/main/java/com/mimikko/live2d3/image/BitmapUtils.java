@@ -6,8 +6,6 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 /**
  * @author tory
@@ -22,7 +20,7 @@ public class BitmapUtils {
      * @param bitmap
      * @return
      */
-    public static boolean isAvailable(@Nullable Bitmap bitmap){
+    public static boolean isAvailable(Bitmap bitmap){
         return bitmap != null && !bitmap.isRecycled();
     }
 
@@ -30,7 +28,7 @@ public class BitmapUtils {
      * recycler bitmap
      * @param bitmap
      */
-    public static void safelyRecycle(@Nullable Bitmap bitmap){
+    public static void safelyRecycle( Bitmap bitmap){
         if(bitmap != null && !bitmap.isRecycled()){
             bitmap.recycle();
         }
@@ -44,8 +42,7 @@ public class BitmapUtils {
      * @param targetHeight
      * @return
      */
-    @Nullable
-    public static Bitmap scaleCenterCrop2(@Nullable Bitmap src, int targetWidth, int targetHeight){
+    public static Bitmap scaleCenterCrop2(Bitmap src, int targetWidth, int targetHeight){
         if (!isAvailable(src)){
             return null;
         }
@@ -79,9 +76,7 @@ public class BitmapUtils {
         return bitmap;
     }
 
-
-    @Nullable
-    public static Bitmap scaleCenterCrop(@Nullable Bitmap src, int targetWidth, int targetHeight){
+    public static Bitmap scaleCenterCrop( Bitmap src, int targetWidth, int targetHeight){
         if (!isAvailable(src)){
             return null;
         }
@@ -117,8 +112,7 @@ public class BitmapUtils {
      * @param drawable
      * @return
      */
-    @NonNull
-    private static Bitmap toBitmap(@NonNull Drawable drawable, int width, int height, boolean setBound) {
+    private static Bitmap toBitmap( Drawable drawable, int width, int height, boolean setBound) {
         Bitmap.Config config = drawable.getOpacity() != PixelFormat.OPAQUE ?
                 Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565;// 取 drawable 的颜色格式
         Bitmap bitmap = Bitmap.createBitmap(width, height, config);// 建立对应 bitmap
@@ -130,7 +124,7 @@ public class BitmapUtils {
         return bitmap;
     }
 
-    public static Bitmap toScaledBitmap(@NonNull Drawable drawable, int targetWidth, int targetHeight){
+    public static Bitmap toScaledBitmap( Drawable drawable, int targetWidth, int targetHeight){
         Drawable.ConstantState state = drawable.getConstantState();
         if (state == null){
             return null;

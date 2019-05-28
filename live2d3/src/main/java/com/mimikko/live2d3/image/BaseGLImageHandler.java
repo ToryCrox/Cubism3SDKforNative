@@ -2,9 +2,7 @@ package com.mimikko.live2d3.image;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-
-import com.mimikko.mimikkoui.toolkit.log.LogUtils;
-import com.mimikko.mimikkoui.toolkit.utils.TimeRecorder;
+import android.util.Log;
 
 import java.nio.FloatBuffer;
 
@@ -37,7 +35,6 @@ public class BaseGLImageHandler implements GLImageHandler {
 
     private void tryLoadBitmap(GL10 gl) {
         if (mImage != null) {
-            TimeRecorder.begin("loadTexture");
             Bitmap bmp = BitmapUtils.toScaledBitmap(mImage, mOutputWidth, mOutputHeight);
             if (bmp == null){
                 return;
@@ -46,7 +43,6 @@ public class BaseGLImageHandler implements GLImageHandler {
             int imageHeight = bmp.getHeight();
             mGLTextureId = loadTexture(gl, bmp, mGLTextureId, true);
             adjustImageScaling(imageWidth, imageHeight);
-            TimeRecorder.end("loadTexture");
             mImage = null;
         }
     }
@@ -60,7 +56,7 @@ public class BaseGLImageHandler implements GLImageHandler {
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         mOutputWidth = width;
         mOutputHeight = height;
-        LogUtils.d(TAG, "onSurfaceChanged: ");
+        Log.d(TAG, "onSurfaceChanged: ");
         tryLoadBitmap(gl);
     }
 

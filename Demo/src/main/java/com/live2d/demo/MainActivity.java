@@ -24,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
     Live2dDemoManager mLive2dManager;
     int mIndex=0;
     List<String> mDirs = Arrays.asList(
-            "RURI_NEW/琉璃6_新增表情.model3.json",
-            "RURI/RURI.model3.json",
+            /*"RURI_NEW/琉璃6_新增表情.model3.json",
+            "RURI/RURI.model3.json",*/
             "Hiyori/Hiyori.model3.json",
             "Haru/Haru.model3.json",
             "Mark/Mark.model3.json");

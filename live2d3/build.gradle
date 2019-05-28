@@ -32,7 +32,7 @@ android {
 }
 
 dependencies {
-    implementation "com.mimikko.mimikkoui:mimikko_log:1.0.2"
+    //implementation "com.mimikko.mimikkoui:mimikko_log:1.0.2"
 }
 
-apply from: "./maven_upload.gradle"
+//apply from: "./maven_upload.gradle"

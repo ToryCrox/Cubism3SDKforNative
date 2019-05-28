@@ -19,13 +19,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven {
-            credentials {
-                username POM_USER_NAME
-                password POM_USER_PASS
-            }
-            url POM_URL
-        }
         maven { url 'https://jitpack.io' }
     }
 }

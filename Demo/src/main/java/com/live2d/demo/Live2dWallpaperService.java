@@ -2,6 +2,7 @@ package com.live2d.demo;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
@@ -37,15 +38,15 @@ public class Live2dWallpaperService extends GLWallpaperService {
             mDelegate = mLive2dManager.getViewDelegate();
             setRenderer(mDelegate.getRender());
             mLive2dManager.setBackgroundImage(ContextCompat.getDrawable(context, R.drawable.bg_pic_test2));
-            mLive2dManager.loadModel("RURI/RURI.model3.json");
-            LogUtils.d(TAG, "MyEngine");
+            mLive2dManager.loadModel("Hiyori/Hiyori.model3.json");
+            Log.d(TAG, "MyEngine");
         }
 
         @Override
         public void onCreate(SurfaceHolder surfaceHolder) {
             super.onCreate(surfaceHolder);
 
-            LogUtils.d(TAG, "onCreate");
+            Log.d(TAG, "onCreate");
         }
 
         @Override
@@ -53,7 +54,7 @@ public class Live2dWallpaperService extends GLWallpaperService {
             //super.onResume();
             mLive2dManager.onStart();
             mLive2dManager.onResume();
-            LogUtils.d(TAG, "onResume");
+            Log.d(TAG, "onResume");
         }
 
         @Override
@@ -61,21 +62,21 @@ public class Live2dWallpaperService extends GLWallpaperService {
             //super.onPause();
             mLive2dManager.onPause();
             mLive2dManager.onStop();
-            LogUtils.d(TAG, "onPause");
+            Log.d(TAG, "onPause");
         }
 
         @Override
         public void onTouchEvent(MotionEvent event) {
             super.onTouchEvent(event);
             mDelegate.onTouchEvent(event);
-            LogUtils.d(TAG, "onTouchEvent");
+            Log.d(TAG, "onTouchEvent");
         }
 
         @Override
         public void onDestroy() {
             super.onDestroy();
             mLive2dManager.onDestroy();
-            LogUtils.d(TAG, "onDestroy");
+            Log.d(TAG, "onDestroy");
 
         }
     }
