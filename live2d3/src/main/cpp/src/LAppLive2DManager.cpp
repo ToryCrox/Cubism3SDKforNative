@@ -141,15 +141,12 @@ void LAppLive2DManager::OnTap(csmFloat32 x, csmFloat32 y)
     {
         const csmChar* hitArea = _models[i]->GetHitArea(x, y);
         if (hitArea != NULL){
-            if (strcmp(hitArea, HitAreaNameHead) == 0){
+            /*if (strcmp(hitArea, HitAreaNameHead) == 0){
                 _models[i]->SetRandomExpression();
             } else if (strcmp(hitArea, HitAreaNameBody) == 0){
                 _models[i]->StartRandomMotion(MotionGroupTapBody, PriorityNormal);
-            }
+            }*/
             JniBridgeC::hitTest(hitArea);
-        } else {
-            const csmChar* hitAreaId = _models[i]->GetHitAreaId(x, y);
-            JniBridgeC::hitTest(hitAreaId);
         }
     }
 }

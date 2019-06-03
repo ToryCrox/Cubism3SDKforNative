@@ -1,0 +1,44 @@
+{
+  "HitAreas": [
+    {
+      "action": 1,
+      "Name": "tap_face",
+      "Id": "HitArea2"
+    },
+    {
+      "action": 1,
+      "Name": "tap_x",
+      "Id": "HitArea3"
+    },
+    {
+      "action": 1,
+      "Name": "tap_hand",
+      "Id": "HitArea7"
+    },
+    {
+      "action": 1,
+      "Name": "tap_hand",
+      "Id": "HitArea8"
+    },
+    {
+      "action": 1,
+      "Name": "tap_waist",
+      "Id": "HitArea5"
+    },
+    {
+      "action": 1,
+      "Name": "tap_chest",
+      "Id": "HitArea4"
+    },
+    {
+      "action": 1,
+      "Name": "tap_head",
+      "Id": "HitArea"
+    },
+    {
+      "action": 1,
+      "Name": "tap_leg",
+      "Id": "HitArea6"
+    }
+  ]
+}

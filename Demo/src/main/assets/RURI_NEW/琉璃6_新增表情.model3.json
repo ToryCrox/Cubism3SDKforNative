@@ -1,0 +1,87 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "琉璃6_新增表情.moc3",
+		"Textures": [
+			"琉璃6_新增表情.2048/texture_00.png",
+			"琉璃6_新增表情.2048/texture_01.png",
+			"琉璃6_新增表情.2048/texture_02.png",
+			"琉璃6_新增表情.2048/texture_03.png"
+		],
+		"Physics": "RURI.physics3.json",
+		"HitAreas": "RURI.hitareas3.json",
+		"Motions": {
+			"Idle": [
+				{
+					"File": "motions/LL21605KJ.motion3.json",
+					"FadeInTime": 1.0,
+					"FadeOutTime": 1.0
+				},
+				{
+					"File": "motions/LL21606KJ.motion3.json",
+					"FadeInTime": 1.0,
+					"FadeOutTime": 1.0
+				},
+				{
+					"File": "motions/LL21701CJ.motion3.json",
+					"FadeInTime": 1.0,
+					"FadeOutTime": 1.0
+				},
+				{
+					"File": "motions/LL21702CJ.motion3.json",
+					"FadeInTime": 1.0,
+					"FadeOutTime": 1.0
+				},
+				{
+					"File": "motions/LL21703CJ.motion3.json",
+					"FadeInTime": 1.0,
+					"FadeOutTime": 1.0
+				},
+				{
+					"File": "motions/LL21704CJ.motion3.json",
+					"FadeInTime": 1.0,
+					"FadeOutTime": 1.0
+				},
+				{
+					"File": "motions/LL21705KJ.motion3.json",
+					"FadeInTime": 1.0,
+					"FadeOutTime": 1.0
+				},
+				{
+					"File": "motions/LL21706KJ.motion3.json",
+					"FadeInTime": 1.0,
+					"FadeOutTime": 1.0
+				},
+				{
+					"File": "motions/LL21707KJ.motion3.json",
+					"FadeInTime": 1.0,
+					"FadeOutTime": 1.0
+				}
+			]
+		}
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": [
+				"PARAM_MOUTH_OPEN_Y"
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		}
+	],
+	"HitAreas": [
+		{
+			"Id": "HitArea",
+			"Name": "Head"
+		},
+		{
+			"Id": "HitArea2",
+			"Name": "Chest"
+		}
+	]
+}

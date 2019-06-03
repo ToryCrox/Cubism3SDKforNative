@@ -1,7 +1,7 @@
 package com.live2d.demo;
 
 import android.content.Context;
-import android.util.Log;
+import android.widget.Toast;
 
 import com.mimikko.live2d3.IPlatform3Manager;
 
@@ -24,6 +24,7 @@ public class PlatformManager implements IPlatform3Manager {
 
     @Override
     public byte[] loadBytes(String filePath) {
+        LogUtils.e(TAG, "loadBytes: filePath="+filePath);
         if (filePath == null){
             return null;
         }
@@ -37,12 +38,14 @@ public class PlatformManager implements IPlatform3Manager {
             int fileSize = is.available();
             byte[] fileBuffer = new byte[fileSize];
             if (is.read(fileBuffer, 0, fileSize) != -1){
+                LogUtils.e(TAG, "loadBytes: fileBuffer=" + fileBuffer.length);
                 return fileBuffer;
             } else {
+                LogUtils.e(TAG, "loadBytes: null byte");
                 return null;
             }
         } catch(IOException e) {
-            Log.e(TAG, "LoadFile: ", e);
+            LogUtils.e(TAG, "LoadFile: ", e);
             return null;
         } finally {
             if (is != null){
@@ -67,6 +70,6 @@ public class PlatformManager implements IPlatform3Manager {
 
     @Override
     public void hitTest(String action) {
-
+        Toast.makeText(mContext, "hitTest:" + action, Toast.LENGTH_SHORT).show();
     }
 }
