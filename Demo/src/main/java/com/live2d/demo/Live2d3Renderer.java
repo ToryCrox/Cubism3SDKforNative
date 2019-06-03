@@ -24,6 +24,8 @@ public class Live2d3Renderer implements GLSurfaceView.Renderer {
 
     public void setImageHandler(GLImageHandler imageHandler){
         mImageHandler = imageHandler;
+        JniBridgeJava.nativeSetAutoRandomMotion(true);
+        JniBridgeJava.nativeSetDebugLog(true);
     }
 
     @Override

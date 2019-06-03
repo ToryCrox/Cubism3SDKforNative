@@ -13,47 +13,11 @@
 		"Motions": {
 			"Idle": [
 				{
-					"File": "motions/LL21605KJ.motion3.json",
+					"File": "motions/idle3.json",
 					"FadeInTime": 1.0,
 					"FadeOutTime": 1.0
-				},
-				{
-					"File": "motions/LL21606KJ.motion3.json",
-					"FadeInTime": 1.0,
-					"FadeOutTime": 1.0
-				},
-				{
-					"File": "motions/LL21701CJ.motion3.json",
-					"FadeInTime": 1.0,
-					"FadeOutTime": 1.0
-				},
-				{
-					"File": "motions/LL21702CJ.motion3.json",
-					"FadeInTime": 1.0,
-					"FadeOutTime": 1.0
-				},
-				{
-					"File": "motions/LL21703CJ.motion3.json",
-					"FadeInTime": 1.0,
-					"FadeOutTime": 1.0
-				},
-				{
-					"File": "motions/LL21704CJ.motion3.json",
-					"FadeInTime": 1.0,
-					"FadeOutTime": 1.0
-				},
-				{
-					"File": "motions/LL21705KJ.motion3.json",
-					"FadeInTime": 1.0,
-					"FadeOutTime": 1.0
-				},
-				{
-					"File": "motions/LL21706KJ.motion3.json",
-					"FadeInTime": 1.0,
-					"FadeOutTime": 1.0
-				},
-				{
-					"File": "motions/LL21707KJ.motion3.json",
+				},{
+					"File": "motions/LL10703KJ.motion3.json",
 					"FadeInTime": 1.0,
 					"FadeOutTime": 1.0
 				}

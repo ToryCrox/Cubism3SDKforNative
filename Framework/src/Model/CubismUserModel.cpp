@@ -53,9 +53,13 @@ CubismUserModel::~CubismUserModel()
 {
     CSM_DELETE(_motionManager);
     CSM_DELETE(_expressionManager);
-    _moc->DeleteModel(_model);
-    CubismMoc::Delete(_moc);
-    CSM_DELETE(_modelMatrix);
+    if (_moc != NULL){
+        _moc->DeleteModel(_model);
+        CubismMoc::Delete(_moc);
+    }
+    if (_modelMatrix != NULL){
+        CSM_DELETE(_modelMatrix);
+    }
     CubismPose::Delete(_pose);
     CubismEyeBlink::Delete(_eyeBlink);
     CubismBreath::Delete(_breath);

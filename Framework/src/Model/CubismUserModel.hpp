@@ -268,6 +268,7 @@ protected:
 
     CubismMotionManager*    _motionManager;             ///< モーション管理
     CubismMotionManager*    _expressionManager;         ///< 表情管理
+    CubismMotionManager*    _lipSyncMotionManager;         ///< 口型管理
     CubismEyeBlink*         _eyeBlink;                  ///< 自動まばたき
     CubismBreath*           _breath;                    ///< 呼吸
     CubismModelMatrix*      _modelMatrix;               ///< モデル行列

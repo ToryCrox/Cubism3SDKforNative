@@ -64,21 +64,26 @@ LAppModel::LAppModel()
     _idParamEyeBallY = CubismFramework::GetIdManager()->GetId(ParamEyeBallY);
 
     _textureManager = new LAppTextureManager();
+    _lipSyncMotionManager = CSM_NEW CubismMotionManager();
 }
 
 LAppModel::~LAppModel()
 {
+    CSM_DELETE(_lipSyncMotionManager);
     _renderBuffer.DestroyOffscreenFrame();
 
     ReleaseMotions();
     ReleaseExpressions();
 
-    for (csmInt32 i = 0; i < _modelSetting->GetMotionGroupCount(); i++)
-    {
-        const csmChar* group = _modelSetting->GetMotionGroupName(i);
-        ReleaseMotionGroup(group);
+    if (_modelSetting != NULL){
+        for (csmInt32 i = 0; i < _modelSetting->GetMotionGroupCount(); i++)
+        {
+            const csmChar* group = _modelSetting->GetMotionGroupName(i);
+            ReleaseMotionGroup(group);
+        }
+        delete _modelSetting;
+        _modelSetting = NULL;
     }
-    delete _modelSetting;
 
     if (_textureManager)
     {
@@ -87,7 +92,7 @@ LAppModel::~LAppModel()
     }
 }
 
-void LAppModel::LoadAssets(const csmChar* dir, const csmChar* fileName)
+csmBool LAppModel::LoadAssets(const csmChar* dir, const csmChar* fileName)
 {
     _modelHomeDir = dir;
 
@@ -100,18 +105,25 @@ void LAppModel::LoadAssets(const csmChar* dir, const csmChar* fileName)
     const csmString path = csmString(dir) + fileName;
 
     csmByte* buffer = CreateBuffer(path.GetRawString(), &size);
+    if (buffer == NULL){
+        LAppPal::PrintLog("[APP]load model error, fileName=%s", fileName);
+        return false;
+    }
     ICubismModelSetting* setting = new CubismModelSettingJson(buffer, size);
     DeleteBuffer(buffer, path.GetRawString());
 
-    SetupModel(setting);
+    if (!SetupModel(setting)){
+        return false;
+    }
 
     CreateRenderer();
 
     SetupTextures();
+    return true;
 }
 
 
-void LAppModel::SetupModel(ICubismModelSetting* setting)
+Csm::csmBool LAppModel::SetupModel(ICubismModelSetting* setting)
 {
     _updating = true;
     _initialized = false;
@@ -133,6 +145,10 @@ void LAppModel::SetupModel(ICubismModelSetting* setting)
         }
 
         buffer = CreateBuffer(path.GetRawString(), &size);
+        if (buffer == NULL){
+            LAppPal::PrintLog("[APP]create model, error: %s", setting->GetModelFileName());
+            return false;
+        }
         LoadModel(buffer, size);
         DeleteBuffer(buffer, path.GetRawString());
         if (_debugMode)
@@ -260,9 +276,11 @@ void LAppModel::SetupModel(ICubismModelSetting* setting)
     }
 
     _motionManager->StopAllMotions();
+    _lipSyncMotionManager->StopAllMotions();
 
     _updating = false;
     _initialized = true;
+    return true;
 }
 
 csmString LAppModel::JoinModelPath(const csmChar* path){
@@ -303,10 +321,13 @@ void LAppModel::LoadHitAreas(csmString hitAreasPath){
         }
     }
     csmUint32 len = _hitAreas.GetSize();
+    LAppPal::PrintLog("LoadHitAreas DebugLogEnable=%d", DebugLogEnable);
     for (int i = 0; i < len; ++i) {
         LAppHitArea* hitArea = _hitAreas[i];
-        LAppPal::PrintLog("LoadHitAreas name=%s, id=%s", hitArea->_name,
-                hitArea->_id->GetString().GetRawString());
+        if (DebugLogEnable){
+            LAppPal::PrintLog("LoadHitAreas name=%s, id=%s", hitArea->_name,
+                              hitArea->_id->GetString().GetRawString());
+        }
     }
 }
 
@@ -412,7 +433,7 @@ void LAppModel::Update()
 
     //-----------------------------------------------------------------
     _model->LoadParameters(); // 前回セーブされた状態をロード
-    if (_motionManager->IsFinished())
+    if (LAppDefine::AutoRandomMotion &&  _motionManager->IsFinished())
     {
         // モーションの再生がない場合、待機モーションの中からランダムで再生する
         StartRandomMotion(MotionGroupIdle, PriorityIdle);
@@ -423,7 +444,7 @@ void LAppModel::Update()
     }
     _model->SaveParameters(); // 状態を保存
     //-----------------------------------------------------------------
-    
+
     // まばたき
     if (!motionUpdated)
     {
@@ -432,6 +453,10 @@ void LAppModel::Update()
             // メインモーションの更新がないとき
             _eyeBlink->UpdateParameters(_model, deltaTimeSeconds); // 目パチ
         }
+    }
+
+    if (_lipSyncMotionManager != NULL){
+        _lipSyncMotionManager->UpdateMotion(_model, deltaTimeSeconds);
     }
 
     if (_expressionManager != NULL)
@@ -513,6 +538,34 @@ CubismMotionQueueEntryHandle LAppModel::StartMotion(const csmChar* filePath,
     return  _motionManager->StartMotionPriority(motion, false, PriorityNormal);
 }
 
+CubismMotionQueueEntryHandle LAppModel::StartLipSyncMotion(const csmChar* filePath,
+                                                           csmFloat32 fadeInSeconds, csmFloat32 fadeOutSeconds){
+    csmString path = filePath;
+
+    csmByte* buffer;
+    csmSizeInt size;
+    buffer = CreateBuffer(path.GetRawString(), &size);
+    CubismMotion* motion = static_cast<CubismMotion*>(LoadMotion(buffer, size, NULL));
+    if (motion == NULL){
+        return NULL;
+    }
+    if (fadeInSeconds >= 0.0f) {
+        motion->SetFadeInTime(fadeInSeconds);
+    }
+    if (fadeOutSeconds >= 0.0f) {
+        motion->SetFadeOutTime(fadeOutSeconds);
+    }
+    motion->SetEffectIds(_eyeBlinkIds, _lipSyncIds);
+
+    DeleteBuffer(buffer, path.GetRawString());
+
+    if (_debugMode) {
+        LAppPal::PrintLog("[APP]StartLipSyncMotion motion: [filePath=%s, fadeInSeconds=%f"
+                          "fadeOutSeconds=%fadeOutSeconds]", filePath, fadeInSeconds, fadeOutSeconds);
+    }
+    return  _lipSyncMotionManager->StartMotionPriority(motion, false, PriorityNormal);
+}
+
 CubismMotionQueueEntryHandle LAppModel::StartMotion(const csmChar* group, csmInt32 no, csmInt32 priority)
 {
     if (priority == PriorityForce)
@@ -584,7 +637,7 @@ CubismMotionQueueEntryHandle LAppModel::StartRandomMotion(const csmChar* group, 
     }
 
     csmInt32 no = rand() % _modelSetting->GetMotionCount(group);
-
+    LAppPal::PrintMessage("StartRandomMotion");
     return StartMotion(group, no, priority);
 }
 

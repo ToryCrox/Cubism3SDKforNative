@@ -48,7 +48,7 @@ public:
      * @brief model3.jsonが置かれたディレクトリとファイルパスからモデルを生成する
      *
      */
-    void LoadAssets(const Csm::csmChar* dir, const  Csm::csmChar* fileName);
+    Csm::csmBool LoadAssets(const Csm::csmChar* dir, const  Csm::csmChar* fileName);
 
     /**
      * @brief レンダラを再構築する
@@ -143,6 +143,17 @@ public:
     StartMotion(const Csm::csmChar *path,
                 Csm::csmFloat32 fadeInSeconds, Csm::csmFloat32 fadeOutSeconds);
 
+
+    /**
+     * 执行口型动作
+     * @param path
+     * @param priority
+     * @return
+     */
+    Csm::CubismMotionQueueEntryHandle
+    StartLipSyncMotion(const Csm::csmChar *path,
+                Csm::csmFloat32 fadeInSeconds, Csm::csmFloat32 fadeOutSeconds);
+
     /**
      * 获取点击区域的id，仅测试用
      * @param x
@@ -167,7 +178,7 @@ private:
      * @param[in]   setting     ICubismModelSettingのインスタンス
      *
      */
-    void SetupModel(Csm::ICubismModelSetting* setting);
+    Csm::csmBool SetupModel(Csm::ICubismModelSetting* setting);
 
     /**
      * @brief OpenGLのテクスチャユニットにテクスチャをロードする

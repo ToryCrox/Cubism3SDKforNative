@@ -10,6 +10,7 @@
 #include "JniBridgeC.hpp"
 #include "LAppDelegate.hpp"
 #include "LAppPal.hpp"
+#include "LAppDefine.hpp"
 
 using namespace Csm;
 
@@ -223,8 +224,22 @@ extern "C"
                                                                     jfloat fadeInSeconds,
                                                                     jfloat fadeOutSeconds) {
         const char *modelPath = env->GetStringUTFChars(modelPath_, 0);
-
-
+        LAppLive2DManager::GetInstance()->startLipSyncMotion(modelPath, fadeInSeconds, fadeOutSeconds);
         env->ReleaseStringUTFChars(modelPath_, modelPath);
+    }
+
+    JNIEXPORT void JNICALL
+    Java_com_mimikko_live2d3_JniBridgeJava_nativeSetAutoRandomMotion(JNIEnv *env, jclass type,
+                                                                     jboolean b) {
+        LAppDefine::AutoRandomMotion = b;
+        LAppPal::PrintLog("nativeSetAutoRandomMotion AutoRandomMotion:%d", LAppDefine::AutoRandomMotion);
+    }
+
+
+    JNIEXPORT void JNICALL
+    Java_com_mimikko_live2d3_JniBridgeJava_nativeSetDebugLog(JNIEnv *env, jclass type, jboolean b) {
+
+        LAppDefine::DebugLogEnable = b;
+        LAppPal::PrintLog("nativeSetDebugLog DebugLogEnable:%d", LAppDefine::DebugLogEnable);
     }
 }

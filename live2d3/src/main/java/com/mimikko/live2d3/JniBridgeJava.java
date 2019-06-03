@@ -51,6 +51,9 @@ public class JniBridgeJava {
 
     public static native float[] nativeGetMatrixArray();
 
+    public static native void nativeSetAutoRandomMotion(boolean b);
+    public static native void nativeSetDebugLog(boolean b);
+
 
     // Java -----------------------------------------------------------------
 

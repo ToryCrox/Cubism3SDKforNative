@@ -118,6 +118,10 @@ public:
                      Csm::csmFloat32 fadeInSeconds,
                      Csm::csmFloat32 fadeOutSeconds);
 
+    void startLipSyncMotion(const Csm::csmChar *filePath,
+                     Csm::csmFloat32 fadeInSeconds,
+                     Csm::csmFloat32 fadeOutSeconds);
+
     float *getViewMatrixArray();
 
     void tryLoadModel();
