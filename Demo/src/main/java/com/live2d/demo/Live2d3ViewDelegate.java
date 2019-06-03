@@ -1,4 +1,4 @@
-package com.mimikko.live2d3;
+package com.live2d.demo;
 
 import android.content.Context;
 import android.os.Handler;
@@ -6,8 +6,9 @@ import android.os.Looper;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.mimikko.live2d3.image.GL20ImageHandler;
-import com.mimikko.live2d3.image.GLImageHandler;
+import com.live2d.demo.image.GL20ImageHandler;
+import com.live2d.demo.image.GLImageHandler;
+import com.mimikko.live2d3.JniBridgeJava;
 
 /**
  * @author tory

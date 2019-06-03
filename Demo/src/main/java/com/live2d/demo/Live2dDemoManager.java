@@ -5,7 +5,7 @@ import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
 
-import com.mimikko.live2d3.Live2d3Manager;
+import com.mimikko.live2d3.JniBridgeJava;
 
 /**
  * @author tory
@@ -19,6 +19,7 @@ public class Live2dDemoManager extends Live2d3Manager implements LifecycleObserv
     public Live2dDemoManager(Context context) {
         super(context);
         mContext = context;
+        JniBridgeJava.setPlatformManager(new PlatformManager(context));
     }
 
     @Override

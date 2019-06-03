@@ -216,4 +216,15 @@ extern "C"
         env->SetFloatArrayRegion(result, 0, size, array);
         return result;
     }
+
+    JNIEXPORT void JNICALL
+    Java_com_mimikko_live2d3_JniBridgeJava_nativeStartLipSyncMotion(JNIEnv *env, jclass type,
+                                                                    jstring modelPath_,
+                                                                    jfloat fadeInSeconds,
+                                                                    jfloat fadeOutSeconds) {
+        const char *modelPath = env->GetStringUTFChars(modelPath_, 0);
+
+
+        env->ReleaseStringUTFChars(modelPath_, modelPath);
+    }
 }

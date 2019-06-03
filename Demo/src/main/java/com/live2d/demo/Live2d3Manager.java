@@ -1,8 +1,10 @@
-package com.mimikko.live2d3;
+package com.live2d.demo;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+
+import com.mimikko.live2d3.JniBridgeJava;
 
 /**
  * @author tory
@@ -17,8 +19,6 @@ public class Live2d3Manager {
     private Live2d3ViewDelegate mViewDelegate;
 
     public Live2d3Manager(Context context) {
-        JniBridgeJava.setContext(context);
-        JniBridgeJava.setManager(this);
         mViewDelegate = new Live2d3ViewDelegate(this, context);
     }
 

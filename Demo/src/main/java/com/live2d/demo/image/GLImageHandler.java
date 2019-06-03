@@ -1,4 +1,4 @@
-package com.mimikko.live2d3.image;
+package com.live2d.demo.image;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;

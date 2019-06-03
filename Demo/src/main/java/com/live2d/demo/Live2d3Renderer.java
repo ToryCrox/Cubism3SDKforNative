@@ -5,12 +5,13 @@
  * that can be found at http://live2d.com/eula/live2d-open-software-license-agreement_en.html.
  */
 
-package com.mimikko.live2d3;
+package com.live2d.demo;
 
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
-import com.mimikko.live2d3.image.GLImageHandler;
+import com.live2d.demo.image.GLImageHandler;
+import com.mimikko.live2d3.JniBridgeJava;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;

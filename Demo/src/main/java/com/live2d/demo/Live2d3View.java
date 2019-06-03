@@ -1,4 +1,4 @@
-package com.mimikko.live2d3;
+package com.live2d.demo;
 
 import android.content.Context;
 import android.graphics.PixelFormat;

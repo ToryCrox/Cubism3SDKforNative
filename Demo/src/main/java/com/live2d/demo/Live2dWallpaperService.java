@@ -7,7 +7,6 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import com.aleaf.android.glwallpaperservice.GLWallpaperService;
-import com.mimikko.live2d3.Live2d3ViewDelegate;
 
 /**
  * @author tory

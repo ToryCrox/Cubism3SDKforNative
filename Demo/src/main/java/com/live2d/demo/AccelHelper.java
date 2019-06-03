@@ -5,7 +5,7 @@
  *
  *  (c) Live2D Inc. All rights reserved.
  */
-package com.mimikko.live2d3;
+package com.live2d.demo;
 
 import android.app.Activity;
 import android.content.Context;
