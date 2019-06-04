@@ -216,6 +216,13 @@ extern "C"
     }
 
     JNIEXPORT void JNICALL
+    Java_com_mimikko_live2d3_JniBridgeJava_nativeSetModelScale(JNIEnv *env, jclass type, jint id, jfloat scale) {
+
+        LAppDelegate::GetInstance(id)->SetModelScale(scale);
+
+    }
+
+    JNIEXPORT void JNICALL
     Java_com_mimikko_live2d3_JniBridgeJava_nativeStartLipSyncMotion(JNIEnv *env, jclass type, jint id,
                                                                     jstring modelPath_,
                                                                     jfloat fadeInSeconds,

@@ -49,6 +49,8 @@ public class JniBridgeJava {
 
     static native float[] nativeGetMatrixArray(int id);
 
+    static native void nativeSetModelScale(int id, float scale);
+
     static native void nativeSetAutoRandomMotion(boolean b);
     static native void nativeSetDebugLog(boolean b);
 

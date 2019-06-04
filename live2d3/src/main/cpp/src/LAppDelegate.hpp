@@ -144,6 +144,8 @@ public:
         return _handlerId;
     }
 
+    void SetModelScale(float scale);
+
 private:
     /**
     * @brief   コンストラクタ

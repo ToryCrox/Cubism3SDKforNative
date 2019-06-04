@@ -221,8 +221,9 @@ void LAppLive2DManager::LoadModel(const std::string modePath){
 
     LAppModel* model = new LAppModel();
     Csm::csmBool result = model->LoadAssets(parentPath.c_str(), modelName.c_str());
-    LAppPal::PrintLog("[APP]LoadModel after LoadAssets, result=%d", result);
+    LAppPal::PrintLog("[APP]LoadModel after LoadAssets, result=%d, _modelScale=%f", result, _modelScale);
     if (result){
+        model->setModelScale(_modelScale);
         ReleaseAllModel();
         LAppPal::PrintLog("[APP]LoadModel after ReleaseAllModel");
         _models.PushBack(model);

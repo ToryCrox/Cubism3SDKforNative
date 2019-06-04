@@ -122,6 +122,12 @@ csmBool LAppModel::LoadAssets(const csmChar* dir, const csmChar* fileName)
     return true;
 }
 
+void LAppModel::setModelScale(float scale) {
+    if (_modelMatrix != NULL){
+        _modelMatrix->SetWidth(scale < 1.0f ? 1.0f : scale);
+    }
+}
+
 
 Csm::csmBool LAppModel::SetupModel(ICubismModelSetting* setting)
 {
@@ -517,6 +523,10 @@ CubismMotionQueueEntryHandle LAppModel::StartMotion(const csmChar* filePath,
     csmByte* buffer;
     csmSizeInt size;
     buffer = CreateBuffer(path.GetRawString(), &size);
+    if (buffer == NULL){
+        LAppPal::PrintLog("[APP]StartMotion, no file: filePath=%s", filePath);
+        return NULL;
+    }
     CubismMotion* motion = static_cast<CubismMotion*>(LoadMotion(buffer, size, NULL));
     if (motion == NULL){
         return NULL;
@@ -545,6 +555,11 @@ CubismMotionQueueEntryHandle LAppModel::StartLipSyncMotion(const csmChar* filePa
     csmByte* buffer;
     csmSizeInt size;
     buffer = CreateBuffer(path.GetRawString(), &size);
+    if (buffer == NULL){
+        LAppPal::PrintLog("[APP]StartLipSyncMotion, no file: filePath=%s", filePath);
+        return NULL;
+    }
+
     CubismMotion* motion = static_cast<CubismMotion*>(LoadMotion(buffer, size, NULL));
     if (motion == NULL){
         return NULL;
@@ -805,3 +820,5 @@ Csm::Rendering::CubismOffscreenFrame_OpenGLES2& LAppModel::GetRenderBuffer()
 {
     return _renderBuffer;
 }
+
+

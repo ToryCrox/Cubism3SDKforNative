@@ -163,6 +163,8 @@ public:
     const Csm::csmChar *
     GetHitAreaId(Csm::csmFloat32 x, Csm::csmFloat32 y);
 
+    void setModelScale(float scale);
+
 protected:
     /**
      *  @brief  モデルを描画する処理。モデルを描画する空間のView-Projection行列を渡す。

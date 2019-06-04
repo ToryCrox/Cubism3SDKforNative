@@ -264,3 +264,7 @@ float *LAppDelegate::getViewMatrixArray() {
 void LAppDelegate::startLipSyncMotion(const char *motionPath, float f1, float f2) {
     _l2dManager->startLipSyncMotion(motionPath, f1, f2);
 }
+
+void LAppDelegate::SetModelScale(float scale) {
+    _l2dManager->setModelScale(scale);
+}

@@ -70,6 +70,10 @@ public class Live2d3Delegate {
         JniBridgeJava.nativeStartLipSyncMotion(mHandlerId, modelPath, fadeInSeconds, fadeOutSeconds);
     }
 
+    public void setModelScale(float scale){
+        JniBridgeJava.nativeSetModelScale(mHandlerId, scale);
+    }
+
     public float[] getMatrixArray(){
         return JniBridgeJava.nativeGetMatrixArray(mHandlerId);
     }

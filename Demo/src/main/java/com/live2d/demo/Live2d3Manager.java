@@ -23,6 +23,7 @@ public class Live2d3Manager {
     public Live2d3Manager(Context context) {
         mLive2dDelegate = new Live2d3Delegate(sMaxId ++);
         mViewDelegate = new Live2d3ViewDelegate(this, context);
+
     }
 
     public Live2d3Delegate getDelegate(){

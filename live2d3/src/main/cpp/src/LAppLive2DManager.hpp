@@ -136,6 +136,10 @@ public:
 
     void tryLoadModel();
 
+    void setModelScale(float modelScale){
+        this->_modelScale = modelScale;
+    }
+
 private:
 
     Csm::CubismMatrix44* _deviceToScreen;    ///< デバイスからスクリーンへの行列
@@ -147,4 +151,6 @@ private:
     bool _changeModel;
     int _viewWidth;
     int _viewHeight;
+
+    float _modelScale = 1.0f;
 };

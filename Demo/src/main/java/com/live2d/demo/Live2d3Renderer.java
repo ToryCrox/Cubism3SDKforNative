@@ -39,6 +39,7 @@ public class Live2d3Renderer implements GLSurfaceView.Renderer {
             mImageHandler.onSurfaceCreated(gl, config);
         }
         mManager.getDelegate().onSurfaceCreated();
+        mManager.getDelegate().setModelScale(1.0f);
     }
 
     @Override
