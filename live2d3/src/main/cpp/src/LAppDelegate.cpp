@@ -81,11 +81,6 @@ void LAppDelegate::OnStart()
     LAppPal::UpdateTime();
 }
 
-void LAppDelegate::OnPause()
-{
-
-}
-
 void LAppDelegate::OnStop()
 {
     if (_view) {
@@ -124,8 +119,6 @@ void LAppDelegate::OnSurfaceCreate()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glClearColor(0.0f,0.0f,0.0f,0.0f);
-
-    _view->InitializeShader();
     //LAppLive2DManager::GetInstance()->ReLoadModel(_modelPath);
 }
 
@@ -135,9 +128,6 @@ void LAppDelegate::OnSurfaceChanged(int width, int height)
     _width = width;
     _height = height;
 
-    //AppViewの初期化
-    //_view->Initialize();
-    //_view->InitializeSprite();
     LAppPal::PrintLog("LApp.OnSurfaceChanged LApp.id=%d", _current_id);
 
     LAppLive2DManager::GetInstance()->setUpView(width, height);

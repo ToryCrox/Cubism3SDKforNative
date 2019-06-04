@@ -51,21 +51,6 @@ public:
     void Initialize();
 
     /**
-    * @brief 描画する。
-    */
-    void Render();
-
-    /**
-    * @brief シェーダーの初期化を行う。
-    */
-    void InitializeShader();
-
-    /**
-    * @brief 画像の初期化を行う。
-    */
-    void InitializeSprite();
-
-    /**
     * @brief タッチされたときに呼ばれる。
     *
     * @param[in]       pointX            スクリーンX座標
@@ -116,35 +101,6 @@ public:
     * @param[in]       deviceY            デバイスY座標
     */
     float transformScreenY(float deviceY);
-
-    /**
-     * @brief   モデル1体を描画する直前にコールされる
-     */
-    void PreModelDraw(LAppModel &refModel);
-
-    /**
-     * @brief   モデル1体を描画した直後にコールされる
-     */
-    void PostModelDraw(LAppModel &refModel);
-
-    /**
-     * @brief   別レンダリングターゲットにモデルを描画するサンプルで
-     *           描画時のαを決定する
-     */
-    float GetSpriteAlpha(int assign) const;
-
-    /**
-     * @brief レンダリング先を切り替える
-     */
-    void SwitchRenderingTarget(SelectTarget targetType);
-
-    /**
-     * @brief レンダリング先をデフォルト以外に切り替えた際の背景クリア色設定
-     * @param[in]   r   赤(0.0~1.0)
-     * @param[in]   g   緑(0.0~1.0)
-     * @param[in]   b   青(0.0~1.0)
-     */
-    void SetRenderTargetClearColor(float r, float g, float b);
 
     void OnTouchesBegan(float d, float d1, float d2, float d3);
 

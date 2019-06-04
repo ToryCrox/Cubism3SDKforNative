@@ -531,9 +531,9 @@ CubismMotionQueueEntryHandle LAppModel::StartMotion(const csmChar* filePath,
 
     DeleteBuffer(buffer, path.GetRawString());
 
-    if (_debugMode) {
+    if (LAppDefine::DebugLogEnable) {
         LAppPal::PrintLog("[APP]start motion: [filePath=%s, fadeInSeconds=%f"
-                          "fadeOutSeconds=%fadeOutSeconds]", filePath, fadeInSeconds, fadeOutSeconds);
+                          "fadeOutSeconds=%f]", filePath, fadeInSeconds, fadeOutSeconds);
     }
     return  _motionManager->StartMotionPriority(motion, false, PriorityNormal);
 }

@@ -21,8 +21,6 @@ public class JniBridgeJava {
 
     public static native void nativeOnStart();
 
-    public static native void nativeOnPause();
-
     public static native void nativeOnStop();
 
     public static native void nativeOnDestroy();

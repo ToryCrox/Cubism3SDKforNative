@@ -34,5 +34,5 @@ dependencies {
 
     implementation 'com.github.ToryCrox:GLWallpaperService:1.0'
 
-    //implementation "com.mimikko.mimikkoui:mimikko_log:1.0.2"
+    implementation "com.mimikko.mimikkoui:mimikko_log:1.0.2"
 }

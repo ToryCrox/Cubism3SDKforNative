@@ -11,6 +11,7 @@ import android.app.WallpaperManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ViewGroup;
 
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         getLifecycle().addObserver(mLive2dManager);
 
         mLive2dManager.loadModel(mDirs.get(mIndex));
-        //mLive2dManager.setBackgroundImage(ContextCompat.getDrawable(this, R.drawable.bg_pic_test2));
+        mLive2dManager.setBackgroundImage(ContextCompat.getDrawable(this, R.drawable.mimikko_window_background_2));
         findViewById(R.id.btn_change)
                 .setOnClickListener(v -> showChangeDialog());
     }

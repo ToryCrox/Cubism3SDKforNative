@@ -203,8 +203,7 @@ void LAppLive2DManager::OnUpdate()
 }
 
 void LAppLive2DManager::tryLoadModel(){
-    if (!_modelPath.empty() && (_changeModel
-                                || _models.GetSize() <= 0)){
+    if (!_modelPath.empty() && _changeModel){
         _changeModel = false;
         LoadModel(_modelPath);
     }

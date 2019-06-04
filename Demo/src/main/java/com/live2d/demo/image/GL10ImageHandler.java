@@ -2,7 +2,8 @@ package com.live2d.demo.image;
 
 import android.graphics.Bitmap;
 import android.opengl.GLUtils;
-import android.util.Log;
+
+import com.mimikko.mimikkoui.toolkit.log.LogUtils;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -79,7 +80,7 @@ public class GL10ImageHandler extends BaseGLImageHandler {
         super.adjustImageScaling(imageWidth, imageHeight);
         float scale = mOutputHeight * 1.0f / mOutputWidth;
 
-        Log.d(TAG, "adjustImageScaling: scale="+scale);
+        LogUtils.d(TAG, "adjustImageScaling: scale="+scale);
         float[] vertices = new float[]{
                 VERTICES[0], VERTICES[1] * scale, VERTICES[2],
                 VERTICES[3], VERTICES[4] * scale, VERTICES[5],
@@ -93,7 +94,6 @@ public class GL10ImageHandler extends BaseGLImageHandler {
     public void onDraw(GL10 gl, final int textureId) {
         // 传入的图片纹理
         if (textureId != NO_TEXTURE) {
-            Log.d(TAG, "onDraw: ");
             gl.glLoadIdentity();
             gl.glBindTexture(GL10.GL_TEXTURE_2D, textureId);
 
@@ -120,7 +120,7 @@ public class GL10ImageHandler extends BaseGLImageHandler {
 
     public int loadTexture(GL10 gl,final Bitmap img, final int usedTexId, final boolean recycle) {
         int textures[] = new int[]{-1};
-        Log.d(TAG, "loadTexture: textureId="+usedTexId);
+        LogUtils.d(TAG, "loadTexture: textureId="+usedTexId);
 
         gl.glGenTextures(1, textures, 0);
         gl.glBindTexture(GL10.GL_TEXTURE_2D, textures[0]);
@@ -135,7 +135,7 @@ public class GL10ImageHandler extends BaseGLImageHandler {
         if (recycle) {
             img.recycle();
         }
-        Log.d(TAG, "loadTexture: end textureId="+textures[0]);
+        LogUtils.d(TAG, "loadTexture: end textureId="+textures[0]);
         return textures[0];
     }
 }

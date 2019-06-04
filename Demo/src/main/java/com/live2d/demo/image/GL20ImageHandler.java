@@ -18,7 +18,7 @@ import javax.microedition.khronos.opengles.GL10;
  * @des:
  */
 public class GL20ImageHandler extends BaseGLImageHandler {
-    private static final String TAG = "GL20ImageHandler";
+
 
     // 数据中有多少个顶点，管线就调用多少次顶点着色器
     public static final String NO_FILTER_VERTEX_SHADER = "" +
@@ -78,7 +78,6 @@ public class GL20ImageHandler extends BaseGLImageHandler {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         super.onSurfaceCreated(gl, config);
-        Log.d(TAG, "onSurfaceCreated: ");
         // 顶点数组缓冲器
         mGLCubeBuffer = ByteBuffer.allocateDirect(CUBE.length * 4)
                 .order(ByteOrder.nativeOrder())
@@ -99,7 +98,6 @@ public class GL20ImageHandler extends BaseGLImageHandler {
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-        Log.d(TAG, "onSurfaceChanged: ");
         super.onSurfaceChanged(gl, width, height);
     }
 
@@ -107,7 +105,6 @@ public class GL20ImageHandler extends BaseGLImageHandler {
     public void onDrawFrame(GL10 gl) {
         super.onDrawFrame(gl);
         if (mGLTextureId != NO_TEXTURE){
-            Log.d(TAG, "onDrawFrame: ");
             onDraw(mGLTextureId, mGLCubeBuffer, mGLTextureBuffer);
         }
     }
@@ -115,9 +112,7 @@ public class GL20ImageHandler extends BaseGLImageHandler {
     @Override
     protected void adjustImageScaling(int imageWidth, int imageHeight) {
         super.adjustImageScaling(imageWidth, imageHeight);
-        Log.d(TAG, "adjustImageScaling: width="+mOutputWidth + ", height="+mOutputHeight
-                + ", imageWidth="+imageWidth + ", imageHeight="+imageHeight);
-       /* float outputWidth = mOutputWidth;
+        /*float outputWidth = mOutputWidth;
         float outputHeight = mOutputHeight;
 
         float ratio1 = outputWidth * 1.0f / imageWidth;
@@ -189,7 +184,6 @@ public class GL20ImageHandler extends BaseGLImageHandler {
         if (recycle) {
             img.recycle();
         }
-        Log.d(TAG, "loadTexture: " + textures[0]);
         return textures[0];
     }
 

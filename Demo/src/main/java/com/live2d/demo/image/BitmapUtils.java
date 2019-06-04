@@ -6,6 +6,10 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.NinePatchDrawable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 /**
  * @author tory
@@ -20,7 +24,7 @@ public class BitmapUtils {
      * @param bitmap
      * @return
      */
-    public static boolean isAvailable(Bitmap bitmap){
+    public static boolean isAvailable(@Nullable Bitmap bitmap){
         return bitmap != null && !bitmap.isRecycled();
     }
 
@@ -28,7 +32,7 @@ public class BitmapUtils {
      * recycler bitmap
      * @param bitmap
      */
-    public static void safelyRecycle( Bitmap bitmap){
+    public static void safelyRecycle(@Nullable Bitmap bitmap){
         if(bitmap != null && !bitmap.isRecycled()){
             bitmap.recycle();
         }
@@ -42,14 +46,15 @@ public class BitmapUtils {
      * @param targetHeight
      * @return
      */
-    public static Bitmap scaleCenterCrop2(Bitmap src, int targetWidth, int targetHeight){
+    @Nullable
+    public static Bitmap scaleCenterCrop2(@Nullable Bitmap src, int targetWidth, int targetHeight, boolean recycle){
         if (!isAvailable(src)){
             return null;
         }
 
         int srcWidth = src.getWidth();
         int srcHeight = src.getHeight();
-        if(srcWidth == targetWidth && srcHeight == targetHeight){
+        if(srcWidth * 1.0f / srcHeight == targetWidth * 1.0f / targetHeight){
             return src;
         }
 
@@ -57,26 +62,20 @@ public class BitmapUtils {
         float scaleW = srcWidth * 1.0f / targetWidth;
         float scaleH = srcHeight * 1.0f / targetHeight;
         float scale = Math.min(scaleW, scaleH);
-        float targetScale = Math.min(scale, 1f);//目标图片可以缩小
-        targetWidth = (int) (targetWidth * targetScale);
-        targetHeight = (int) (targetHeight * targetScale);
-        float dx = (srcWidth - targetWidth) / 2.0f;
-        float dy = (srcHeight - targetHeight) / 2.0f;
-        float srcScale = Math.max(1f, scale);
-        Bitmap bitmap = Bitmap.createBitmap(targetWidth, targetHeight, Bitmap.Config.ARGB_8888);
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setFilterBitmap(true);
-        Canvas canvas = new Canvas(bitmap);
-        canvas.scale(1 / srcScale, 1 / srcScale);//这里应用是1/scale才是缩放图片以适应原图大小
-        //canvas.drawBitmap(src, -dx, -dy, paint); //这是指从坐标轴的哪里开始画
-        canvas.translate( -dx, -dy);//此处是移动原点坐标为负值, 绘图的位置不变，只移动的画布
-        canvas.drawBitmap(src, 0, 0, paint);
-        canvas.setBitmap(null);
-        return bitmap;
+        float targetScale = Math.min(scale, 1f);
+        return scaleCenterCrop(src, (int)(targetWidth * targetScale),
+                (int)(targetHeight * targetScale));
     }
 
-    public static Bitmap scaleCenterCrop( Bitmap src, int targetWidth, int targetHeight){
+    /**
+     * 居中缩放并裁剪图片
+     * @param src
+     * @param targetWidth
+     * @param targetHeight
+     * @return
+     */
+    @Nullable
+    public static Bitmap scaleCenterCrop(@Nullable Bitmap src, int targetWidth, int targetHeight, boolean recycle){
         if (!isAvailable(src)){
             return null;
         }
@@ -100,11 +99,19 @@ public class BitmapUtils {
         Canvas canvas = new Canvas(bitmap);
         canvas.scale(1 / scale, 1 / scale);//这里应用是1/scale才是缩放图片以适应原图大小
         //canvas.drawBitmap(src, -dx, -dy, paint); //这是指从坐标轴的哪里开始画
-        canvas.translate( -dx, -dy);//此处是移动原点坐标为负值, 绘图的位置不变，只移动的画布
+        canvas.translate( -dx, 0);//此处是移动原点坐标为负值, 绘图的位置不变，只移动的画布
         canvas.drawBitmap(src, 0, 0, paint);
         canvas.setBitmap(null);
-        safelyRecycle(src);
+        if (recycle){
+            safelyRecycle(src);
+        }
         return bitmap;
+    }
+
+    @Nullable
+    public static Bitmap scaleCenterCrop(@Nullable Bitmap src, int targetWidth,
+                                         int targetHeight){
+        return scaleCenterCrop(src, targetWidth, targetHeight, false);
     }
 
 
@@ -112,7 +119,8 @@ public class BitmapUtils {
      * @param drawable
      * @return
      */
-    private static Bitmap toBitmap( Drawable drawable, int width, int height, boolean setBound) {
+    @NonNull
+    private static Bitmap toBitmap(@NonNull Drawable drawable, int width, int height, boolean setBound) {
         Bitmap.Config config = drawable.getOpacity() != PixelFormat.OPAQUE ?
                 Bitmap.Config.ARGB_8888 : Bitmap.Config.RGB_565;// 取 drawable 的颜色格式
         Bitmap bitmap = Bitmap.createBitmap(width, height, config);// 建立对应 bitmap
@@ -124,7 +132,7 @@ public class BitmapUtils {
         return bitmap;
     }
 
-    public static Bitmap toScaledBitmap( Drawable drawable, int targetWidth, int targetHeight){
+    public static Bitmap toScaledBitmap(@NonNull Drawable drawable, int targetWidth, int targetHeight){
         Drawable.ConstantState state = drawable.getConstantState();
         if (state == null){
             return null;
@@ -134,11 +142,15 @@ public class BitmapUtils {
             return toBitmap(d,
                     1, 1, true);
         } else {
-            Bitmap bitmap = toBitmap(d, d.getIntrinsicWidth(),
-                    d.getIntrinsicHeight(), true);
-            Bitmap result = scaleCenterCrop2(bitmap, targetWidth, targetHeight);
-            safelyRecycle(bitmap);
-            return result;
+            Bitmap bitmap;
+            if (d instanceof LayerDrawable || d instanceof NinePatchDrawable){
+                bitmap = toBitmap(d, targetWidth, targetHeight, true);
+            } else {
+                bitmap = toBitmap(d, d.getIntrinsicWidth(),
+                        d.getIntrinsicHeight(), true);
+            }
+            return scaleCenterCrop2(bitmap, targetWidth, targetHeight, true);
         }
     }
+
 }

@@ -43,11 +43,6 @@ public:
     void OnStart();
 
     /**
-    * @brief JavaのActivityのOnPause()のコールバック関数。
-    */
-    void OnPause();
-
-    /**
     * @brief JavaのActivityのOnStop()のコールバック関数。
     */
     void OnStop();

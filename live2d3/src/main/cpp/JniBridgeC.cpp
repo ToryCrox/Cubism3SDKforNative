@@ -113,12 +113,6 @@ extern "C"
     }
 
     JNIEXPORT void JNICALL
-    Java_com_mimikko_live2d3_JniBridgeJava_nativeOnPause(JNIEnv *env, jclass type)
-    {
-        LAppDelegate::GetInstance()->OnPause();
-    }
-
-    JNIEXPORT void JNICALL
     Java_com_mimikko_live2d3_JniBridgeJava_nativeOnStop(JNIEnv *env, jclass type)
     {
         LAppDelegate::GetInstance()->OnStop();
