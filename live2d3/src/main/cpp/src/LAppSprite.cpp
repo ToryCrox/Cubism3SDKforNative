@@ -61,8 +61,8 @@ void LAppSprite::Render() const
     glUniform1i(_textureLocation, 0);
 
     // 画面サイズを取得する
-    int maxWidth = LAppDelegate::GetInstance()->GetWindowWidth();
-    int maxHeight = LAppDelegate::GetInstance()->GetWindowHeight();
+    int maxWidth = _viewWidth;
+    int maxHeight = _viewHeight;
 
     // 頂点データ
     float positionVertex[] =
@@ -96,8 +96,8 @@ void LAppSprite::RenderImmidiate(GLuint textureId, const GLfloat uvVertex[8]) co
     glUniform1i(_textureLocation, 0);
 
     // 画面サイズを取得する
-    int maxWidth = LAppDelegate::GetInstance()->GetWindowWidth();
-    int maxHeight = LAppDelegate::GetInstance()->GetWindowHeight();
+    int maxWidth = _viewWidth;
+    int maxHeight = _viewHeight;
 
     // 頂点データ
     float positionVertex[] =
@@ -122,7 +122,7 @@ void LAppSprite::RenderImmidiate(GLuint textureId, const GLfloat uvVertex[8]) co
 bool LAppSprite::IsHit(float pointX, float pointY) const
 {
     // 画面高さを取得する
-    int maxHeight = LAppDelegate::GetInstance()->GetWindowHeight();
+    int maxHeight = _viewHeight;
 
     //Y座標は変換する必要あり
     float y = maxHeight - pointY;

@@ -21,32 +21,56 @@ using namespace std;
 using namespace LAppDefine;
 
 namespace {
-    LAppDelegate* s_instance = NULL;
+    Csm::csmVector<LAppDelegate*> s_instances;
     int MAX_ID = 0;
+    bool sLive2dIsInitialized = false;
 }
 
-LAppDelegate* LAppDelegate::GetInstance()
+LAppDelegate* LAppDelegate::GetInstance(int handlerId)
 {
-    if (s_instance == NULL)
-    {
-        s_instance = new LAppDelegate();
+    LAppDelegate* instance = GetDelegate(handlerId);
+    if (instance == NULL){
+        instance = new LAppDelegate(handlerId);
+        s_instances.PushBack(instance);
+        LAppPal::PrintLog("GetInstance create handlerId=%d", handlerId);
     }
+    return instance;
+}
 
-    return s_instance;
+LAppDelegate* LAppDelegate::GetDelegate(int handlerId){
+    const csmInt32 count = s_instances.GetSize();
+    LAppDelegate* instance = NULL;
+    for (csmInt32 i = count - 1; i >= 0; i--)
+    {
+        LAppDelegate* delegate = s_instances[i];
+        if (delegate != NULL && delegate->GetHandlerId() == handlerId){
+            instance = delegate;
+            break;
+        }
+    }
+    return instance;
 }
 
 void LAppDelegate::ReleaseInstance()
 {
-    LAppPal::PrintLog("ReleaseInstance id=%d", _current_id);
-    if (s_instance != NULL)
+    LAppPal::PrintLog("ReleaseInstance _handlerId=%d", _handlerId);
+    const csmInt32 count = s_instances.GetSize();
+    for (csmInt32 i = count - 1; i >= 0; i--)
     {
-        delete s_instance;
+        LAppDelegate* delegate = s_instances[i];
+        if (delegate != NULL && delegate->GetHandlerId() == _handlerId){
+            delete delegate;
+            s_instances.Remove(i);
+            break;
+        }
     }
-
-    s_instance = NULL;
+    if (s_instances.GetSize() <= 0){
+        LAppPal::PrintLog("ReleaseInstance is Empty _handlerId=%d", _handlerId);
+        CubismFramework::Dispose();
+    }
 }
 
-LAppDelegate::LAppDelegate():
+LAppDelegate::LAppDelegate(int handlerId):
         _cubismOption(),
         _captured(false),
         //_mouseX(0.0f),
@@ -55,29 +79,35 @@ LAppDelegate::LAppDelegate():
         //_textureManager(NULL),
         _view(NULL)
 {
+    _handlerId = handlerId;
     // Setup Cubism
     _cubismOption.LogFunction = LAppPal::PrintMessage;
     _cubismOption.LoggingLevel = LAppDefine::CubismLoggingLevel;
-    CubismFramework::CleanUp();
-    CubismFramework::StartUp(&_cubismAllocator, &_cubismOption);
+    if (!sLive2dIsInitialized){
+        CubismFramework::CleanUp();
+        CubismFramework::StartUp(&_cubismAllocator, &_cubismOption);
 
-    //Initialize cubism
-    CubismFramework::Initialize();
+        //Initialize cubism
+        CubismFramework::Initialize();
+    }
+
     _current_id = MAX_ID;
     MAX_ID ++;
+
+    _l2dManager = new LAppLive2DManager();
 }
 
 LAppDelegate::~LAppDelegate()
 {
     LAppPal::PrintMessage("LAppDelegate 释放内存");
     // リソースを解放
-    LAppLive2DManager::ReleaseInstance();
-    CubismFramework::Dispose();
+    delete _l2dManager;
 }
 
 void LAppDelegate::OnStart()
 {
     _view = new LAppView();
+    _view->setLive2dManager(_l2dManager);
     LAppPal::UpdateTime();
 }
 
@@ -106,7 +136,7 @@ void LAppDelegate::Run()
     glClearDepthf(1.0f);
 
     // Cubism更新・描画
-    LAppLive2DManager::GetInstance()->OnUpdate();
+    _l2dManager->OnUpdate();
 }
 
 void LAppDelegate::OnSurfaceCreate()
@@ -130,8 +160,8 @@ void LAppDelegate::OnSurfaceChanged(int width, int height)
 
     LAppPal::PrintLog("LApp.OnSurfaceChanged LApp.id=%d", _current_id);
 
-    LAppLive2DManager::GetInstance()->setUpView(width, height);
-    LAppLive2DManager::GetInstance()->tryLoadModel();
+    _l2dManager->setUpView(width, height);
+    _l2dManager->tryLoadModel();
 
     _isActive = true;
 }
@@ -220,5 +250,17 @@ GLuint LAppDelegate::CreateShader()
 
 void LAppDelegate::LoadModel(const std::string modelPath, csmFloat32* matrixArr) {
     _modelPath = modelPath;
-    LAppLive2DManager::GetInstance()->ReLoadModel(_modelPath, matrixArr);
+    _l2dManager->ReLoadModel(_modelPath, matrixArr);
+}
+
+void LAppDelegate::startMotion(const char *motionPath, float f1, float f2) {
+    _l2dManager->startMotion(motionPath, f1, f2);
+}
+
+float *LAppDelegate::getViewMatrixArray() {
+    return _l2dManager->getViewMatrixArray();
+}
+
+void LAppDelegate::startLipSyncMotion(const char *motionPath, float f1, float f2) {
+    _l2dManager->startLipSyncMotion(motionPath, f1, f2);
 }

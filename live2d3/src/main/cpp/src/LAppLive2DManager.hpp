@@ -24,6 +24,16 @@ class LAppLive2DManager
 {
 
 public:
+
+    /**
+    * @brief  コンストラクタ
+    */
+    LAppLive2DManager();
+
+    /**
+    * @brief  デストラクタ
+    */
+    virtual ~LAppLive2DManager();
     /**
     * @brief   クラスのインスタンス（シングルトン）を返す。<br>
     *           インスタンスが生成されていない場合は内部でインスタンを生成する。
@@ -127,15 +137,6 @@ public:
     void tryLoadModel();
 
 private:
-    /**
-    * @brief  コンストラクタ
-    */
-    LAppLive2DManager();
-
-    /**
-    * @brief  デストラクタ
-    */
-    virtual ~LAppLive2DManager();
 
     Csm::CubismMatrix44* _deviceToScreen;    ///< デバイスからスクリーンへの行列
     Csm::CubismViewMatrix*        _viewMatrix; ///< モデル描画に用いるView行列
@@ -144,4 +145,6 @@ private:
 
     std::string _modelPath;
     bool _changeModel;
+    int _viewWidth;
+    int _viewHeight;
 };

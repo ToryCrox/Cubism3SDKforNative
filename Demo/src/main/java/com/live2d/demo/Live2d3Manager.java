@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
-import com.mimikko.live2d3.JniBridgeJava;
+import com.mimikko.live2d3.Live2d3Delegate;
 
 /**
  * @author tory
@@ -13,13 +13,20 @@ import com.mimikko.live2d3.JniBridgeJava;
  */
 public class Live2d3Manager {
     private static final String TAG = "Live2dManager";
+    public static int sMaxId = 1;
 
     private Live2d3View mView;
     private String mModelPath;
     private Live2d3ViewDelegate mViewDelegate;
+    private Live2d3Delegate mLive2dDelegate;
 
     public Live2d3Manager(Context context) {
+        mLive2dDelegate = new Live2d3Delegate(sMaxId ++);
         mViewDelegate = new Live2d3ViewDelegate(this, context);
+    }
+
+    public Live2d3Delegate getDelegate(){
+        return mLive2dDelegate;
     }
 
     public Live2d3ViewDelegate getViewDelegate() {
@@ -29,7 +36,7 @@ public class Live2d3Manager {
     public void loadModel(String path) {
         mModelPath = path;
         try {
-            JniBridgeJava.nativeLoadModel(path, getViewMatrix());
+            mLive2dDelegate.loadModel(path, getViewMatrix());
         } catch (Exception e){
             Log.e(TAG, "loadModel: ", e);
         }

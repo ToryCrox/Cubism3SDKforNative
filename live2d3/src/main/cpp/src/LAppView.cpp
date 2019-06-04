@@ -68,7 +68,7 @@ void LAppView::OnTouchesMoved(float pointX, float pointY)
     float viewX = transformViewX(_touchManager->GetX());
     float viewY = transformViewY(_touchManager->GetY());
 
-    LAppLive2DManager::GetInstance()->OnDrag(viewX, viewY);
+    _live2dManager->OnDrag(viewX, viewY);
 }
 
 void LAppView::OnTouchesBegan(float x1, float y1, float x2, float y2) {
@@ -76,7 +76,7 @@ void LAppView::OnTouchesBegan(float x1, float y1, float x2, float y2) {
     float viewX = transformViewX(_touchManager->GetX());
     float viewY = transformViewY(_touchManager->GetY());
 
-    LAppLive2DManager::GetInstance()->OnDrag(viewX, viewY);
+    _live2dManager->OnDrag(viewX, viewY);
 }
 
 void LAppView::OnTouchesMoved(float x1, float y1, float x2, float y2) {
@@ -94,13 +94,13 @@ void LAppView::OnTouchesMoved(float x1, float y1, float x2, float y2) {
 
     float viewX = transformViewX(_touchManager->GetX());
     float viewY = transformViewY(_touchManager->GetY());
-    LAppLive2DManager::GetInstance()->OnDrag(viewX, viewY);
+    _live2dManager->OnDrag(viewX, viewY);
 }
 
 void LAppView::OnTouchesEnded(float pointX, float pointY)
 {
     // タッチ終了
-    LAppLive2DManager* live2DManager = LAppLive2DManager::GetInstance();
+    LAppLive2DManager* live2DManager = _live2dManager;
     live2DManager->OnDrag(0.0f, 0.0f);
     if (_touchManager->IsSingleTouch()){
         if (DebugLogEnable) {
@@ -119,11 +119,11 @@ void LAppView::OnTouchesEnded(float pointX, float pointY)
     }
 }
 Csm::CubismMatrix44* LAppView::getDeviceToScreen(){
-    return LAppLive2DManager::GetInstance()->getDeviceToScreen();
+    return _live2dManager->getDeviceToScreen();
 }
 
 Csm::CubismViewMatrix* LAppView::getViewMatrix(){
-    return LAppLive2DManager::GetInstance()->getViewMatrix();
+    return _live2dManager->getViewMatrix();
 }
 
 
@@ -147,5 +147,9 @@ float LAppView::transformScreenX(float deviceX)
 float LAppView::transformScreenY(float deviceY)
 {
     return getDeviceToScreen()->TransformY(deviceY);
+}
+
+void LAppView::setLive2dManager(LAppLive2DManager *live2DManager) {
+    _live2dManager = live2DManager;
 }
 

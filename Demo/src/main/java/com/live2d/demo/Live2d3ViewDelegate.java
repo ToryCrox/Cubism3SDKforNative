@@ -8,7 +8,6 @@ import android.view.View;
 
 import com.live2d.demo.image.GL20ImageHandler;
 import com.live2d.demo.image.GLImageHandler;
-import com.mimikko.live2d3.JniBridgeJava;
 
 /**
  * @author tory
@@ -26,7 +25,7 @@ public class Live2d3ViewDelegate {
 
     public Live2d3ViewDelegate(Live2d3Manager manager, Context context){
         mManager = manager;
-        mRender = new Live2d3Renderer();
+        mRender = new Live2d3Renderer(manager);
         mHandler = new Handler(Looper.getMainLooper());
         mAccelHelper = new AccelHelper(context);
         mRender.setAccelHelper(mAccelHelper);
@@ -79,14 +78,13 @@ public class Live2d3ViewDelegate {
 
 
     public void onPause() {
-        JniBridgeJava.nativeOnPause();
         mHandler.removeCallbacks(mResumeRunnable);
         mHandler.removeCallbacks(mPauseRunnable);
         mHandler.postDelayed(mPauseRunnable, 200);
     }
 
     public void onStop() {
-        JniBridgeJava.nativeOnStop();
+        mManager.getDelegate().onStop();
     }
 
 
@@ -99,30 +97,30 @@ public class Live2d3ViewDelegate {
             case MotionEvent.ACTION_DOWN: {
                 int n = event.getPointerCount();
                 if (n == 1) {
-                    JniBridgeJava.nativeOnTouchesBegan(pointX, pointY);
+                    mManager.getDelegate().onTouchesBegan(pointX, pointY);
                 } else if (n == 2) {
-                    JniBridgeJava.nativeOnTouchesBeganF(event.getX(0),
+                    mManager.getDelegate().onTouchesBeganF(event.getX(0),
                             event.getY(0), event.getX(1),
                             event.getY(1));
                 }
             }
             break;
             case MotionEvent.ACTION_UP:
-                JniBridgeJava.nativeOnTouchesEnded(pointX, pointY);
+                mManager.getDelegate().onTouchesEnded(pointX, pointY);
                 break;
             case MotionEvent.ACTION_MOVE: {
                 int n = event.getPointerCount();
                 if (n == 1) {
-                    JniBridgeJava.nativeOnTouchesMoved(pointX, pointY);
+                    mManager.getDelegate().onTouchesMoved(pointX, pointY);
                 } else if (n == 2) {
-                    JniBridgeJava.nativeOnTouchesMovedF(event.getX(0),
+                    mManager.getDelegate().onTouchesMovedF(event.getX(0),
                             event.getY(0), event.getX(1),
                             event.getY(1));
                 }
             }
             break;
             case MotionEvent.ACTION_POINTER_UP:
-                float[] viewMatrix = JniBridgeJava.nativeGetMatrixArray();
+                float[] viewMatrix = mManager.getDelegate().getMatrixArray();
                 mManager.saveViewMatrix(viewMatrix);
                 break;
         }
@@ -134,11 +132,11 @@ public class Live2d3ViewDelegate {
     }
 
     public void onDestroy() {
-        JniBridgeJava.nativeOnDestroy();
+        mManager.getDelegate().onDestroy();
     }
 
     public void onStart() {
-        JniBridgeJava.nativeOnStart();
+        mManager.getDelegate().onStart();
     }
 
     public interface VisibleCallback{

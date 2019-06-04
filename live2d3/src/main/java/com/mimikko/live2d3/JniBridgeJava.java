@@ -19,38 +19,38 @@ public class JniBridgeJava {
 
     // Native -----------------------------------------------------------------
 
-    public static native void nativeOnStart();
+    static native void nativeOnStart(int id);
 
-    public static native void nativeOnStop();
+    static native void nativeOnStop(int id);
 
-    public static native void nativeOnDestroy();
+    static native void nativeOnDestroy(int id);
 
-    public static native void nativeOnSurfaceCreated();
+    static native void nativeOnSurfaceCreated(int id);
 
-    public static native void nativeOnSurfaceChanged(int width, int height);
+    static native void nativeOnSurfaceChanged(int id,int width, int height);
 
-    public static native void nativeOnDrawFrame();
+    static native void nativeOnDrawFrame(int id);
 
-    public static native void nativeOnTouchesBegan(float pointX, float pointY);
+    static native void nativeOnTouchesBegan(int id,float pointX, float pointY);
 
-    public static native void nativeOnTouchesEnded(float pointX, float pointY);
+    static native void nativeOnTouchesEnded(int id,float pointX, float pointY);
 
-    public static native void nativeOnTouchesMoved(float pointX, float pointY);
+    static native void nativeOnTouchesMoved(int id,float pointX, float pointY);
 
-    public static native void nativeOnTouchesBeganF(float pointX, float pointY, float pointX2, float pointY2);
+    static native void nativeOnTouchesBeganF(int id,float pointX, float pointY, float pointX2, float pointY2);
 
-    public static native void nativeOnTouchesMovedF(float pointX, float pointY, float pointX2, float pointY2);
+    static native void nativeOnTouchesMovedF(int id,float pointX, float pointY, float pointX2, float pointY2);
 
-    public static native void nativeLoadModel(String modelPath, float[] matrixArr);
+    static native void nativeLoadModel(int id,String modelPath, float[] matrixArr);
 
-    public static native void nativeStartMotion(String modelPath, float fadeInSeconds, float fadeOutSeconds);
+    static native void nativeStartMotion(int id,String modelPath, float fadeInSeconds, float fadeOutSeconds);
 
-    public static native void nativeStartLipSyncMotion(String modelPath, float fadeInSeconds, float fadeOutSeconds);
+    static native void nativeStartLipSyncMotion(int id,String modelPath, float fadeInSeconds, float fadeOutSeconds);
 
-    public static native float[] nativeGetMatrixArray();
+    static native float[] nativeGetMatrixArray(int id);
 
-    public static native void nativeSetAutoRandomMotion(boolean b);
-    public static native void nativeSetDebugLog(boolean b);
+    static native void nativeSetAutoRandomMotion(boolean b);
+    static native void nativeSetDebugLog(boolean b);
 
 
     // Java -----------------------------------------------------------------

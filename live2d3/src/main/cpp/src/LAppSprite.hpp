@@ -94,6 +94,11 @@ public:
      */
     void SetColor(float r, float g, float b, float a);
 
+    void SetupView(int width, int height){
+        _viewWidth = width;
+        _viewHeight = height;
+    }
+
 private:
     GLuint _textureId;   ///< テクスチャID
     Rect _rect;          ///< 矩形
@@ -102,6 +107,8 @@ private:
     int _textureLocation;   ///< テクスチャアトリビュート
     int _colorLocation;     ///< カラーアトリビュート
 
-    float _spriteColor[4];  ///< 表示カラー 
+    float _spriteColor[4];  ///< 表示カラー
+    int _viewWidth;
+    int _viewHeight;
 };
 

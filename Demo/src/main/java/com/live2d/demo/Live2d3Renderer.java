@@ -11,7 +11,7 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
 import com.live2d.demo.image.GLImageHandler;
-import com.mimikko.live2d3.JniBridgeJava;
+import com.mimikko.live2d3.Live2d3Delegate;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -21,11 +21,16 @@ public class Live2d3Renderer implements GLSurfaceView.Renderer {
 
     private AccelHelper mAccelHelper;
     private GLImageHandler mImageHandler;
+    private Live2d3Manager mManager;
+
+    public Live2d3Renderer(Live2d3Manager manager){
+        mManager = manager;
+    }
 
     public void setImageHandler(GLImageHandler imageHandler){
         mImageHandler = imageHandler;
-        JniBridgeJava.nativeSetAutoRandomMotion(true);
-        JniBridgeJava.nativeSetDebugLog(true);
+        Live2d3Delegate.setAutoRandomMotion(true);
+        Live2d3Delegate.setDebugLog(true);
     }
 
     @Override
@@ -33,12 +38,12 @@ public class Live2d3Renderer implements GLSurfaceView.Renderer {
         if (mImageHandler != null){
             mImageHandler.onSurfaceCreated(gl, config);
         }
-        JniBridgeJava.nativeOnSurfaceCreated();
+        mManager.getDelegate().onSurfaceCreated();
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-        JniBridgeJava.nativeOnSurfaceChanged(width, height);
+        mManager.getDelegate().onSurfaceChanged(width, height);
         if (mImageHandler != null){
             mImageHandler.onSurfaceChanged(gl, width, height);
         }
@@ -51,7 +56,7 @@ public class Live2d3Renderer implements GLSurfaceView.Renderer {
         if (mImageHandler != null){
             mImageHandler.onDrawFrame(gl);
         }
-        JniBridgeJava.nativeOnDrawFrame();
+        mManager.getDelegate().onDrawFrame();
         if (mAccelHelper != null){
             mAccelHelper.update();
             if (mAccelHelper.getShake() > 2.0f){

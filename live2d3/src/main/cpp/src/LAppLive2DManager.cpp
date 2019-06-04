@@ -80,6 +80,8 @@ void LAppLive2DManager::initialMatrix() {
 }
 
 void LAppLive2DManager::setUpView(int width, int height) {
+    _viewWidth = width;
+    _viewHeight = height;
     float ratio = static_cast<float>(height) / static_cast<float>(width);
     float left = ViewLogicalLeft;
     float right = ViewLogicalRight;
@@ -176,8 +178,8 @@ void LAppLive2DManager::OnUpdate()
 {
     tryLoadModel();
 
-    int width = LAppDelegate::GetInstance()->GetWindowWidth();
-    int height = LAppDelegate::GetInstance()->GetWindowHeight();
+    int width = _viewWidth;
+    int height = _viewHeight;
     CubismMatrix44 projection;
     projection.Scale(1.0f, static_cast<float>(width) / static_cast<float>(height)); // デバイスに対応する画面の範囲。 Xの左端, Xの右端, Yの下端, Yの上端
     if (_viewMatrix != NULL) {

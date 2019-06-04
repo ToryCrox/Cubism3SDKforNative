@@ -12,6 +12,7 @@
 #include <Math/CubismMatrix44.hpp>
 #include <Math/CubismViewMatrix.hpp>
 #include "CubismFramework.hpp"
+#include "LAppLive2DManager.hpp"
 #include <Rendering/OpenGL/CubismOffscreenSurface_OpenGLES2.hpp>
 
 class TouchManager;
@@ -106,6 +107,8 @@ public:
 
     void OnTouchesMoved(float d, float d1, float d2, float d3);
 
+    void setLive2dManager(LAppLive2DManager* live2DManager);
+
 private:
     TouchManager* _touchManager;                 ///< タッチマネージャー
     //Csm::CubismMatrix44* _deviceToScreen;    ///< デバイスからスクリーンへの行列
@@ -124,4 +127,6 @@ private:
     Live2D::Cubism::Framework::CubismMatrix44 *getDeviceToScreen();
 
     Live2D::Cubism::Framework::CubismViewMatrix *getViewMatrix();
+
+    LAppLive2DManager* _live2dManager;
 };

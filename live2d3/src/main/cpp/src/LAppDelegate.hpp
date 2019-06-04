@@ -12,6 +12,7 @@
 #include <Type/csmString.hpp>
 #include <string>
 #include "LAppAllocator.hpp"
+#include "LAppLive2DManager.hpp"
 
 class LAppView;
 class LAppTextureManager;
@@ -23,13 +24,16 @@ class LAppTextureManager;
 class LAppDelegate
 {
 public:
+
     /**
-    * @brief   クラスのインスタンス（シングルトン）を返す。<br>
-    *           インスタンスが生成されていない場合は内部でインスタンを生成する。
-    *
-    * @return  クラスのインスタンス
-    */
-    static LAppDelegate* GetInstance();
+        * @brief   クラスのインスタンス（シングルトン）を返す。<br>
+        *           インスタンスが生成されていない場合は内部でインスタンを生成する。
+        *
+        * @return  クラスのインスタンス
+        */
+    static LAppDelegate* GetInstance(int handlerId);
+
+    static LAppDelegate* GetDelegate(int handlerId);
 
     /**
     * @brief   クラスのインスタンス（シングルトン）を解放する。
@@ -130,11 +134,23 @@ public:
     void LoadModel(
             const std::string modelPath, Csm::csmFloat32* matrixArr);
 
+    void startMotion(const char *string, float d, float d1);
+
+    float *getViewMatrixArray();
+
+    void startLipSyncMotion(const char *string, float d, float d1);
+
+    int GetHandlerId() {
+        return _handlerId;
+    }
+
 private:
     /**
     * @brief   コンストラクタ
     */
-    LAppDelegate();
+    //LAppDelegate();
+
+    LAppDelegate(int handlerId);
 
     /**
     * @brief   デストラクタ
@@ -159,4 +175,7 @@ private:
     //float _mouseX;                               ///< マウスX座標
     std::string _modelPath;
     int _current_id;
+
+    LAppLive2DManager* _l2dManager;
+    int _handlerId;
 };
