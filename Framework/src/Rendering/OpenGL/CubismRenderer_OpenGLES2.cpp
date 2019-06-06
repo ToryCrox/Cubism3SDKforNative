@@ -964,6 +964,7 @@ CubismShader_OpenGLES2* CubismShader_OpenGLES2::GetInstance()
 {
     if (s_instance == NULL)
     {
+        CubismLogInfo("CubismShader:GetInstance");
         s_instance = CSM_NEW CubismShader_OpenGLES2();
     }
     return s_instance;
@@ -973,6 +974,7 @@ void CubismShader_OpenGLES2::DeleteInstance()
 {
     if (s_instance)
     {
+        CubismLogInfo("CubismShader:DeleteInstance");
         CSM_DELETE_SELF(CubismShader_OpenGLES2, s_instance);
         s_instance = NULL;
     }
@@ -1612,6 +1614,11 @@ CubismRenderer_OpenGLES2::CubismRenderer_OpenGLES2() : _clippingManager(NULL)
 
 CubismRenderer_OpenGLES2::~CubismRenderer_OpenGLES2()
 {
+    if (_cubismShader != NULL){
+        CubismLogInfo("CubismShader deleteShader _cubismShader %p", _cubismShader);
+        CSM_DELETE_SELF(CubismShader_OpenGLES2, _cubismShader);
+        _cubismShader = NULL;
+    }
     CSM_DELETE_SELF(CubismClippingManager_OpenGLES2, _clippingManager);
 }
 
@@ -1853,8 +1860,12 @@ void CubismRenderer_OpenGLES2::DrawMesh(csmInt32 textureNo, csmInt32 indexCount,
     {
         drawTextureId = -1;
     }
+    if (_cubismShader == NULL){
+        _cubismShader = CSM_NEW CubismShader_OpenGLES2();
+        CubismLogInfo("CubismShader createShader %p", _cubismShader);
+    }
 
-    CubismShader_OpenGLES2::GetInstance()->SetupShaderProgram(
+    _cubismShader->SetupShaderProgram(
         this, drawTextureId, vertexCount, vertexArray, uvArray
         , opacity, colorBlendMode, modelColorRGBA, IsPremultipliedAlpha()
         , GetMvpMatrix()

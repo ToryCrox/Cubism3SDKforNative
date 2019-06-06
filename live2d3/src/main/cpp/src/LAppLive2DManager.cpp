@@ -20,30 +20,6 @@ using namespace Csm;
 using namespace LAppDefine;
 using namespace std;
 
-namespace {
-    LAppLive2DManager* s_instance = NULL;
-}
-
-LAppLive2DManager* LAppLive2DManager::GetInstance()
-{
-    if (s_instance == NULL)
-    {
-        s_instance = new LAppLive2DManager();
-    }
-
-    return s_instance;
-}
-
-void LAppLive2DManager::ReleaseInstance()
-{
-    if (s_instance != NULL)
-    {
-        delete s_instance;
-    }
-
-    s_instance = NULL;
-}
-
 LAppLive2DManager::LAppLive2DManager()
     : _viewMatrix(NULL),
     _sceneIndex(0),
@@ -97,7 +73,7 @@ void LAppLive2DManager::setUpView(int width, int height) {
     _deviceToScreen->ScaleRelative(screenW / width, -screenW / width);
     _deviceToScreen->TranslateRelative(-width * 0.5f, -height * 0.5f);
 
-    //tryLoadModel();
+    tryLoadModel();
 }
 
 float* LAppLive2DManager::getViewMatrixArray() {
@@ -218,7 +194,7 @@ void LAppLive2DManager::LoadModel(const std::string modePath){
 
     auto * model = new LAppModel();
     Csm::csmBool result = model->LoadAssets(parentPath.c_str(), modelName.c_str());
-    LAppPal::PrintLog("[APP]LoadModel after LoadAssets, result=%d, _modelScale=%f, model=%d", result, _modelScale, model);
+    LAppPal::PrintLog("[APP]LoadModel after LoadAssets, result=%d, _modelScale=%f, model=%p", result, _modelScale, model);
     if (result){
         model->setModelScale(_modelScale);
         ReleaseAllModel();

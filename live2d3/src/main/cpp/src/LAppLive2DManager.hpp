@@ -34,19 +34,6 @@ public:
     * @brief  デストラクタ
     */
     virtual ~LAppLive2DManager();
-    /**
-    * @brief   クラスのインスタンス（シングルトン）を返す。<br>
-    *           インスタンスが生成されていない場合は内部でインスタンを生成する。
-    *
-    * @return  クラスのインスタンス
-    */
-    static LAppLive2DManager* GetInstance();
-
-    /**
-    * @brief   クラスのインスタンス（シングルトン）を解放する。
-    *
-    */
-    static void ReleaseInstance();
 
     /**
     * @brief   現在のシーンで保持しているモデルを返す
