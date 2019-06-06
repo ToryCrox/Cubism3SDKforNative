@@ -29,6 +29,12 @@ public class Live2dWallpaperService extends GLWallpaperService {
 
         private MyEngine(){
             super();
+            Log.d(TAG, "MyEngine");
+        }
+
+        @Override
+        public void onCreate(SurfaceHolder surfaceHolder) {
+            super.onCreate(surfaceHolder);
             setEGLContextClientVersion(2);
             //设置透明
             setEGLConfigChooser(8, 8, 8, 8, 16, 0);
@@ -37,14 +43,7 @@ public class Live2dWallpaperService extends GLWallpaperService {
             mDelegate = mLive2dManager.getViewDelegate();
             setRenderer(mDelegate.getRender());
             mLive2dManager.setBackgroundImage(ContextCompat.getDrawable(context, R.drawable.bg_pic_test2));
-            mLive2dManager.loadModel("Hiyori/Hiyori.model3.json");
-            Log.d(TAG, "MyEngine");
-        }
-
-        @Override
-        public void onCreate(SurfaceHolder surfaceHolder) {
-            super.onCreate(surfaceHolder);
-
+            mLive2dManager.loadModel("RURI_NEW/琉璃6_新增表情.model3.json");
             Log.d(TAG, "onCreate");
         }
 

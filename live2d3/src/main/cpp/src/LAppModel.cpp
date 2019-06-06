@@ -104,6 +104,7 @@ csmBool LAppModel::LoadAssets(const csmChar* dir, const csmChar* fileName)
     csmSizeInt size;
     const csmString path = csmString(dir) + fileName;
 
+    //加载model文件配置
     csmByte* buffer = CreateBuffer(path.GetRawString(), &size);
     if (buffer == NULL){
         LAppPal::PrintLog("[APP]load model error, fileName=%s", fileName);

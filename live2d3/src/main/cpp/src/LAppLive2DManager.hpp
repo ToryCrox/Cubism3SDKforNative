@@ -145,6 +145,7 @@ private:
     Csm::CubismMatrix44* _deviceToScreen;    ///< デバイスからスクリーンへの行列
     Csm::CubismViewMatrix*        _viewMatrix; ///< モデル描画に用いるView行列
     Csm::csmVector<LAppModel*>  _models; ///< モデルインスタンスのコンテナ
+    LAppModel*  _model; ///< モデルインスタンスのコンテナ
     Csm::csmInt32               _sceneIndex; ///< 表示するシーンのインデックス値
 
     std::string _modelPath;

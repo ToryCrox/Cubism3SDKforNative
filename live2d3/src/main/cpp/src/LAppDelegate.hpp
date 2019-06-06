@@ -176,7 +176,6 @@ private:
     //float _mouseY;                               ///< マウスY座標
     //float _mouseX;                               ///< マウスX座標
     std::string _modelPath;
-    int _current_id;
 
     LAppLive2DManager* _l2dManager;
     int _handlerId;

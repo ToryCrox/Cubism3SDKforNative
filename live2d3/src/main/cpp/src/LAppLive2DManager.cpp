@@ -46,7 +46,8 @@ void LAppLive2DManager::ReleaseInstance()
 
 LAppLive2DManager::LAppLive2DManager()
     : _viewMatrix(NULL),
-    _sceneIndex(0)
+    _sceneIndex(0),
+    _models(1)
 {
     _changeModel = false;
     initialMatrix();
@@ -96,7 +97,7 @@ void LAppLive2DManager::setUpView(int width, int height) {
     _deviceToScreen->ScaleRelative(screenW / width, -screenW / width);
     _deviceToScreen->TranslateRelative(-width * 0.5f, -height * 0.5f);
 
-    tryLoadModel();
+    //tryLoadModel();
 }
 
 float* LAppLive2DManager::getViewMatrixArray() {
@@ -106,11 +107,12 @@ float* LAppLive2DManager::getViewMatrixArray() {
 
 void LAppLive2DManager::ReleaseAllModel()
 {
+    LAppPal::PrintLog("[APP]ReleaseAllModel model size: %d",_models.GetSize());
     for (csmUint32 i = 0; i < _models.GetSize(); i++)
     {
         delete _models[i];
+        _models.Remove(i);
     }
-
     _models.Clear();
 }
 
@@ -145,11 +147,6 @@ void LAppLive2DManager::OnTap(csmFloat32 x, csmFloat32 y)
     {
         const csmChar* hitArea = _models[i]->GetHitArea(x, y);
         if (hitArea != NULL){
-            /*if (strcmp(hitArea, HitAreaNameHead) == 0){
-                _models[i]->SetRandomExpression();
-            } else if (strcmp(hitArea, HitAreaNameBody) == 0){
-                _models[i]->StartRandomMotion(MotionGroupTapBody, PriorityNormal);
-            }*/
             JniBridgeC::hitTest(hitArea);
         }
     }
@@ -219,13 +216,13 @@ void LAppLive2DManager::LoadModel(const std::string modePath){
 
     LAppPal::PrintLog("[APP]LoadModel parent: %s, name: %s", parentPath.c_str(), modelName.c_str());
 
-    LAppModel* model = new LAppModel();
+    auto * model = new LAppModel();
     Csm::csmBool result = model->LoadAssets(parentPath.c_str(), modelName.c_str());
-    LAppPal::PrintLog("[APP]LoadModel after LoadAssets, result=%d, _modelScale=%f", result, _modelScale);
+    LAppPal::PrintLog("[APP]LoadModel after LoadAssets, result=%d, _modelScale=%f, model=%d", result, _modelScale, model);
     if (result){
         model->setModelScale(_modelScale);
         ReleaseAllModel();
-        LAppPal::PrintLog("[APP]LoadModel after ReleaseAllModel");
+        LAppPal::PrintLog("[APP]LoadModel after ReleaseAllModel model=%d", model);
         _models.PushBack(model);
     } else {
         LAppPal::PrintLog("[APP]LoadModel can not load model");
