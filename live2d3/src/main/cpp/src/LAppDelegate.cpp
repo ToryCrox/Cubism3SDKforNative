@@ -96,7 +96,7 @@ LAppDelegate::LAppDelegate(int handlerId) :
 }
 
 LAppDelegate::~LAppDelegate() {
-    LAppPal::PrintMessage("LAppDelegate 释放内存");
+    LAppPal::PrintMessage("LAppDelegate free mem");
     // リソースを解放
     delete _l2dManager;
 }
