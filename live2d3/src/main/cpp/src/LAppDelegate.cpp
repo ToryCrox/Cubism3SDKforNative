@@ -61,7 +61,7 @@ void LAppDelegate::ReleaseInstance() {
     }
     if (s_instances.GetSize() <= 0) {
         sLive2dIsInitialized = false;
-        LAppPal::PrintLog("ReleaseInstance is Empty _handlerId=%d", _handlerId);
+        LAppPal::PrintLog("CubismFramework::Dispose");
         CubismFramework::Dispose();
     }
 }
@@ -78,14 +78,19 @@ LAppDelegate::LAppDelegate(int handlerId) :
     // Setup Cubism
     _cubismOption.LogFunction = LAppPal::PrintMessage;
     _cubismOption.LoggingLevel = LAppDefine::CubismLoggingLevel;
-    //if (!sLive2dIsInitialized){
-    //    sLive2dIsInitialized = true;
-    CubismFramework::CleanUp();
-    CubismFramework::StartUp(&_cubismAllocator, &_cubismOption);
+    if (!sLive2dIsInitialized){
+        sLive2dIsInitialized = true;
+        CubismFramework::CleanUp();
+        LAppAllocator* appAllocator = new LAppAllocator();
+        Csm::CubismFramework::Option* cubismOption = new Csm::CubismFramework::Option();
+        cubismOption->LogFunction = LAppPal::PrintMessage;
+        cubismOption->LoggingLevel = LAppDefine::CubismLoggingLevel;
+        CubismFramework::StartUp(appAllocator, cubismOption);
 
-    //Initialize cubism
-    CubismFramework::Initialize();
-    //}
+        //Initialize cubism
+        CubismFramework::Initialize();
+        LAppPal::PrintLog("CubismFramework::Initialize");
+    }
 
     _l2dManager = new LAppLive2DManager();
 }
