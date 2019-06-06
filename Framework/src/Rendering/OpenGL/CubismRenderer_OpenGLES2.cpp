@@ -670,6 +670,7 @@ void CubismShader_OpenGLES2::ReleaseShaderProgram()
             CSM_DELETE(_shaderSets[i]);
         }
     }
+    _shaderSets.Clear();
 }
 
 // SetupMask
@@ -953,6 +954,9 @@ static const csmChar* FragShaderSrcMaskPremultipliedAlpha =
 #endif
 
 CubismShader_OpenGLES2::CubismShader_OpenGLES2()
+    : s_extMode(false),
+      s_extPAMode(false),
+      _shaderSets(ShaderCount)
 { }
 
 CubismShader_OpenGLES2::~CubismShader_OpenGLES2()
@@ -981,11 +985,11 @@ void CubismShader_OpenGLES2::DeleteInstance()
 }
 
 #ifdef CSM_TARGET_ANDROID_ES2
-csmBool CubismShader_OpenGLES2::s_extMode = false;
-csmBool CubismShader_OpenGLES2::s_extPAMode = false;
+//csmBool CubismShader_OpenGLES2::s_extMode = false;
+//csmBool CubismShader_OpenGLES2::s_extPAMode = false;
 void CubismShader_OpenGLES2::SetExtShaderMode(csmBool extMode, csmBool extPAMode) {
-    s_extMode = extMode;
-    s_extPAMode = extPAMode;
+    //s_extMode = extMode;
+    //s_extPAMode = extPAMode;
 }
 #endif
 
@@ -1610,6 +1614,8 @@ CubismRenderer_OpenGLES2::CubismRenderer_OpenGLES2() : _clippingManager(NULL)
 {
     // テクスチャ対応マップの容量を確保しておく.
     _textures.PrepareCapacity(32, true);
+    _cubismShader = CSM_NEW CubismShader_OpenGLES2();
+    CubismLogInfo("CubismShader createShader %p", _cubismShader);
 }
 
 CubismRenderer_OpenGLES2::~CubismRenderer_OpenGLES2()
@@ -1860,10 +1866,10 @@ void CubismRenderer_OpenGLES2::DrawMesh(csmInt32 textureNo, csmInt32 indexCount,
     {
         drawTextureId = -1;
     }
-    if (_cubismShader == NULL){
+    /*if (_cubismShader == NULL){
         _cubismShader = CSM_NEW CubismShader_OpenGLES2();
         CubismLogInfo("CubismShader createShader %p", _cubismShader);
-    }
+    }*/
 
     _cubismShader->SetupShaderProgram(
         this, drawTextureId, vertexCount, vertexArray, uvArray

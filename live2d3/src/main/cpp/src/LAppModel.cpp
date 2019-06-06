@@ -309,13 +309,13 @@ void LAppModel::LoadHitAreas(csmString hitAreasPath){
         LAppPal::PrintLog("LoadHitAreas filePath=%s", hitAreasPath.GetRawString());
         Utils::CubismJson*  json = Utils::CubismJson::Create(buffer, size);
         Utils::Value& root = json->GetRoot();
-        Utils::Value& hitAreasJson = root["HitAreas"];
+        Utils::Value& hitAreasJson = root["hitareas"];
         if (!hitAreasJson.IsNull() && !hitAreasJson.IsError()){
             int size = hitAreasJson.GetSize();
             for (int i = 0; i < size; ++i) {
                 Utils::Value& node = hitAreasJson[i];
-                _hitAreas.PushBack(CSM_NEW LAppHitArea(node["Name"].GetRawString(),
-                     CubismFramework::GetIdManager()->GetId(node["Id"].GetRawString())));
+                _hitAreas.PushBack(CSM_NEW LAppHitArea(node["actionName"].GetRawString(),
+                     CubismFramework::GetIdManager()->GetId(node["areaId"].GetRawString())));
             }
         }
         DeleteBuffer(buffer, hitAreasPath.GetRawString());

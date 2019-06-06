@@ -338,8 +338,8 @@ public:
     static void SetExtShaderMode(csmBool extMode, csmBool extPAMode);
 
 private:
-    static csmBool  s_extMode;      ///< Tegra対応.拡張方式で描画
-    static csmBool  s_extPAMode;    ///< 拡張方式のPA設定用の変数
+    csmBool  s_extMode;      ///< Tegra対応.拡張方式で描画
+    csmBool  s_extPAMode;    ///< 拡張方式のPA設定用の変数
 #endif
 
     csmVector<CubismShaderSet*> _shaderSets;   ///< ロードしたシェーダプログラムを保持する変数
