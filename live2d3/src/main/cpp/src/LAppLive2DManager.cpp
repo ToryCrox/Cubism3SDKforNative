@@ -22,7 +22,7 @@ using namespace std;
 
 LAppLive2DManager::LAppLive2DManager()
     : _viewMatrix(NULL),
-    _sceneIndex(0),
+    //_sceneIndex(0),
     _models(1)
 {
     _changeModel = false;
@@ -123,7 +123,7 @@ void LAppLive2DManager::OnTap(csmFloat32 x, csmFloat32 y)
     {
         const csmChar* hitArea = _models[i]->GetHitArea(x, y);
         if (hitArea != NULL){
-            JniBridgeC::hitTest(hitArea);
+            JniBridgeC::hitTest(_handlerId, hitArea);
         }
     }
 }
@@ -159,7 +159,7 @@ void LAppLive2DManager::OnUpdate()
         projection.MultiplyByMatrix(_viewMatrix);
     }
 
-    const CubismMatrix44    saveProjection = projection;
+    const CubismMatrix44 saveProjection = projection;
     csmUint32 modelCount = _models.GetSize();
     for (csmUint32 i = 0; i < modelCount; ++i)
     {
@@ -245,6 +245,12 @@ csmUint32 LAppLive2DManager::GetModelNum() const
 void LAppLive2DManager::ReLoadModel(const std::string modelPath, csmFloat32* matrixArr) {
     _modelPath = modelPath;
     _changeModel = !modelPath.empty();
+    if (matrixArr != NULL){
+        _viewMatrix->SetMatrix(matrixArr);
+    }
+}
+
+void LAppLive2DManager::setMatrixTr(csmFloat32 *matrixArr) {
     if (matrixArr != NULL){
         _viewMatrix->SetMatrix(matrixArr);
     }

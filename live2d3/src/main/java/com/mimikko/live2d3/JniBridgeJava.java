@@ -27,31 +27,34 @@ public class JniBridgeJava {
 
     static native void nativeOnSurfaceCreated(int id);
 
-    static native void nativeOnSurfaceChanged(int id,int width, int height);
+    static native void nativeOnSurfaceChanged(int id, int width, int height);
 
     static native void nativeOnDrawFrame(int id);
 
-    static native void nativeOnTouchesBegan(int id,float pointX, float pointY);
+    static native void nativeOnTouchesBegan(int id, float pointX, float pointY);
 
-    static native void nativeOnTouchesEnded(int id,float pointX, float pointY);
+    static native void nativeOnTouchesEnded(int id, float pointX, float pointY);
 
-    static native void nativeOnTouchesMoved(int id,float pointX, float pointY);
+    static native void nativeOnTouchesMoved(int id, float pointX, float pointY);
 
-    static native void nativeOnTouchesBeganF(int id,float pointX, float pointY, float pointX2, float pointY2);
+    static native void nativeOnTouchesBeganF(int id, float pointX, float pointY, float pointX2, float pointY2);
 
-    static native void nativeOnTouchesMovedF(int id,float pointX, float pointY, float pointX2, float pointY2);
+    static native void nativeOnTouchesMovedF(int id, float pointX, float pointY, float pointX2, float pointY2);
 
-    static native void nativeLoadModel(int id,String modelPath, float[] matrixArr);
+    static native void nativeLoadModel(int id, String modelPath, float[] matrixArr);
 
-    static native void nativeStartMotion(int id,String modelPath, float fadeInSeconds, float fadeOutSeconds);
+    static native void nativeSetMatrixTr(int id, float[] matrixArr);
 
-    static native void nativeStartLipSyncMotion(int id,String modelPath, float fadeInSeconds, float fadeOutSeconds);
+    static native void nativeStartMotion(int id, String modelPath, float fadeInSeconds, float fadeOutSeconds);
+
+    static native void nativeStartLipSyncMotion(int id, String modelPath, float fadeInSeconds, float fadeOutSeconds);
 
     static native float[] nativeGetMatrixArray(int id);
 
     static native void nativeSetModelScale(int id, float scale);
 
     static native void nativeSetAutoRandomMotion(boolean b);
+
     static native void nativeSetDebugLog(boolean b);
 
 
@@ -75,9 +78,9 @@ public class JniBridgeJava {
         //Toast.makeText(sContext, "LoadFile:"+filePath, Toast.LENGTH_SHORT).show();
     }
 
-    public static void hitTest(String action) {
+    public static void hitTest(int handlerId, String action) {
         if (sIPlatform3Manager != null) {
-            sIPlatform3Manager.hitTest(action);
+            sIPlatform3Manager.hitTest(handlerId, action);
         }
     }
 

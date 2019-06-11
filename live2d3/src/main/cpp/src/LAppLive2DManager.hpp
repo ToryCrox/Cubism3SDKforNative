@@ -81,14 +81,14 @@ public:
     * @brief   シーンを切り替える<br>
     *           サンプルアプリケーションではモデルセットの切り替えを行う。
     */
-    void ChangeScene(Csm::csmInt32 index);
+    //void ChangeScene(Csm::csmInt32 index);
 
 
     /**
     * @brief   シーンインデックスの取得
     * @return  シーンインデックスを返す
     */
-    Csm::csmInt32 GetSceneIndex() { return _sceneIndex; }
+    //Csm::csmInt32 GetSceneIndex() { return _sceneIndex; }
 
     /**
      * @brief   モデル個数を得る
@@ -127,13 +127,19 @@ public:
         this->_modelScale = modelScale;
     }
 
+    void setMatrixTr(Live2D::Cubism::Framework::csmFloat32 *matrixArr);
+
+    void setHandlerId(int handlerId){
+        _handlerId = handlerId;
+    }
+
 private:
 
     Csm::CubismMatrix44* _deviceToScreen;    ///< デバイスからスクリーンへの行列
     Csm::CubismViewMatrix*        _viewMatrix; ///< モデル描画に用いるView行列
     Csm::csmVector<LAppModel*>  _models; ///< モデルインスタンスのコンテナ
-    LAppModel*  _model; ///< モデルインスタンスのコンテナ
-    Csm::csmInt32               _sceneIndex; ///< 表示するシーンのインデックス値
+    //LAppModel*  _model; ///< モデルインスタンスのコンテナ
+    //Csm::csmInt32               _sceneIndex; ///< 表示するシーンのインデックス値
 
     std::string _modelPath;
     bool _changeModel;
@@ -141,4 +147,5 @@ private:
     int _viewHeight;
 
     float _modelScale = 1.0f;
+    int _handlerId;
 };

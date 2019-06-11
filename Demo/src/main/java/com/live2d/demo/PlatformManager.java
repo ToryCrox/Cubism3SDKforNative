@@ -69,7 +69,7 @@ public class PlatformManager implements IPlatform3Manager {
     }
 
     @Override
-    public void hitTest(String action) {
+    public void hitTest(int handlerId, String action) {
         Toast.makeText(mContext, "hitTest:" + action, Toast.LENGTH_SHORT).show();
     }
 }

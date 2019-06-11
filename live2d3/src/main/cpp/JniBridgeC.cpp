@@ -43,7 +43,7 @@ jint JNICALL JNI_OnLoad(JavaVM* vm, void* reserved)
     g_JniBridgeJavaClass = reinterpret_cast<jclass>(env->NewGlobalRef(clazz));
     g_LoadFileMethodId = env->GetStaticMethodID(g_JniBridgeJavaClass, "LoadFile", "(Ljava/lang/String;)[B");
     //g_MoveTaskToBackMethodId = env->GetStaticMethodID(g_JniBridgeJavaClass, "moveTaskToBack", "()V");
-    g_hitTest = env->GetStaticMethodID(g_JniBridgeJavaClass, "hitTest", "(Ljava/lang/String;)V");
+    g_hitTest = env->GetStaticMethodID(g_JniBridgeJavaClass, "hitTest", "(ILjava/lang/String;)V");
     g_getDefaultModelFile = env->GetStaticMethodID(g_JniBridgeJavaClass, "getDefaultModelFile",
             "(Ljava/lang/String;)Ljava/lang/String;");
     return JNI_VERSION_1_6;
@@ -80,12 +80,13 @@ char* JniBridgeC::LoadFileAsBytesFromJava(const char* filePath, unsigned int* ou
     env->CallStaticVoidMethod(g_JniBridgeJavaClass, g_MoveTaskToBackMethodId, NULL);
 }*/
 
-void JniBridgeC::hitTest(const char* action)
+void JniBridgeC::hitTest(int handlerId, const char* action)
 {
     JNIEnv *env = GetEnv();
 
-    // アプリ終了
-    env->CallStaticVoidMethod(g_JniBridgeJavaClass, g_hitTest, env->NewStringUTF(action));
+    jstring actionStr =  env->NewStringUTF(action);
+    env->CallStaticVoidMethod(g_JniBridgeJavaClass, g_hitTest,handlerId, actionStr);
+    env->DeleteLocalRef(actionStr);
 }
 
 char* JniBridgeC::getDefaultModelFile(const char* key)
@@ -96,6 +97,7 @@ char* JniBridgeC::getDefaultModelFile(const char* key)
     // アプリ終了
     jstring  result = static_cast<jstring>(env->CallStaticObjectMethod(g_JniBridgeJavaClass,
             g_getDefaultModelFile, p));
+    env->DeleteLocalRef(p);
     if (result != NULL){
         char* cstr = const_cast<char *>(env->GetStringUTFChars(result, 0));
         return cstr;
@@ -195,6 +197,14 @@ extern "C"
     }
 
     JNIEXPORT void JNICALL
+    Java_com_mimikko_live2d3_JniBridgeJava_nativeSetMatrixTr(JNIEnv *env, jclass type, jint id,
+                                                             jfloatArray matrixArr_) {
+        jfloat *matrixArr = env->GetFloatArrayElements(matrixArr_, NULL);
+        LAppDelegate::GetInstance(id)->setMatrixTr(matrixArr);
+        env->ReleaseFloatArrayElements(matrixArr_, matrixArr, 0);
+    }
+
+    JNIEXPORT void JNICALL
     Java_com_mimikko_live2d3_JniBridgeJava_nativeStartMotion(JNIEnv *env, jclass type, jint id, jstring modelPath_,
                                                          jfloat fadeInSeconds, jfloat fadeOutSeconds) {
         const char *motionPath = env->GetStringUTFChars(modelPath_, 0);
@@ -246,4 +256,5 @@ extern "C"
         LAppDefine::DebugLogEnable = b;
         LAppPal::PrintLog("setDebugLog DebugLogEnable:%d", LAppDefine::DebugLogEnable);
     }
+
 }

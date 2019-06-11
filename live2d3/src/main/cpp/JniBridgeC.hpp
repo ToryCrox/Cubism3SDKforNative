@@ -23,7 +23,7 @@ public:
     */
     //static void MoveTaskToBack();
 
-    static void hitTest(const char *action);
+    static void hitTest(int handlerId, const char *action);
 
     static char* getDefaultModelFile(const char *action);
 };

@@ -66,6 +66,10 @@ public class Live2d3Delegate {
         JniBridgeJava.nativeStartMotion(mHandlerId, modelPath, fadeInSeconds, fadeOutSeconds);
     }
 
+    public void setMatrixTr(float[] tr){
+        JniBridgeJava.nativeSetMatrixTr(mHandlerId, tr);
+    }
+
     public void startLipSyncMotion(String modelPath, float fadeInSeconds, float fadeOutSeconds){
         JniBridgeJava.nativeStartLipSyncMotion(mHandlerId, modelPath, fadeInSeconds, fadeOutSeconds);
     }

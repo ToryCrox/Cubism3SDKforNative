@@ -146,6 +146,8 @@ public:
 
     void SetModelScale(float scale);
 
+    void setMatrixTr(Csm::csmFloat32 *matrixArr);
+
 private:
     /**
     * @brief   コンストラクタ

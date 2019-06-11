@@ -93,6 +93,7 @@ LAppDelegate::LAppDelegate(int handlerId) :
     }
 
     _l2dManager = new LAppLive2DManager();
+    _l2dManager->setHandlerId(_handlerId);
 }
 
 LAppDelegate::~LAppDelegate() {
@@ -254,4 +255,8 @@ void LAppDelegate::startLipSyncMotion(const char *motionPath, float f1, float f2
 
 void LAppDelegate::SetModelScale(float scale) {
     _l2dManager->setModelScale(scale);
+}
+
+void LAppDelegate::setMatrixTr(csmFloat32 *matrixArr) {
+    _l2dManager->setMatrixTr(matrixArr);
 }

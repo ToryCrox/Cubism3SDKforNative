@@ -10,5 +10,5 @@ public interface IPlatform3Manager {
     byte[] loadBytes(String path);
     void log(String txt);
     String getModelFilePath(String name);
-    void hitTest(String action);
+    void hitTest(int handlerId, String action);
 }
